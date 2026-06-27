@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Forecast</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+
+    width:900px;
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
+
+}
+
+h1{
+
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:30px;
+    font-size:38px;
+    text-shadow:1px 1px 2px #ccc;
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+th{
+
+    padding:18px;
+    color:white;
+    font-size:20px;
+
+}
+
+th:nth-child(1){
+
+    background:#28a745;
+
+}
+
+th:nth-child(2){
+
+    background:#007BFF;
+
+}
+
+th:nth-child(3){
+
+    background:#dc3545;
+
+}
+
+td{
+
+    padding:18px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+
+}
+
+tr:nth-child(even){
+
+    background:#f8f9fa;
+
+}
+
+tr:hover{
+
+    background:#fff3cd;
+    transition:.3s;
+
+}
+
+.stat{
+
+    font-weight:bold;
+    color:#333;
+    font-size:17px;
+
+}
+
+select{
+
+    width:170px;
+    padding:12px;
+    font-size:17px;
+    font-weight:bold;
+    border:none;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+/* Home */
+
+.home{
+
+    background:#28a745;
+
+}
+
+/* Away */
+
+.away{
+
+    background:#dc3545;
+
+}
+
+select:hover{
+
+    transform:scale(1.05);
+    box-shadow:0 5px 15px rgba(0,0,0,.3);
+
+}
+
+button{
+
+    width:250px;
+    display:block;
+    margin:35px auto 0;
+    padding:15px;
+    background:#007BFF;
+    color:white;
+    font-size:20px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#0056b3;
+    transform:scale(1.05);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>⚽ FORECAST</h1>
+
+<table>
+
+<tr>
+
+<th>🏠 HOME</th>
+<th>📊 STATISTIC</th>
+<th>✈ AWAY</th>
+
+</tr>
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option>100%</option>
+<option>80%</option>
+<option>60%</option>
+<option>40%</option>
+<option>20%</option>
+<option>0%</option>
+
+</select>
+
+</td>
+
+<td class="stat">Win Probability</td>
+
+<td>
+
+<select class="away">
+
+<option>100%</option>
+<option>80%</option>
+<option>60%</option>
+<option>40%</option>
+<option>20%</option>
+<option>0%</option>
+
+</select>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td><select class="home"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+
+<td class="stat">Double Chance</td>
+
+<td><select class="away"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+
+</tr>
+
+<tr>
+
+<td><select class="home"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+
+<td class="stat">Over 1.5 Goals</td>
+
+<td><select class="away"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+
+</tr>
+
+<tr>
+
+<td><select class="home"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+
+<td class="stat">Team To Score</td>
+
+<td><select class="away"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+
+</tr>
+
+<tr>
+
+<td><select class="home"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+
+<td class="stat">Goal Bounds</td>
+
+<td><select class="away"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+
+</tr>
+
+</table>
+
+<button>📊 ANALYZE MATCH</button>
+
+</div>
+
+</body>
+</html>
