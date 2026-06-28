@@ -45,6 +45,16 @@ h1{
 
 }
 
+p{
+
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:10px;
+    font-size:20px;
+    text-shadow:1px 1px 2px #ccc;
+
+}
+
 table{
 
     width:100%;
@@ -56,7 +66,7 @@ th{
 
     padding:18px;
     color:white;
-    font-size:20px;
+    font-size:25px;
 
 }
 
@@ -83,6 +93,7 @@ td{
     padding:18px;
     text-align:center;
     border-bottom:1px solid #ddd;
+    
 
 }
 
@@ -109,7 +120,7 @@ tr:hover{
 
 select{
 
-    width:170px;
+    width:100px;
     padding:12px;
     font-size:17px;
     font-weight:bold;
@@ -176,96 +187,517 @@ button:hover{
 <div class="container">
 
 <h1>⚽ FORECAST</h1>
+<P>STUDY: 
+    Last 10 matches (overall),
+    Last 10 home matches (home team),
+    Last 10 away matches (away team),
+    Last 5 head-to-head matches,
+    Current season statistics.
+</P>
 
 <table>
 
-<tr>
+    <tr>
 
-<th>🏠 HOME</th>
-<th>📊 STATISTIC</th>
-<th>✈ AWAY</th>
+        <th>🏠 HOME / FORM</th>
+        <th>📊 STATISTIC</th>
+        <th>✈ FORM / AWAY</th>
 
-</tr>
+    </tr>
 
-<tr>
+    <tr>
 
-<td>
+        <td>
 
-<select class="home">
+            <select class="home">
 
-<option>100%</option>
-<option>80%</option>
-<option>60%</option>
-<option>40%</option>
-<option>20%</option>
-<option>0%</option>
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
 
-</select>
+            <select class="home">
 
-</td>
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
 
-<td class="stat">Win Probability</td>
+        </td>
 
-<td>
+        
 
-<select class="away">
+        <td class="stat">Win Probability</td>
 
-<option>100%</option>
-<option>80%</option>
-<option>60%</option>
-<option>40%</option>
-<option>20%</option>
-<option>0%</option>
+        <td>
 
-</select>
+            <select class="away">
 
-</td>
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
 
-</tr>
+            </select>
 
-<tr>
+            <select class="away">
 
-<td><select class="home"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
 
-<td class="stat">Double Chance</td>
+            </select>
+            
 
-<td><select class="away"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+        </td>
 
-</tr>
+    </tr>
 
-<tr>
+    <tr>
 
-<td><select class="home"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+        <td>
 
-<td class="stat">Over 1.5 Goals</td>
+            <select class="home">
 
-<td><select class="away"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
 
-</tr>
+            <select class="home">
 
-<tr>
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
 
-<td><select class="home"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+        </td>
 
-<td class="stat">Team To Score</td>
+        <td class="stat">Double Chance</td>
 
-<td><select class="away"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+        <td>
 
-</tr>
+            <select class="away">
 
-<tr>
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
 
-<td><select class="home"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+            </select>
 
-<td class="stat">Goal Bounds</td>
+            <select class="away">
 
-<td><select class="away"><option>100%</option><option>80%</option><option>60%</option><option>40%</option><option>20%</option><option>0%</option></select></td>
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
 
-</tr>
+            </select>
+            
+
+        </td>
+
+    </tr>
+
+    <tr>
+
+        <td>
+
+            <select class="home">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
+
+            <select class="home">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
+
+        </td>
+
+        <td class="stat">Over 1.5 Goals</td>
+
+        <td>
+
+            <select class="away">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+
+            </select>
+
+            <select class="away">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+
+            </select>
+            
+
+        </td>
+
+    </tr>
+
+    <tr>
+
+        <td>
+
+            <select class="home">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
+
+            <select class="home">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
+
+        </td>
+
+        <td class="stat">Over 2.5 Goals</td>
+
+        <td>
+
+            <select class="away">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+
+            </select>
+
+            <select class="away">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+
+            </select>
+            
+
+        </td>
+
+    </tr>
+
+    <tr>
+
+        <td>
+
+            <select class="home">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
+
+            <select class="home">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
+
+        </td>
+
+        <td class="stat">Team To Score</td>
+
+        <td>
+
+            <select class="away">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+
+            </select>
+
+            <select class="away">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+
+            </select>
+            
+
+        </td>
+
+    </tr>
+
+    <tr>
+
+        <td>
+
+            <select class="home">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
+
+            <select class="home">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+                
+            </select>
+
+        </td>
+
+        <td class="stat">Goal Bounds</td>
+
+        <td>
+
+            <select class="away">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+
+            </select>
+
+            <select class="away">
+
+                <option>100%</option>
+                <option>90%</option>
+                <option>80%</option>
+                <option>70%</option>
+                <option>60%</option>
+                <option>50%</option>
+                <option>40%</option>
+                <option>30%</option>
+                <option>20%</option>
+                <option>10%</option>
+                <option>0%</option>
+
+            </select>
+            
+
+        </td>
+
+    </tr>
 
 </table>
 
-<button>📊 ANALYZE MATCH</button>
+<button id="analyzeBtn">📊 ANALYZE MATCH</button>
+
+<script>
+// Get the Analyze Match button
+const analyzeBtn = document.getElementById("analyzeBtn");
+
+// When the button is clicked
+analyzeBtn.addEventListener("click", function () {
+
+    // Reload the page
+    window.location.reload();
+
+});
+</script>
+
 
 </div>
 
