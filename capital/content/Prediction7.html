@@ -1,0 +1,2700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - Match Analyzer</title>
+
+<style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f2027,
+            #203a43,
+            #2c5364
+        );
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.container {
+    max-width: 1150px;
+    margin: 20px auto;
+
+    background: #ffffff;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.4);
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+h1 {
+    text-align: center;
+
+    color: #1565C0;
+
+    font-size: 34px;
+
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+
+    color: #666;
+
+    line-height: 1.6;
+
+    margin-bottom: 30px;
+}
+
+
+/* =====================================================
+   TEAM INFORMATION
+===================================================== */
+
+.team-info {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.team-box {
+    padding: 20px;
+
+    border-radius: 15px;
+
+    text-align: center;
+}
+
+.home-team {
+    background: #e8f5e9;
+
+    border: 3px solid #28a745;
+}
+
+.away-team {
+    background: #ffebee;
+
+    border: 3px solid #dc3545;
+}
+
+.team-box h3 {
+    margin-bottom: 12px;
+}
+
+.home-team h3 {
+    color: #28a745;
+}
+
+.away-team h3 {
+    color: #dc3545;
+}
+
+.team-box input {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 2px solid #ddd;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    text-align: center;
+}
+
+.team-box input:focus {
+    outline: none;
+
+    border-color: #1565C0;
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 750px;
+}
+
+thead th {
+    padding: 16px;
+
+    color: white;
+
+    font-size: 17px;
+}
+
+thead th:nth-child(1) {
+    background: #28a745;
+}
+
+thead th:nth-child(2) {
+    background: #1565C0;
+}
+
+thead th:nth-child(3) {
+    background: #dc3545;
+}
+
+tbody td {
+    padding: 13px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background: #f7f9fa;
+}
+
+tbody tr:hover {
+    background: #fff8dc;
+}
+
+
+/* =====================================================
+   STATISTIC
+===================================================== */
+
+.stat-title {
+    font-weight: bold;
+
+    color: #333;
+
+    font-size: 15px;
+}
+
+
+/* =====================================================
+   SELECT
+===================================================== */
+
+select {
+    width: 180px;
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.home-select {
+    background: #28a745;
+}
+
+.away-select {
+    background: #dc3545;
+}
+
+select:hover {
+    transform: scale(1.02);
+}
+
+
+/* =====================================================
+   RATING INPUT
+===================================================== */
+
+.rating-input {
+    width: 120px;
+
+    padding: 10px;
+
+    border: 2px solid #ddd;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+.rating-input:focus {
+    outline: none;
+
+    border-color: #1565C0;
+}
+
+
+/* =====================================================
+   NUMBER INPUT
+===================================================== */
+
+.number-input {
+    width: 100px;
+
+    padding: 9px;
+
+    border: 2px solid #ddd;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+.number-input:focus {
+    outline: none;
+
+    border-color: #1565C0;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.buttons {
+    text-align: center;
+
+    margin-top: 30px;
+}
+
+button {
+    padding: 14px 30px;
+
+    margin: 5px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.analyze {
+    background: #1565C0;
+}
+
+.reset {
+    background: #ff9800;
+}
+
+button:hover {
+    transform: scale(1.04);
+}
+
+.analyze:hover {
+    background: #0d47a1;
+}
+
+.reset:hover {
+    background: #e68900;
+}
+
+
+/* =====================================================
+   RESULT CONTAINER
+===================================================== */
+
+.result {
+    display: none;
+
+    margin-top: 35px;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    background: #f4f8fb;
+
+    border: 2px solid #1565C0;
+}
+
+.result h2 {
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 20px;
+}
+
+
+/* =====================================================
+   RESULT HEADER
+===================================================== */
+
+.result-header {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+}
+
+.result-team {
+    padding: 20px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    background: white;
+
+    border: 2px solid #ddd;
+}
+
+.result-team h3 {
+    margin-bottom: 10px;
+}
+
+.result-team .score {
+    font-size: 32px;
+
+    font-weight: bold;
+}
+
+.result-home {
+    border-color: #28a745;
+}
+
+.result-home h3 {
+    color: #28a745;
+}
+
+.result-away {
+    border-color: #dc3545;
+}
+
+.result-away h3 {
+    color: #dc3545;
+}
+
+
+/* =====================================================
+   COMPUTED TABLE
+===================================================== */
+
+.computed-wrapper {
+    overflow-x: auto;
+}
+
+.computed-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 700px;
+
+    background: white;
+}
+
+.computed-table th {
+    background: #1565C0;
+
+    color: white;
+
+    padding: 13px;
+}
+
+.computed-table td {
+    padding: 12px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.computed-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.home-value {
+    color: #28a745;
+
+    font-weight: bold;
+}
+
+.away-value {
+    color: #dc3545;
+
+    font-weight: bold;
+}
+
+.neutral-value {
+    color: #1565C0;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   PREDICTION BOX
+===================================================== */
+
+.prediction-box {
+    margin-top: 25px;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    background: white;
+
+    border: 3px solid #1565C0;
+
+    text-align: center;
+}
+
+.prediction-title {
+    font-size: 15px;
+
+    color: #666;
+
+    margin-bottom: 8px;
+}
+
+.prediction-main {
+    font-size: 30px;
+
+    font-weight: bold;
+
+    color: #1565C0;
+
+    margin-bottom: 15px;
+}
+
+.confidence {
+    font-size: 20px;
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+}
+
+
+/* =====================================================
+   CONFIDENCE BAR
+===================================================== */
+
+.confidence-container {
+    max-width: 600px;
+
+    margin: auto;
+}
+
+.confidence-bar {
+    width: 100%;
+
+    height: 18px;
+
+    background: #ddd;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+
+    width: 0%;
+
+    background: #1565C0;
+
+    transition: width 1s;
+}
+
+
+/* =====================================================
+   ANALYSIS SUMMARY
+===================================================== */
+
+.summary {
+    margin-top: 25px;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    border-left: 5px solid #1565C0;
+}
+
+.summary h3 {
+    color: #1565C0;
+
+    margin-bottom: 12px;
+}
+
+.summary p {
+    line-height: 1.7;
+
+    color: #444;
+}
+
+
+/* =====================================================
+   SIGNALS
+===================================================== */
+
+.signals {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-top: 20px;
+}
+
+.signal {
+    background: white;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    border: 1px solid #ddd;
+}
+
+.signal-title {
+    color: #777;
+
+    font-size: 13px;
+
+    margin-bottom: 7px;
+}
+
+.signal-value {
+    font-size: 18px;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   WARNING
+===================================================== */
+
+.warning {
+    margin-top: 20px;
+
+    padding: 15px;
+
+    background: #fff3cd;
+
+    border-left: 5px solid #ff9800;
+
+    border-radius: 8px;
+
+    color: #664d03;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px) {
+
+    body {
+        padding: 8px;
+    }
+
+    .container {
+        padding: 15px;
+
+        margin: 10px auto;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .team-info {
+        grid-template-columns: 1fr;
+    }
+
+    .result-header {
+        grid-template-columns: 1fr;
+    }
+
+    .signals {
+        grid-template-columns: 1fr;
+    }
+
+    select {
+        width: 140px;
+
+        font-size: 13px;
+    }
+
+    .rating-input {
+        width: 100px;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL PHONE
+===================================================== */
+
+@media(max-width:400px) {
+
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .team-box {
+        padding: 15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     TITLE
+===================================================== -->
+
+<h1>⚽ Football Value Capital</h1>
+
+<p class="subtitle">
+
+Advanced Football Match Prediction Analyzer<br>
+
+Enter your statistical assessment and the analyzer will
+compute the strength of both teams.
+
+</p>
+
+
+<!-- =====================================================
+     FORM
+===================================================== -->
+
+<form id="forecastForm">
+
+
+<!-- =====================================================
+     TEAM INFORMATION
+===================================================== -->
+
+<div class="team-info">
+
+
+<div class="team-box home-team">
+
+<h3>🏠 HOME TEAM</h3>
+
+<input
+    type="text"
+    id="homeTeam"
+    name="home_team"
+    placeholder="Enter home team"
+    required>
+
+</div>
+
+
+<div class="team-box away-team">
+
+<h3>✈️ AWAY TEAM</h3>
+
+<input
+    type="text"
+    id="awayTeam"
+    name="away_team"
+    placeholder="Enter away team"
+    required>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     INPUT TABLE
+===================================================== -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>🏠 HOME</th>
+
+<th>📊 STATISTIC</th>
+
+<th>✈️ AWAY</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+
+<!-- FORM -->
+
+<tr>
+
+<td>
+
+<select class="home-select" name="home_form" required>
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">📈 FORM</td>
+
+<td>
+
+<select class="away-select" name="away_form" required>
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- TEAM QUALITY -->
+
+<tr>
+
+<td>
+
+<select class="home-select" name="home_quality" required>
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">⚔️ TEAM QUALITY</td>
+
+<td>
+
+<select class="away-select" name="away_quality" required>
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- LEAGUE LEVEL -->
+
+<tr>
+
+<td>
+
+<select class="home-select" name="home_league_level" required>
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">🏆 LEAGUE LEVEL</td>
+
+<td>
+
+<select class="away-select" name="away_league_level" required>
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- GOAL ENVIRONMENT -->
+
+<tr>
+
+<td>
+
+<select class="home-select" name="home_goal_environment" required>
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Very High Goals — 100%</option>
+<option value="90">High Goals — 90%</option>
+<option value="80">Good Goals — 80%</option>
+<option value="70">Above Average — 70%</option>
+<option value="60">Slightly High — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Slightly Low — 40%</option>
+<option value="30">Low Goals — 30%</option>
+<option value="20">Very Low Goals — 20%</option>
+<option value="10">Extremely Low — 10%</option>
+<option value="0">No Goal Environment — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">⚽ GOAL ENVIRONMENT</td>
+
+<td>
+
+<select class="away-select" name="away_goal_environment" required>
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Very High Goals — 100%</option>
+<option value="90">High Goals — 90%</option>
+<option value="80">Good Goals — 80%</option>
+<option value="70">Above Average — 70%</option>
+<option value="60">Slightly High — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Slightly Low — 40%</option>
+<option value="30">Low Goals — 30%</option>
+<option value="20">Very Low Goals — 20%</option>
+<option value="10">Extremely Low — 10%</option>
+<option value="0">No Goal Environment — 0%</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- ATTACK -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="rating-input"
+    name="home_attack"
+    min="0"
+    max="100"
+    placeholder="0–100"
+    required>
+
+</td>
+
+<td class="stat-title">⚔️ ATTACK</td>
+
+<td>
+
+<input
+    type="number"
+    class="rating-input"
+    name="away_attack"
+    min="0"
+    max="100"
+    placeholder="0–100"
+    required>
+
+</td>
+
+</tr>
+
+
+<!-- DEFENCE -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="rating-input"
+    name="home_defence"
+    min="0"
+    max="100"
+    placeholder="0–100"
+    required>
+
+</td>
+
+<td class="stat-title">🛡️ DEFENCE</td>
+
+<td>
+
+<input
+    type="number"
+    class="rating-input"
+    name="away_defence"
+    min="0"
+    max="100"
+    placeholder="0–100"
+    required>
+
+</td>
+
+</tr>
+
+
+<!-- WINS -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="home_wins"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="stat-title">🏆 WINS</td>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="away_wins"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<!-- DRAWS -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="home_draws"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="stat-title">🤝 DRAWS</td>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="away_draws"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<!-- LOSSES -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="home_losses"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="stat-title">📉 LOSSES</td>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="away_losses"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<!-- OVER 1.5 -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="home_over_15"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="stat-title">⚽ OVER 1.5</td>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="away_over_15"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<!-- 1-4 GOALS -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="home_goals_1_4"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="stat-title">🎯 1–4 GOALS</td>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="away_goals_1_4"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- =====================================================
+     BUTTONS
+===================================================== -->
+
+<div class="buttons">
+
+<button
+    type="button"
+    class="analyze"
+    id="analyzeBtn">
+
+📊 ANALYZE MATCH
+
+</button>
+
+
+<button
+    type="reset"
+    class="reset"
+    id="resetBtn">
+
+🔄 RESET
+
+</button>
+
+</div>
+
+
+</form>
+
+
+<!-- =====================================================
+     RESULT
+===================================================== -->
+
+<div
+    class="result"
+    id="resultBox">
+
+
+<h2>📊 COMPUTED MATCH ANALYSIS</h2>
+
+
+<!-- RESULT HEADER -->
+
+<div class="result-header">
+
+
+<div class="result-team result-home">
+
+<h3>🏠 HOME</h3>
+
+<div id="resultHome">
+Home Team
+</div>
+
+<div
+    class="score"
+    id="homeRating">
+
+0%
+
+</div>
+
+</div>
+
+
+<div class="result-team result-away">
+
+<h3>✈️ AWAY</h3>
+
+<div id="resultAway">
+Away Team
+</div>
+
+<div
+    class="score"
+    id="awayRating">
+
+0%
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     COMPUTED TABLE
+===================================================== -->
+
+<div class="computed-wrapper">
+
+<table class="computed-table">
+
+<thead>
+
+<tr>
+
+<th>FACTOR</th>
+
+<th id="computedHomeHeader">
+HOME
+</th>
+
+<th>COMPARISON</th>
+
+<th id="computedAwayHeader">
+AWAY
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+
+<tr>
+
+<td>📈 Form</td>
+
+<td
+    id="calcHomeForm"
+    class="home-value">
+
+0%
+
+</td>
+
+<td id="formEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayForm"
+    class="away-value">
+
+0%
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>⚔️ Team Quality</td>
+
+<td
+    id="calcHomeQuality"
+    class="home-value">
+
+0%
+
+</td>
+
+<td id="qualityEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayQuality"
+    class="away-value">
+
+0%
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>🏆 League Level</td>
+
+<td
+    id="calcHomeLeague"
+    class="home-value">
+
+0%
+
+</td>
+
+<td id="leagueEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayLeague"
+    class="away-value">
+
+0%
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>⚽ Goal Environment</td>
+
+<td
+    id="calcHomeGoal"
+    class="home-value">
+
+0%
+
+</td>
+
+<td id="goalEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayGoal"
+    class="away-value">
+
+0%
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>⚔️ Attack</td>
+
+<td
+    id="calcHomeAttack"
+    class="home-value">
+
+0%
+
+</td>
+
+<td id="attackEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayAttack"
+    class="away-value">
+
+0%
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>🛡️ Defence</td>
+
+<td
+    id="calcHomeDefence"
+    class="home-value">
+
+0%
+
+</td>
+
+<td id="defenceEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayDefence"
+    class="away-value">
+
+0%
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>🏆 Wins</td>
+
+<td
+    id="calcHomeWins"
+    class="home-value">
+
+0
+
+</td>
+
+<td id="winsEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayWins"
+    class="away-value">
+
+0
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>🤝 Draws</td>
+
+<td
+    id="calcHomeDraws"
+    class="home-value">
+
+0
+
+</td>
+
+<td id="drawsEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayDraws"
+    class="away-value">
+
+0
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>📉 Losses</td>
+
+<td
+    id="calcHomeLosses"
+    class="home-value">
+
+0
+
+</td>
+
+<td id="lossesEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayLosses"
+    class="away-value">
+
+0
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>⚽ Over 1.5</td>
+
+<td
+    id="calcHomeOver"
+    class="home-value">
+
+0
+
+</td>
+
+<td id="overEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayOver"
+    class="away-value">
+
+0
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>🎯 1–4 Goals</td>
+
+<td
+    id="calcHomeGoals"
+    class="home-value">
+
+0
+
+</td>
+
+<td id="goalsEdge">
+-
+
+</td>
+
+<td
+    id="calcAwayGoals"
+    class="away-value">
+
+0
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td><strong>OVERALL RATING</strong></td>
+
+<td
+    id="finalHome"
+    class="home-value">
+
+0%
+
+</td>
+
+<td id="overallEdge">
+-
+
+</td>
+
+<td
+    id="finalAway"
+    class="away-value">
+
+0%
+
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- =====================================================
+     PREDICTION
+===================================================== -->
+
+<div class="prediction-box">
+
+<div class="prediction-title">
+MAIN MODEL PREDICTION
+</div>
+
+
+<div
+    class="prediction-main"
+    id="prediction">
+
+Waiting for analysis...
+
+</div>
+
+
+<div
+    class="confidence"
+    id="confidenceText">
+
+Confidence: 0%
+
+</div>
+
+
+<div class="confidence-container">
+
+<div class="confidence-bar">
+
+<div
+    class="confidence-fill"
+    id="confidenceFill">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     SIGNALS
+===================================================== -->
+
+<div class="signals">
+
+
+<div class="signal">
+
+<div class="signal-title">
+STRONGER TEAM
+</div>
+
+<div
+    class="signal-value"
+    id="strongerTeam">
+
+-
+
+</div>
+
+</div>
+
+
+<div class="signal">
+
+<div class="signal-title">
+GOAL SIGNAL
+</div>
+
+<div
+    class="signal-value"
+    id="goalSignal">
+
+-
+
+</div>
+
+</div>
+
+
+<div class="signal">
+
+<div class="signal-title">
+RESULT SIGNAL
+</div>
+
+<div
+    class="signal-value"
+    id="resultSignal">
+
+-
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     SUMMARY
+===================================================== -->
+
+<div class="summary">
+
+<h3>🧠 ANALYST SUMMARY</h3>
+
+<p id="analysisSummary">
+
+No analysis has been performed yet.
+
+</p>
+
+</div>
+
+
+<!-- =====================================================
+     WARNING
+===================================================== -->
+
+<div
+    class="warning"
+    id="warningBox">
+
+⚠️ This is a statistical model based on the data you entered.
+It does not guarantee the actual match result.
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   GET FORM
+===================================================== */
+
+const form =
+    document.getElementById("forecastForm");
+
+
+/* =====================================================
+   GET VALUE
+===================================================== */
+
+function getValue(name) {
+
+    const element =
+        form.querySelector(
+            `[name="${name}"]`
+        );
+
+    return Number(element.value) || 0;
+
+}
+
+
+/* =====================================================
+   COMPARE TWO VALUES
+===================================================== */
+
+function compare(home, away) {
+
+    const difference =
+        home - away;
+
+
+    if (difference >= 10) {
+
+        return "HOME + " + difference;
+
+    }
+
+
+    if (difference <= -10) {
+
+        return "AWAY + " + Math.abs(difference);
+
+    }
+
+
+    if (difference > 0) {
+
+        return "HOME + " + difference;
+
+    }
+
+
+    if (difference < 0) {
+
+        return "AWAY + " + Math.abs(difference);
+
+    }
+
+
+    return "EQUAL";
+
+}
+
+
+/* =====================================================
+   ANALYZE BUTTON
+===================================================== */
+
+document
+.getElementById("analyzeBtn")
+.addEventListener("click", function () {
+
+
+    /* =================================================
+       VALIDATE FORM
+    ================================================= */
+
+    if (!form.checkValidity()) {
+
+        form.reportValidity();
+
+        return;
+
+    }
+
+
+    /* =================================================
+       TEAM NAMES
+    ================================================= */
+
+    const homeTeam =
+        document.getElementById("homeTeam").value.trim();
+
+    const awayTeam =
+        document.getElementById("awayTeam").value.trim();
+
+
+    /* =================================================
+       GET DATA
+    ================================================= */
+
+    const homeForm =
+        getValue("home_form");
+
+    const awayForm =
+        getValue("away_form");
+
+
+    const homeQuality =
+        getValue("home_quality");
+
+    const awayQuality =
+        getValue("away_quality");
+
+
+    const homeLeague =
+        getValue("home_league_level");
+
+    const awayLeague =
+        getValue("away_league_level");
+
+
+    const homeGoal =
+        getValue("home_goal_environment");
+
+    const awayGoal =
+        getValue("away_goal_environment");
+
+
+    const homeAttack =
+        getValue("home_attack");
+
+    const awayAttack =
+        getValue("away_attack");
+
+
+    const homeDefence =
+        getValue("home_defence");
+
+    const awayDefence =
+        getValue("away_defence");
+
+
+    const homeWins =
+        getValue("home_wins");
+
+    const awayWins =
+        getValue("away_wins");
+
+
+    const homeDraws =
+        getValue("home_draws");
+
+    const awayDraws =
+        getValue("away_draws");
+
+
+    const homeLosses =
+        getValue("home_losses");
+
+    const awayLosses =
+        getValue("away_losses");
+
+
+    const homeOver =
+        getValue("home_over_15");
+
+    const awayOver =
+        getValue("away_over_15");
+
+
+    const homeGoals =
+        getValue("home_goals_1_4");
+
+    const awayGoals =
+        getValue("away_goals_1_4");
+
+
+    /* =================================================
+       CALCULATE CORE RATING
+       
+       SIX MAIN FACTORS:
+       
+       FORM
+       QUALITY
+       LEAGUE
+       GOALS
+       ATTACK
+       DEFENCE
+    ================================================= */
+
+    const homeCore =
+        (
+            homeForm +
+            homeQuality +
+            homeLeague +
+            homeGoal +
+            homeAttack +
+            homeDefence
+        ) / 6;
+
+
+    const awayCore =
+        (
+            awayForm +
+            awayQuality +
+            awayLeague +
+            awayGoal +
+            awayAttack +
+            awayDefence
+        ) / 6;
+
+
+    /* =================================================
+       RESULT PERFORMANCE
+    ================================================= */
+
+    const homeResults =
+        homeWins + homeDraws + homeLosses;
+
+    const awayResults =
+        awayWins + awayDraws + awayLosses;
+
+
+    let homeResultRate = 50;
+
+    let awayResultRate = 50;
+
+
+    if (homeResults > 0) {
+
+        homeResultRate =
+            (
+                homeWins +
+                homeDraws * 0.5
+            ) / homeResults * 100;
+
+    }
+
+
+    if (awayResults > 0) {
+
+        awayResultRate =
+            (
+                awayWins +
+                awayDraws * 0.5
+            ) / awayResults * 100;
+
+    }
+
+
+    /* =================================================
+       GOAL PERFORMANCE
+    ================================================= */
+
+    let homeGoalRate = 0;
+
+    let awayGoalRate = 0;
+
+
+    if (homeResults > 0) {
+
+        homeGoalRate =
+            (
+                homeOver +
+                homeGoals
+            ) /
+            (homeResults * 2) *
+            100;
+
+    }
+
+
+    if (awayResults > 0) {
+
+        awayGoalRate =
+            (
+                awayOver +
+                awayGoals
+            ) /
+            (awayResults * 2) *
+            100;
+
+    }
+
+
+    /* =================================================
+       FINAL RATING
+       
+       CORE = 70%
+       RESULTS = 20%
+       GOAL HISTORY = 10%
+    ================================================= */
+
+    const homeFinal =
+        (
+            homeCore * 0.70
+            +
+            homeResultRate * 0.20
+            +
+            homeGoalRate * 0.10
+        );
+
+
+    const awayFinal =
+        (
+            awayCore * 0.70
+            +
+            awayResultRate * 0.20
+            +
+            awayGoalRate * 0.10
+        );
+
+
+    const roundedHome =
+        Math.round(homeFinal);
+
+    const roundedAway =
+        Math.round(awayFinal);
+
+
+    /* =================================================
+       DIFFERENCE
+    ================================================= */
+
+    const difference =
+        Math.abs(
+            roundedHome -
+            roundedAway
+        );
+
+
+    /* =================================================
+       PREDICTION
+    ================================================= */
+
+    let prediction;
+
+    let resultSignal;
+
+    let strongerTeam;
+
+
+    if (difference < 5) {
+
+        prediction =
+            "🤝 DRAW / VERY CLOSE MATCH";
+
+        resultSignal =
+            "DRAW";
+
+        strongerTeam =
+            "NO CLEAR ADVANTAGE";
+
+    }
+
+    else if (roundedHome > roundedAway) {
+
+        prediction =
+            "🏠 HOME WIN";
+
+        resultSignal =
+            "HOME";
+
+        strongerTeam =
+            homeTeam;
+
+    }
+
+    else {
+
+        prediction =
+            "✈️ AWAY WIN";
+
+        resultSignal =
+            "AWAY";
+
+        strongerTeam =
+            awayTeam;
+
+    }
+
+
+    /* =================================================
+       CONFIDENCE
+    ================================================= */
+
+    let confidence;
+
+
+    if (difference >= 30) {
+
+        confidence = 90;
+
+    }
+
+    else if (difference >= 25) {
+
+        confidence = 85;
+
+    }
+
+    else if (difference >= 20) {
+
+        confidence = 80;
+
+    }
+
+    else if (difference >= 15) {
+
+        confidence = 74;
+
+    }
+
+    else if (difference >= 10) {
+
+        confidence = 68;
+
+    }
+
+    else if (difference >= 5) {
+
+        confidence = 60;
+
+    }
+
+    else {
+
+        confidence = 52;
+
+    }
+
+
+    /* =================================================
+       GOAL SIGNAL
+    ================================================= */
+
+    const combinedGoalEnvironment =
+        (
+            homeGoal +
+            awayGoal
+        ) / 2;
+
+
+    const combinedOver =
+        (
+            homeOver +
+            awayOver
+        );
+
+
+    let goalSignal;
+
+
+    if (
+        combinedGoalEnvironment >= 75 &&
+        combinedOver >= 4
+    ) {
+
+        goalSignal =
+            "HIGH GOAL POTENTIAL";
+
+    }
+
+    else if (
+        combinedGoalEnvironment >= 55
+    ) {
+
+        goalSignal =
+            "MODERATE GOAL POTENTIAL";
+
+    }
+
+    else {
+
+        goalSignal =
+            "LOW GOAL POTENTIAL";
+
+    }
+
+
+    /* =================================================
+       DISPLAY TEAM NAMES
+    ================================================= */
+
+    document.getElementById("resultHome")
+        .textContent = homeTeam;
+
+
+    document.getElementById("resultAway")
+        .textContent = awayTeam;
+
+
+    document.getElementById("computedHomeHeader")
+        .textContent = homeTeam;
+
+
+    document.getElementById("computedAwayHeader")
+        .textContent = awayTeam;
+
+
+    /* =================================================
+       DISPLAY FACTORS
+    ================================================= */
+
+    document.getElementById("calcHomeForm")
+        .textContent = homeForm + "%";
+
+    document.getElementById("calcAwayForm")
+        .textContent = awayForm + "%";
+
+    document.getElementById("formEdge")
+        .textContent = compare(homeForm, awayForm);
+
+
+    document.getElementById("calcHomeQuality")
+        .textContent = homeQuality + "%";
+
+    document.getElementById("calcAwayQuality")
+        .textContent = awayQuality + "%";
+
+    document.getElementById("qualityEdge")
+        .textContent = compare(homeQuality, awayQuality);
+
+
+    document.getElementById("calcHomeLeague")
+        .textContent = homeLeague + "%";
+
+    document.getElementById("calcAwayLeague")
+        .textContent = awayLeague + "%";
+
+    document.getElementById("leagueEdge")
+        .textContent = compare(homeLeague, awayLeague);
+
+
+    document.getElementById("calcHomeGoal")
+        .textContent = homeGoal + "%";
+
+    document.getElementById("calcAwayGoal")
+        .textContent = awayGoal + "%";
+
+    document.getElementById("goalEdge")
+        .textContent = compare(homeGoal, awayGoal);
+
+
+    document.getElementById("calcHomeAttack")
+        .textContent = homeAttack + "%";
+
+    document.getElementById("calcAwayAttack")
+        .textContent = awayAttack + "%";
+
+    document.getElementById("attackEdge")
+        .textContent = compare(homeAttack, awayAttack);
+
+
+    document.getElementById("calcHomeDefence")
+        .textContent = homeDefence + "%";
+
+    document.getElementById("calcAwayDefence")
+        .textContent = awayDefence + "%";
+
+    document.getElementById("defenceEdge")
+        .textContent = compare(homeDefence, awayDefence);
+
+
+    document.getElementById("calcHomeWins")
+        .textContent = homeWins;
+
+    document.getElementById("calcAwayWins")
+        .textContent = awayWins;
+
+    document.getElementById("winsEdge")
+        .textContent = compare(homeWins, awayWins);
+
+
+    document.getElementById("calcHomeDraws")
+        .textContent = homeDraws;
+
+    document.getElementById("calcAwayDraws")
+        .textContent = awayDraws;
+
+    document.getElementById("drawsEdge")
+        .textContent = compare(homeDraws, awayDraws);
+
+
+    document.getElementById("calcHomeLosses")
+        .textContent = homeLosses;
+
+    document.getElementById("calcAwayLosses")
+        .textContent = awayLosses;
+
+    document.getElementById("lossesEdge")
+        .textContent = compare(
+            awayLosses,
+            homeLosses
+        );
+
+
+    document.getElementById("calcHomeOver")
+        .textContent = homeOver;
+
+    document.getElementById("calcAwayOver")
+        .textContent = awayOver;
+
+    document.getElementById("overEdge")
+        .textContent = compare(
+            homeOver,
+            awayOver
+        );
+
+
+    document.getElementById("calcHomeGoals")
+        .textContent = homeGoals;
+
+    document.getElementById("calcAwayGoals")
+        .textContent = awayGoals;
+
+    document.getElementById("goalsEdge")
+        .textContent = compare(
+            homeGoals,
+            awayGoals
+        );
+
+
+    /* =================================================
+       FINAL RATINGS
+    ================================================= */
+
+    document.getElementById("homeRating")
+        .textContent = roundedHome + "%";
+
+
+    document.getElementById("awayRating")
+        .textContent = roundedAway + "%";
+
+
+    document.getElementById("finalHome")
+        .textContent = roundedHome + "%";
+
+
+    document.getElementById("finalAway")
+        .textContent = roundedAway + "%";
+
+
+    document.getElementById("overallEdge")
+        .textContent =
+            compare(
+                roundedHome,
+                roundedAway
+            );
+
+
+    /* =================================================
+       PREDICTION DISPLAY
+    ================================================= */
+
+    document.getElementById("prediction")
+        .textContent = prediction;
+
+
+    document.getElementById("confidenceText")
+        .textContent =
+            "Confidence: " +
+            confidence +
+            "%";
+
+
+    document.getElementById("confidenceFill")
+        .style.width =
+            confidence + "%";
+
+
+    /* =================================================
+       SIGNALS
+    ================================================= */
+
+    document.getElementById("strongerTeam")
+        .textContent =
+            strongerTeam;
+
+
+    document.getElementById("goalSignal")
+        .textContent =
+            goalSignal;
+
+
+    document.getElementById("resultSignal")
+        .textContent =
+            resultSignal;
+
+
+    /* =================================================
+       ANALYST SUMMARY
+    ================================================= */
+
+    let summary = "";
+
+
+    if (roundedHome > roundedAway) {
+
+        summary +=
+            homeTeam +
+            " has the stronger overall statistical profile. ";
+
+    }
+
+    else if (roundedAway > roundedHome) {
+
+        summary +=
+            awayTeam +
+            " has the stronger overall statistical profile. ";
+
+    }
+
+    else {
+
+        summary +=
+            "Both teams have a very similar overall statistical profile. ";
+
+    }
+
+
+    summary +=
+        "The final rating combines the six main football factors " +
+        "(form, team quality, league level, goal environment, attack and defence) " +
+        "with recent results and goal-related history. ";
+
+
+    summary +=
+        "The rating difference between the teams is " +
+        difference +
+        " percentage points. ";
+
+
+    if (goalSignal === "HIGH GOAL POTENTIAL") {
+
+        summary +=
+            "The goal indicators suggest a relatively strong goal environment.";
+
+    }
+
+    else if (
+        goalSignal === "MODERATE GOAL POTENTIAL"
+    ) {
+
+        summary +=
+            "The goal indicators suggest a moderate goal environment.";
+
+    }
+
+    else {
+
+        summary +=
+            "The goal indicators suggest a relatively low goal environment.";
+
+    }
+
+
+    document.getElementById("analysisSummary")
+        .textContent = summary;
+
+
+    /* =================================================
+       SHOW RESULT
+    ================================================= */
+
+    document.getElementById("resultBox")
+        .style.display = "block";
+
+
+    /* =================================================
+       SCROLL TO RESULT
+    ================================================= */
+
+    document.getElementById("resultBox")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+});
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+document
+.getElementById("resetBtn")
+.addEventListener("click", function () {
+
+
+    setTimeout(function () {
+
+
+        document.getElementById("resultBox")
+            .style.display = "none";
+
+
+        document.getElementById("confidenceFill")
+            .style.width = "0%";
+
+
+    }, 10);
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - Home Analyzer</title>
+
+<style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f2027,
+            #203a43,
+            #2c5364
+        );
+}
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.container {
+    max-width: 1100px;
+    margin: 20px auto;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.4);
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+h1 {
+    text-align: center;
+
+    color: #1565C0;
+
+    font-size: 34px;
+
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+
+    color: #666;
+
+    line-height: 1.6;
+
+    margin-bottom: 30px;
+}
+
+
+/* =====================================================
+   TEAM
+===================================================== */
+
+.team-box {
+
+    background: #e8f5e9;
+
+    border: 3px solid #28a745;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+    margin-bottom: 30px;
+
+    text-align: center;
+}
+
+.team-box h2 {
+
+    color: #28a745;
+
+    margin-bottom: 15px;
+}
+
+.team-box input {
+
+    width: 100%;
+
+    max-width: 600px;
+
+    padding: 14px;
+
+    border: 2px solid #ccc;
+
+    border-radius: 10px;
+
+    font-size: 17px;
+
+    text-align: center;
+}
+
+.team-box input:focus {
+
+    outline: none;
+
+    border-color: #28a745;
+
+    box-shadow:
+        0 0 8px rgba(40,167,69,.25);
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    margin-bottom: 25px;
+}
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 700px;
+}
+
+thead th {
+
+    background: #1565C0;
+
+    color: white;
+
+    padding: 15px;
+
+    font-size: 17px;
+}
+
+tbody td {
+
+    padding: 13px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+
+    background: #f7f9fa;
+}
+
+tbody tr:hover {
+
+    background: #fff8dc;
+}
+
+
+/* =====================================================
+   STATISTIC NAME
+===================================================== */
+
+.stat-title {
+
+    font-weight: bold;
+
+    color: #333;
+
+    font-size: 16px;
+}
+
+
+/* =====================================================
+   SELECT
+===================================================== */
+
+select {
+
+    width: 200px;
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #28a745;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   NUMBER INPUT
+===================================================== */
+
+.number-input {
+
+    width: 110px;
+
+    padding: 10px;
+
+    border: 2px solid #ddd;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+.number-input:focus {
+
+    outline: none;
+
+    border-color: #1565C0;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.buttons {
+
+    text-align: center;
+
+    margin-top: 25px;
+}
+
+button {
+
+    padding: 15px 30px;
+
+    margin: 5px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.analyze {
+
+    background: #1565C0;
+}
+
+.reset {
+
+    background: #ff9800;
+}
+
+button:hover {
+
+    transform: scale(1.05);
+}
+
+.analyze:hover {
+
+    background: #0d47a1;
+}
+
+.reset:hover {
+
+    background: #e68900;
+}
+
+
+/* =====================================================
+   RESULT SECTION
+===================================================== */
+
+.result {
+
+    display: none;
+
+    margin-top: 40px;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    background: #f4f8fb;
+
+    border: 2px solid #1565C0;
+}
+
+.result h2 {
+
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 25px;
+}
+
+
+/* =====================================================
+   RESULT SUMMARY
+===================================================== */
+
+.summary-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.summary-card {
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    border: 1px solid #ddd;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,.08);
+}
+
+.summary-card h3 {
+
+    font-size: 14px;
+
+    color: #666;
+
+    margin-bottom: 10px;
+}
+
+.summary-card strong {
+
+    display: block;
+
+    font-size: 26px;
+
+    color: #1565C0;
+}
+
+
+/* =====================================================
+   RESULT TABLE
+===================================================== */
+
+.result-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: white;
+
+    margin-top: 20px;
+}
+
+.result-table th {
+
+    background: #1565C0;
+
+    color: white;
+
+    padding: 14px;
+}
+
+.result-table td {
+
+    padding: 13px;
+
+    border-bottom: 1px solid #ddd;
+
+    text-align: center;
+}
+
+.result-table tr:nth-child(even) {
+
+    background: #f7f9fa;
+}
+
+
+/* =====================================================
+   SCORE BAR
+===================================================== */
+
+.score-container {
+
+    margin-top: 25px;
+}
+
+.score-label {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 7px;
+
+    font-weight: bold;
+}
+
+.score-bar {
+
+    width: 100%;
+
+    height: 25px;
+
+    background: #ddd;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.score-fill {
+
+    height: 100%;
+
+    width: 0%;
+
+    background: #28a745;
+
+    transition: width 1s ease;
+}
+
+
+/* =====================================================
+   PREDICTION
+===================================================== */
+
+.prediction-box {
+
+    margin-top: 25px;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    background: white;
+
+    border: 2px solid #28a745;
+
+    text-align: center;
+}
+
+.prediction-box h3 {
+
+    color: #1565C0;
+
+    margin-bottom: 10px;
+}
+
+.prediction {
+
+    font-size: 27px;
+
+    font-weight: bold;
+
+    color: #28a745;
+}
+
+
+/* =====================================================
+   MARKETS
+===================================================== */
+
+.markets {
+
+    margin-top: 25px;
+}
+
+.markets h3 {
+
+    text-align: center;
+
+    margin-bottom: 15px;
+
+    color: #1565C0;
+}
+
+.market-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+}
+
+.market {
+
+    padding: 15px;
+
+    background: white;
+
+    border-radius: 10px;
+
+    border: 1px solid #ddd;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   WARNING
+===================================================== */
+
+.warning {
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    background: #fff3cd;
+
+    border: 1px solid #ffc107;
+
+    color: #856404;
+
+    text-align: center;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px) {
+
+    body {
+        padding: 8px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .summary-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .market-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    table {
+
+        min-width: 700px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<h1>⚽ Football Value Capital</h1>
+
+<p class="subtitle">
+
+Home Team Prediction & Statistical Analyzer
+
+<br>
+
+Enter the team's available data and let the analyzer
+calculate its overall strength and potential match performance.
+
+</p>
+
+
+<!-- =====================================================
+     TEAM NAME
+===================================================== -->
+
+<div class="team-box">
+
+<h2>🏠 HOME TEAM</h2>
+
+<input
+    type="text"
+    id="homeTeam"
+    placeholder="Enter Home Team"
+    required>
+
+</div>
+
+
+<!-- =====================================================
+     INPUT TABLE
+===================================================== -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>🏠 HOME DATA</th>
+
+<th>📊 STATISTIC</th>
+
+<th>📌 VALUE</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+
+<!-- FORM -->
+
+<tr>
+
+<td>
+
+<select id="form">
+
+<option value="">Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">
+📈 FORM
+</td>
+
+<td>
+Team recent form rating
+</td>
+
+</tr>
+
+
+<!-- TEAM QUALITY -->
+
+<tr>
+
+<td>
+
+<select id="quality">
+
+<option value="">Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">
+⚔️ TEAM QUALITY
+</td>
+
+<td>
+Overall squad/team strength
+</td>
+
+</tr>
+
+
+<!-- LEAGUE -->
+
+<tr>
+
+<td>
+
+<select id="league">
+
+<option value="">Rate</option>
+
+<option value="100">Elite League — 100%</option>
+<option value="90">Very Strong League — 90%</option>
+<option value="80">Strong League — 80%</option>
+<option value="70">Good League — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Lowest Level — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">
+🏆 LEAGUE LEVEL
+</td>
+
+<td>
+Strength of competition
+</td>
+
+</tr>
+
+
+<!-- GOAL ENVIRONMENT -->
+
+<tr>
+
+<td>
+
+<select id="goals">
+
+<option value="">Rate</option>
+
+<option value="100">Very High Goals — 100%</option>
+<option value="90">High Goals — 90%</option>
+<option value="80">Good Goals — 80%</option>
+<option value="70">Above Average — 70%</option>
+<option value="60">Slightly High — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Slightly Low — 40%</option>
+<option value="30">Low Goals — 30%</option>
+<option value="20">Very Low Goals — 20%</option>
+<option value="10">Extremely Low — 10%</option>
+<option value="0">No Goal Environment — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">
+⚽ GOAL ENVIRONMENT
+</td>
+
+<td>
+Expected goal environment
+</td>
+
+</tr>
+
+
+<!-- ATTACK -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    id="attack"
+    class="number-input"
+    min="0"
+    max="100"
+    placeholder="0-100">
+
+</td>
+
+<td class="stat-title">
+⚔️ ATTACK
+</td>
+
+<td>
+Attacking strength
+</td>
+
+</tr>
+
+
+<!-- DEFENCE -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    id="defence"
+    class="number-input"
+    min="0"
+    max="100"
+    placeholder="0-100">
+
+</td>
+
+<td class="stat-title">
+🛡️ DEFENCE
+</td>
+
+<td>
+Defensive strength
+</td>
+
+</tr>
+
+
+<!-- WINS -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    id="wins"
+    class="number-input"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="stat-title">
+🏆 WINS
+</td>
+
+<td>
+Number of wins
+</td>
+
+</tr>
+
+
+<!-- DRAWS -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    id="draws"
+    class="number-input"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="stat-title">
+🤝 DRAWS
+</td>
+
+<td>
+Number of draws
+</td>
+
+</tr>
+
+
+<!-- LOSSES -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    id="losses"
+    class="number-input"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="stat-title">
+📉 LOSSES
+</td>
+
+<td>
+Number of losses
+</td>
+
+</tr>
+
+
+<!-- OVER 1.5 -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    id="over15"
+    class="number-input"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="stat-title">
+⚽ OVER 1.5
+</td>
+
+<td>
+Matches finishing over 1.5 goals
+</td>
+
+</tr>
+
+
+<!-- 1-4 GOALS -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    id="goals14"
+    class="number-input"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="stat-title">
+🎯 1–4 GOALS
+</td>
+
+<td>
+Matches finishing with 1–4 goals
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- =====================================================
+     BUTTONS
+===================================================== -->
+
+<div class="buttons">
+
+<button
+    type="button"
+    class="analyze"
+    id="analyzeBtn">
+
+📊 ANALYZE HOME TEAM
+
+</button>
+
+
+<button
+    type="button"
+    class="reset"
+    id="resetBtn">
+
+🔄 RESET
+
+</button>
+
+</div>
+
+
+<!-- =====================================================
+     RESULT
+===================================================== -->
+
+<div
+    class="result"
+    id="resultBox">
+
+
+<h2>
+📊 COMPUTED ANALYSIS
+</h2>
+
+
+<!-- SUMMARY -->
+
+<div class="summary-grid">
+
+
+<div class="summary-card">
+
+<h3>TEAM</h3>
+
+<strong id="resultTeam">
+-
+</strong>
+
+</div>
+
+
+<div class="summary-card">
+
+<h3>FINAL RATING</h3>
+
+<strong id="finalRating">
+0%
+</strong>
+
+</div>
+
+
+<div class="summary-card">
+
+<h3>STRENGTH LEVEL</h3>
+
+<strong id="strengthLevel">
+-
+</strong>
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     COMPUTED TABLE
+===================================================== -->
+
+<h3 style="color:#1565C0;text-align:center;margin-top:20px;">
+
+📋 COMPUTED DATA
+
+</h3>
+
+
+<table class="result-table">
+
+<thead>
+
+<tr>
+
+<th>FACTOR</th>
+
+<th>INPUT</th>
+
+<th>WEIGHT</th>
+
+<th>CONTRIBUTION</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+
+<tr>
+
+<td>📈 Form</td>
+
+<td id="resultForm">0%</td>
+
+<td>20%</td>
+
+<td id="formContribution">0</td>
+
+</tr>
+
+
+<tr>
+
+<td>⚔️ Team Quality</td>
+
+<td id="resultQuality">0%</td>
+
+<td>20%</td>
+
+<td id="qualityContribution">0</td>
+
+</tr>
+
+
+<tr>
+
+<td>🏆 League Level</td>
+
+<td id="resultLeague">0%</td>
+
+<td>10%</td>
+
+<td id="leagueContribution">0</td>
+
+</tr>
+
+
+<tr>
+
+<td>⚽ Goal Environment</td>
+
+<td id="resultGoals">0%</td>
+
+<td>10%</td>
+
+<td id="goalsContribution">0</td>
+
+</tr>
+
+
+<tr>
+
+<td>⚔️ Attack</td>
+
+<td id="resultAttack">0%</td>
+
+<td>20%</td>
+
+<td id="attackContribution">0</td>
+
+</tr>
+
+
+<tr>
+
+<td>🛡️ Defence</td>
+
+<td id="resultDefence">0%</td>
+
+<td>20%</td>
+
+<td id="defenceContribution">0</td>
+
+</tr>
+
+
+<tr>
+
+<td>🏆 Results Performance</td>
+
+<td id="resultResults">0%</td>
+
+<td>—</td>
+
+<td id="resultsContribution">—</td>
+
+</tr>
+
+
+<tr>
+
+<td>⚽ Goal Performance</td>
+
+<td id="resultGoalPerformance">0%</td>
+
+<td>—</td>
+
+<td id="goalContribution">—</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+
+<!-- =====================================================
+     SCORE BAR
+===================================================== -->
+
+<div class="score-container">
+
+<div class="score-label">
+
+<span>
+Overall Strength
+</span>
+
+<span id="scoreText">
+0%
+</span>
+
+</div>
+
+<div class="score-bar">
+
+<div
+    class="score-fill"
+    id="scoreFill">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     PREDICTION
+===================================================== -->
+
+<div class="prediction-box">
+
+<h3>
+🔮 ANALYZER CONCLUSION
+</h3>
+
+<div
+    class="prediction"
+    id="prediction">
+
+Waiting...
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     MARKETS
+===================================================== -->
+
+<div class="markets">
+
+<h3>
+🎯 POTENTIAL MARKETS
+</h3>
+
+
+<div class="market-grid">
+
+
+<div class="market" id="market1">
+-
+</div>
+
+
+<div class="market" id="market2">
+-
+</div>
+
+
+<div class="market" id="market3">
+-
+</div>
+
+
+<div class="market" id="market4">
+-
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     RISK
+===================================================== -->
+
+<div
+    class="warning"
+    id="warning">
+
+Analysis risk will appear here.
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   ANALYZE
+===================================================== */
+
+document
+.getElementById("analyzeBtn")
+.addEventListener("click", function () {
+
+
+    /* ---------------------------------------------
+       TEAM
+    --------------------------------------------- */
+
+    const team =
+        document
+        .getElementById("homeTeam")
+        .value
+        .trim();
+
+
+    if (team === "") {
+
+        alert("Please enter the Home Team.");
+
+        return;
+
+    }
+
+
+    /* ---------------------------------------------
+       INPUT VALUES
+    --------------------------------------------- */
+
+    const form =
+        Number(
+            document.getElementById("form").value
+        );
+
+
+    const quality =
+        Number(
+            document.getElementById("quality").value
+        );
+
+
+    const league =
+        Number(
+            document.getElementById("league").value
+        );
+
+
+    const goals =
+        Number(
+            document.getElementById("goals").value
+        );
+
+
+    const attack =
+        Number(
+            document.getElementById("attack").value
+        );
+
+
+    const defence =
+        Number(
+            document.getElementById("defence").value
+        );
+
+
+    const wins =
+        Number(
+            document.getElementById("wins").value
+        );
+
+
+    const draws =
+        Number(
+            document.getElementById("draws").value
+        );
+
+
+    const losses =
+        Number(
+            document.getElementById("losses").value
+        );
+
+
+    const over15 =
+        Number(
+            document.getElementById("over15").value
+        );
+
+
+    const goals14 =
+        Number(
+            document.getElementById("goals14").value
+        );
+
+
+    /* ---------------------------------------------
+       CHECK REQUIRED RATINGS
+    --------------------------------------------- */
+
+    if (
+        document.getElementById("form").value === "" ||
+        document.getElementById("quality").value === "" ||
+        document.getElementById("league").value === "" ||
+        document.getElementById("goals").value === ""
+    ) {
+
+        alert(
+            "Please rate Form, Team Quality, League Level and Goal Environment."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        document.getElementById("attack").value === "" ||
+        document.getElementById("defence").value === ""
+    ) {
+
+        alert(
+            "Please enter Attack and Defence ratings."
+        );
+
+        return;
+
+    }
+
+
+    /* =================================================
+       WEIGHTS
+    ================================================= */
+
+    const formWeight = 0.20;
+
+    const qualityWeight = 0.20;
+
+    const leagueWeight = 0.10;
+
+    const goalsWeight = 0.10;
+
+    const attackWeight = 0.20;
+
+    const defenceWeight = 0.20;
+
+
+    /* =================================================
+       CONTRIBUTIONS
+    ================================================= */
+
+    const formContribution =
+        form * formWeight;
+
+
+    const qualityContribution =
+        quality * qualityWeight;
+
+
+    const leagueContribution =
+        league * leagueWeight;
+
+
+    const goalsContribution =
+        goals * goalsWeight;
+
+
+    const attackContribution =
+        attack * attackWeight;
+
+
+    const defenceContribution =
+        defence * defenceWeight;
+
+
+    /* =================================================
+       FINAL RATING
+    ================================================= */
+
+    const finalRating = Math.round(
+
+        formContribution +
+        qualityContribution +
+        leagueContribution +
+        goalsContribution +
+        attackContribution +
+        defenceContribution
+
+    );
+
+
+    /* =================================================
+       RESULTS PERFORMANCE
+    ================================================= */
+
+    const totalResults =
+        wins +
+        draws +
+        losses;
+
+
+    let resultPerformance = 0;
+
+
+    if (totalResults > 0) {
+
+        resultPerformance = Math.round(
+
+            (
+                (wins * 100) +
+                (draws * 50) +
+                (losses * 0)
+            )
+            /
+            totalResults
+
+        );
+
+    }
+
+
+    /* =================================================
+       GOAL PERFORMANCE
+    ================================================= */
+
+    let goalPerformance = 0;
+
+
+    if (totalResults > 0) {
+
+        const overScore =
+            (over15 / totalResults) * 100;
+
+        const goal14Score =
+            (goals14 / totalResults) * 100;
+
+
+        goalPerformance =
+            Math.round(
+                (overScore + goal14Score) / 2
+            );
+
+    }
+
+
+    /* =================================================
+       STRENGTH LEVEL
+    ================================================= */
+
+    let strength;
+
+
+    if (finalRating >= 85) {
+
+        strength =
+            "ELITE";
+
+    }
+
+    else if (finalRating >= 75) {
+
+        strength =
+            "VERY STRONG";
+
+    }
+
+    else if (finalRating >= 65) {
+
+        strength =
+            "STRONG";
+
+    }
+
+    else if (finalRating >= 55) {
+
+        strength =
+            "GOOD";
+
+    }
+
+    else if (finalRating >= 45) {
+
+        strength =
+            "AVERAGE";
+
+    }
+
+    else if (finalRating >= 35) {
+
+        strength =
+            "WEAK";
+
+    }
+
+    else {
+
+        strength =
+            "VERY WEAK";
+
+    }
+
+
+    /* =================================================
+       PREDICTION
+    ================================================= */
+
+    let prediction;
+
+
+    if (finalRating >= 85) {
+
+        prediction =
+            "🔥 VERY STRONG HOME TEAM";
+
+    }
+
+    else if (finalRating >= 75) {
+
+        prediction =
+            "💪 STRONG HOME TEAM";
+
+    }
+
+    else if (finalRating >= 65) {
+
+        prediction =
+            "✅ HOME TEAM HAS GOOD STRENGTH";
+
+    }
+
+    else if (finalRating >= 55) {
+
+        prediction =
+            "⚖️ HOME TEAM IS MODERATELY STRONG";
+
+    }
+
+    else if (finalRating >= 45) {
+
+        prediction =
+            "⚠️ HOME TEAM HAS AVERAGE STRENGTH";
+
+    }
+
+    else {
+
+        prediction =
+            "🔻 HOME TEAM SHOWS WEAK STRENGTH";
+
+    }
+
+
+    /* =================================================
+       MARKET ANALYSIS
+    ================================================= */
+
+    let market1;
+    let market2;
+    let market3;
+    let market4;
+
+
+    if (attack >= 70) {
+
+        market1 =
+            "⚽ Strong Attack Potential";
+
+    }
+
+    else {
+
+        market1 =
+            "⚠️ Attack Needs Caution";
+
+    }
+
+
+    if (goals >= 70) {
+
+        market2 =
+            "📈 Potential Over 1.5 Goals";
+
+    }
+
+    else {
+
+        market2 =
+            "📉 Lower Goal Environment";
+
+    }
+
+
+    if (defence >= 70) {
+
+        market3 =
+            "🛡️ Strong Defensive Profile";
+
+    }
+
+    else {
+
+        market3 =
+            "⚠️ Defensive Weakness";
+
+    }
+
+
+    if (form >= 70 && quality >= 70) {
+
+        market4 =
+            "🏠 Home Team Strength Supported";
+
+    }
+
+    else {
+
+        market4 =
+            "🔎 More Evidence Required";
+
+    }
+
+
+    /* =================================================
+       RISK
+    ================================================= */
+
+    let risk;
+
+
+    if (
+        finalRating >= 75 &&
+        form >= 70 &&
+        attack >= 70 &&
+        defence >= 60
+    ) {
+
+        risk =
+            "🟢 LOWER RELATIVE RISK: Multiple strength indicators agree.";
+
+    }
+
+    else if (finalRating >= 60) {
+
+        risk =
+            "🟡 MEDIUM RISK: Some indicators support the team, but caution is required.";
+
+    }
+
+    else {
+
+        risk =
+            "🔴 HIGH RISK: The available data does not strongly support the Home Team.";
+
+    }
+
+
+    /* =================================================
+       DISPLAY TEAM
+    ================================================= */
+
+    document
+    .getElementById("resultTeam")
+    .textContent = team;
+
+
+    /* =================================================
+       DISPLAY FINAL RATING
+    ================================================= */
+
+    document
+    .getElementById("finalRating")
+    .textContent =
+        finalRating + "%";
+
+
+    document
+    .getElementById("strengthLevel")
+    .textContent =
+        strength;
+
+
+    /* =================================================
+       DISPLAY INPUTS
+    ================================================= */
+
+    document
+    .getElementById("resultForm")
+    .textContent =
+        form + "%";
+
+
+    document
+    .getElementById("resultQuality")
+    .textContent =
+        quality + "%";
+
+
+    document
+    .getElementById("resultLeague")
+    .textContent =
+        league + "%";
+
+
+    document
+    .getElementById("resultGoals")
+    .textContent =
+        goals + "%";
+
+
+    document
+    .getElementById("resultAttack")
+    .textContent =
+        attack + "%";
+
+
+    document
+    .getElementById("resultDefence")
+    .textContent =
+        defence + "%";
+
+
+    /* =================================================
+       DISPLAY CONTRIBUTIONS
+    ================================================= */
+
+    document
+    .getElementById("formContribution")
+    .textContent =
+        formContribution.toFixed(1);
+
+
+    document
+    .getElementById("qualityContribution")
+    .textContent =
+        qualityContribution.toFixed(1);
+
+
+    document
+    .getElementById("leagueContribution")
+    .textContent =
+        leagueContribution.toFixed(1);
+
+
+    document
+    .getElementById("goalsContribution")
+    .textContent =
+        goalsContribution.toFixed(1);
+
+
+    document
+    .getElementById("attackContribution")
+    .textContent =
+        attackContribution.toFixed(1);
+
+
+    document
+    .getElementById("defenceContribution")
+    .textContent =
+        defenceContribution.toFixed(1);
+
+
+    /* =================================================
+       RESULTS
+    ================================================= */
+
+    document
+    .getElementById("resultResults")
+    .textContent =
+        resultPerformance + "%";
+
+
+    document
+    .getElementById("resultGoalPerformance")
+    .textContent =
+        goalPerformance + "%";
+
+
+    /* =================================================
+       PREDICTION
+    ================================================= */
+
+    document
+    .getElementById("prediction")
+    .textContent =
+        prediction;
+
+
+    /* =================================================
+       MARKETS
+    ================================================= */
+
+    document
+    .getElementById("market1")
+    .textContent =
+        market1;
+
+
+    document
+    .getElementById("market2")
+    .textContent =
+        market2;
+
+
+    document
+    .getElementById("market3")
+    .textContent =
+        market3;
+
+
+    document
+    .getElementById("market4")
+    .textContent =
+        market4;
+
+
+    /* =================================================
+       SCORE BAR
+    ================================================= */
+
+    document
+    .getElementById("scoreFill")
+    .style.width =
+        finalRating + "%";
+
+
+    document
+    .getElementById("scoreText")
+    .textContent =
+        finalRating + "%";
+
+
+    /* =================================================
+       WARNING
+    ================================================= */
+
+    document
+    .getElementById("warning")
+    .textContent =
+        risk;
+
+
+    /* =================================================
+       SHOW RESULT
+    ================================================= */
+
+    document
+    .getElementById("resultBox")
+    .style.display =
+        "block";
+
+
+    /* =================================================
+       SCROLL
+    ================================================= */
+
+    document
+    .getElementById("resultBox")
+    .scrollIntoView({
+
+        behavior: "smooth"
+
+    });
+
+
+});
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+document
+.getElementById("resetBtn")
+.addEventListener("click", function () {
+
+
+    document
+    .getElementById("homeTeam")
+    .value = "";
+
+
+    document
+    .getElementById("form")
+    .value = "";
+
+
+    document
+    .getElementById("quality")
+    .value = "";
+
+
+    document
+    .getElementById("league")
+    .value = "";
+
+
+    document
+    .getElementById("goals")
+    .value = "";
+
+
+    document
+    .getElementById("attack")
+    .value = "";
+
+
+    document
+    .getElementById("defence")
+    .value = "";
+
+
+    document
+    .getElementById("wins")
+    .value = 0;
+
+
+    document
+    .getElementById("draws")
+    .value = 0;
+
+
+    document
+    .getElementById("losses")
+    .value = 0;
+
+
+    document
+    .getElementById("over15")
+    .value = 0;
+
+
+    document
+    .getElementById("goals14")
+    .value = 0;
+
+
+    document
+    .getElementById("resultBox")
+    .style.display =
+        "none";
+
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>

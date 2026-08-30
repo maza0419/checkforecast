@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Analysis</title>
+
+<style>
+
+h2, p {
+  margin: 10px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: white;
+}
+
+ul li {
+  float: left;
+}
+
+ul li a {
+  display: block;
+  color: #1565C0;
+  text-align: center;
+  padding: 14px 6px;
+  text-decoration: none;
+  font-size: 25px;
+
+}
+
+ul li a:hover {
+  background-color: #d0dae7;
+}
+
+/*body*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#1f2937,#0f172a);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.container{
+    width:100%;
+    max-width:900px;
+    background:#fff;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 20px 45px rgba(0,0,0,.25);
+}
+
+h1{
+    text-align:center;
+    color:#1e293b;
+    margin-bottom:30px;
+}
+
+.card{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-left:5px solid #2563eb;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+label{
+    display:block;
+    margin-bottom:6px;
+    color:#475569;
+    font-size:14px;
+    font-weight:600;
+}
+
+input,
+select{
+
+    width:100%;
+    padding:12px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    font-size:15px;
+    transition:.3s;
+}
+
+input:focus,
+select:focus{
+
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.2);
+
+}
+
+.buttons{
+
+    display:flex;
+    justify-content:space-between;
+    margin-top:25px;
+    flex-wrap:wrap;
+    gap:15px;
+
+}
+
+.btn{
+
+    border:none;
+    padding:12px 24px;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+.add{
+
+    background:#2563eb;
+    color:#fff;
+
+}
+
+.add:hover{
+
+    background:#1d4ed8;
+
+}
+
+.save{
+
+    background:#16a34a;
+    color:#fff;
+
+}
+
+.save:hover{
+
+    background:#15803d;
+
+}
+
+.remove{
+
+    background:#ef4444;
+    color:white;
+    margin-top:15px;
+
+}
+
+.remove:hover{
+
+    background:#dc2626;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+<ul>
+  <li>
+    <a href="index.html">HOME</a></li>
+    <li><a href="Analysis.html">ANALYSIS</a></li>
+    <li><a href="Prediction.html">PREDICTION</a></li>
+    <li><a href="Forecast.html">FORECAST</a></li>
+    <li><a href="Stregnth.html">STREGNTH</a></li>
+    <li><a href="Booking1.html">BOOK1</a></li>
+    <li><a href="Booking2.html">BOOK3</a></li>
+</ul>
+
+<h1>⚽ Football Analysis Form</h1>
+
+<form method="POST">
+
+    <div id="container">
+
+        <div class="card">
+
+            <div class="grid">
+
+                <div>
+                    <label>Country</label>
+                    <input type="text" name="country[]">
+                </div>
+
+                <div>
+                    <label>League</label>
+                    <input type="text" name="league[]">
+                </div>
+
+                <div>
+                    <label>Club</label>
+                    <input type="text" name="club[]">
+                </div>
+
+                <div>
+                    <label>Analysis Type</label>
+                    <select name="option[]">
+
+                        <option selected>Markets</option>
+                        <option>WIN</option>
+                        <option>DOUBLE CHANCE</option>
+                        <option>TO SCORE</option>
+                        <option>1-4 GOALS</option>
+                        <option>OV 1.5</option>
+
+                    </select>
+                </div>
+                
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="buttons">
+
+    <button type="button" class="btn add" onclick="addCard()">
+    ➕ Add New
+    </button>
+
+    <button type="submit" class="btn save">
+    💾 Save
+    </button>
+
+    </div>
+
+</form>
+
+</div>
+
+<script>
+
+function addCard(){
+
+const card = document.createElement("div");
+
+card.className="card";
+
+card.innerHTML=`
+
+<div class="grid">
+
+<div>
+<label>Country</label>
+<input type="text" name="country[]">
+</div>
+
+<div>
+<label>League</label>
+<input type="text" name="league[]">
+</div>
+
+<div>
+<label>Club</label>
+<input type="text" name="club[]">
+</div>
+
+<div>
+<label>Analysis Type</label>
+<select name="option[]">
+
+<option selected>Markets</option>
+<option>WIN</option>
+<option>DOUBLE CHANCE</option>
+<option>TO SCORE</option>
+<option>1-4 GOALS</option>
+<option>OV 1.5</option>
+
+</select>
+</div>
+
+</div>
+
+<button type="button"
+class="btn remove"
+onclick="this.parentElement.remove()">
+
+🗑 Remove
+
+</button>
+
+`;
+
+document.getElementById("container").appendChild(card);
+
+}
+
+</script>
+
+</body>
+</html>

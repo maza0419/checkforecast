@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - European Club Database</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    min-height:100vh;
+    padding:20px;
+    color:#222;
+}
+
+.container{
+    max-width:1250px;
+    margin:auto;
+    background:#fff;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 15px 45px rgba(0,0,0,.4);
+}
+
+nav{
+    background:#f5f7fa;
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:25px;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+    flex-wrap:wrap;
+}
+
+nav li{
+    flex:1;
+}
+
+nav a{
+    display:block;
+    padding:14px 8px;
+    text-align:center;
+    text-decoration:none;
+    color:#1565C0;
+    font-weight:bold;
+}
+
+nav a:hover{
+    background:#dce6f2;
+}
+
+h1{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#666;
+    line-height:1.7;
+    margin-bottom:30px;
+}
+
+/* DATABASE */
+
+.database{
+    margin-top:20px;
+}
+
+.database h2{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:25px;
+}
+
+.selection-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.team-card{
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 5px 18px rgba(0,0,0,.1);
+}
+
+.home-card{
+    border-top:6px solid #28a745;
+    background:#f7fff9;
+}
+
+.away-card{
+    border-top:6px solid #dc3545;
+    background:#fff8f8;
+}
+
+.team-card h3{
+    text-align:center;
+    margin-bottom:22px;
+}
+
+.home-card h3{
+    color:#28a745;
+}
+
+.away-card h3{
+    color:#dc3545;
+}
+
+.field{
+    margin-bottom:18px;
+}
+
+.field label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.field select{
+    width:100%;
+    padding:13px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    background:white;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.field select:focus{
+    border-color:#1565C0;
+    outline:none;
+}
+
+/* CLUB INFORMATION */
+
+.club-info{
+    margin-top:20px;
+    padding:20px;
+    background:white;
+    border-radius:12px;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.club-info h4{
+    color:#1565C0;
+    margin-bottom:12px;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 0;
+    border-bottom:1px solid #eee;
+}
+
+.info-row:last-child{
+    border-bottom:none;
+}
+
+.info-label{
+    font-weight:bold;
+    color:#555;
+}
+
+.info-value{
+    font-weight:bold;
+    text-align:right;
+}
+
+.rating{
+    color:#1565C0;
+}
+
+.league-rating{
+    color:#e65100;
+}
+
+/* COMPARISON */
+
+.compare-section{
+    margin-top:30px;
+    padding:25px;
+    border-radius:15px;
+    background:#f5f8fc;
+    border:2px solid #1565C0;
+}
+
+.compare-section h2{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:20px;
+}
+
+.comparison-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:15px;
+}
+
+.compare-card{
+    background:white;
+    padding:20px;
+    text-align:center;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.compare-card h4{
+    color:#1565C0;
+    margin-bottom:10px;
+}
+
+.compare-value{
+    font-size:25px;
+    font-weight:bold;
+}
+
+/* BUTTON */
+
+.buttons{
+    text-align:center;
+    margin:30px 0;
+}
+
+button{
+    padding:14px 28px;
+    border:none;
+    border-radius:10px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:5px;
+}
+
+#compareBtn{
+    background:#1565C0;
+}
+
+#resetBtn{
+    background:#ff9800;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+/* RESULT */
+
+.result{
+    margin-top:25px;
+    padding:25px;
+    background:#f8f9fa;
+    border-radius:15px;
+}
+
+.result h2{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:20px;
+}
+
+.result-message{
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    padding:20px;
+}
+
+.home-win{
+    color:#28a745;
+}
+
+.away-win{
+    color:#dc3545;
+}
+
+.draw{
+    color:#ff9800;
+}
+
+/* IMPORTANT VALUE */
+
+.important{
+    margin-top:25px;
+    padding:22px;
+    border-radius:14px;
+    background:#fff8e1;
+    border-left:7px solid #ff9800;
+}
+
+.important h3{
+    color:#e65100;
+    margin-bottom:12px;
+}
+
+.important p{
+    line-height:1.8;
+}
+
+/* DATABASE NOTE */
+
+.database-note{
+    margin-top:30px;
+    padding:20px;
+    background:#eef5ff;
+    border-left:6px solid #1565C0;
+    border-radius:10px;
+    line-height:1.8;
+}
+
+@media(max-width:800px){
+
+    .selection-grid,
+    .comparison-grid{
+        grid-template-columns:1fr;
+    }
+
+    nav li{
+        flex:100%;
+    }
+
+    .container{
+        padding:15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<nav>
+
+<ul>
+
+<li><a href="index.html">HOME</a></li>
+<li><a href="Analysis.html">ANALYSIS</a></li>
+<li><a href="Prediction.html">PREDICTION</a></li>
+<li><a href="Forecast.html">FORECAST</a></li>
+<li><a href="Strength.html">STRENGTH</a></li>
+<li><a href="Booking1.html">BOOK1</a></li>
+<li><a href="Booking2.html">BOOK2</a></li>
+
+</ul>
+
+</nav>
+
+
+<h1>⚽ Football Value Capital</h1>
+
+<p class="subtitle">
+
+European Football Club Database & Comparison System.<br>
+
+Select a country → league → club for both teams and compare
+their club rating, team quality and league level.
+
+</p>
+
+
+<!-- =====================================================
+     EUROPEAN CLUB DATABASE
+===================================================== -->
+
+<div class="database">
+
+<h2>🌍 EUROPEAN CLUB SELECTION</h2>
+
+<div class="selection-grid">
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<div class="team-card home-card">
+
+<h3>🏠 HOME TEAM</h3>
+
+<div class="field">
+
+<label>Country</label>
+
+<select id="homeCountry">
+
+<option value="">Select Country</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>League</label>
+
+<select id="homeLeague">
+
+<option value="">Select League</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>Club</label>
+
+<select id="homeClub">
+
+<option value="">Select Club</option>
+
+</select>
+
+</div>
+
+
+<div class="club-info" id="homeInfo">
+
+<h4>🏠 Home Club Information</h4>
+
+<p>Select a country, league and club.</p>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     AWAY
+===================================================== -->
+
+<div class="team-card away-card">
+
+<h3>✈️ AWAY TEAM</h3>
+
+<div class="field">
+
+<label>Country</label>
+
+<select id="awayCountry">
+
+<option value="">Select Country</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>League</label>
+
+<select id="awayLeague">
+
+<option value="">Select League</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>Club</label>
+
+<select id="awayClub">
+
+<option value="">Select Club</option>
+
+</select>
+
+</div>
+
+
+<div class="club-info" id="awayInfo">
+
+<h4>✈️ Away Club Information</h4>
+
+<p>Select a country, league and club.</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- BUTTONS -->
+
+<div class="buttons">
+
+<button id="compareBtn">
+
+⚖️ COMPARE TEAMS
+
+</button>
+
+<button id="resetBtn">
+
+🔄 RESET
+
+</button>
+
+</div>
+
+
+<!-- =====================================================
+     COMPARISON
+===================================================== -->
+
+<div class="compare-section">
+
+<h2>📊 CLUB COMPARISON</h2>
+
+<div class="comparison-grid">
+
+<div class="compare-card">
+
+<h4>🏆 CLUB RATING</h4>
+
+<div class="compare-value" id="clubRatingComparison">
+
+0 - 0
+
+</div>
+
+</div>
+
+
+<div class="compare-card">
+
+<h4>💪 TEAM QUALITY</h4>
+
+<div class="compare-value" id="qualityComparison">
+
+0 - 0
+
+</div>
+
+</div>
+
+
+<div class="compare-card">
+
+<h4>🌍 LEAGUE LEVEL</h4>
+
+<div class="compare-value" id="leagueComparison">
+
+0 - 0
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="result">
+
+<h2>🔎 COMPARISON RESULT</h2>
+
+<div class="result-message" id="comparisonResult">
+
+Select two clubs to begin comparison.
+
+</div>
+
+</div>
+
+
+<div class="important">
+
+<h3>⭐ MOST IMPORTANT VALUE</h3>
+
+<p id="importantValue">
+
+Waiting for comparison...
+
+</p>
+
+</div>
+
+</div>
+
+
+<div class="database-note">
+
+<strong>ℹ️ How this database works:</strong><br>
+
+1. Select the country.<br>
+2. The app automatically loads leagues belonging to that country.<br>
+3. Select the league.<br>
+4. The app loads clubs belonging to that league.<br>
+5. Select the club.<br>
+6. The app displays the club's rating, team quality and league level.<br>
+7. Select another club as the away team and press
+<strong>COMPARE TEAMS</strong>.
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   EUROPEAN FOOTBALL DATABASE
+
+   rating = club strength / model rating
+   quality = squad/team quality
+   leagueLevel = strength of domestic league
+
+   These are MODEL RATINGS for comparison purposes,
+   not official UEFA ratings.
+========================================================= */
+
+
+const footballDatabase = {
+
+England: {
+
+    "Premier League": {
+
+        leagueLevel:100,
+
+        clubs:{
+
+            "Manchester City":95,
+            "Liverpool":94,
+            "Arsenal":93,
+            "Chelsea":88,
+            "Manchester United":87,
+            "Tottenham Hotspur":85,
+            "Newcastle United":84,
+            "Aston Villa":84,
+            "Brighton":81,
+            "West Ham United":78
+
+        }
+
+    },
+
+    "Championship": {
+
+        leagueLevel:82,
+
+        clubs:{
+
+            "Leicester City":78,
+            "Southampton":77,
+            "Leeds United":82,
+            "Middlesbrough":75,
+            "West Bromwich Albion":76,
+            "Norwich City":75,
+            "Coventry City":74,
+            "Sunderland":73
+
+        }
+
+    }
+
+},
+
+
+Spain: {
+
+    "La Liga": {
+
+        leagueLevel:98,
+
+        clubs:{
+
+            "Real Madrid":97,
+            "Barcelona":96,
+            "Atletico Madrid":91,
+            "Athletic Bilbao":84,
+            "Real Sociedad":84,
+            "Villarreal":83,
+            "Real Betis":82,
+            "Sevilla":80,
+            "Valencia":78,
+            "Girona":82
+
+        }
+
+    },
+
+    "Segunda División": {
+
+        leagueLevel:78,
+
+        clubs:{
+
+            "Almeria":77,
+            "Real Oviedo":73,
+            "Levante":74,
+            "Zaragoza":71,
+            "Sporting Gijon":71,
+            "Eibar":72
+
+        }
+
+    }
+
+},
+
+
+Germany: {
+
+    "Bundesliga": {
+
+        leagueLevel:96,
+
+        clubs:{
+
+            "Bayern Munich":96,
+            "Bayer Leverkusen":92,
+            "Borussia Dortmund":89,
+            "RB Leipzig":87,
+            "Eintracht Frankfurt":84,
+            "Stuttgart":83,
+            "Freiburg":79,
+            "Union Berlin":77
+
+        }
+
+    },
+
+    "2. Bundesliga": {
+
+        leagueLevel:78,
+
+        clubs:{
+
+            "Hamburg":76,
+            "Schalke 04":76,
+            "Hertha Berlin":74,
+            "Hannover 96":72,
+            "Kaiserslautern":70,
+            "Dusseldorf":73
+
+        }
+
+    }
+
+},
+
+
+Italy: {
+
+    "Serie A": {
+
+        leagueLevel:95,
+
+        clubs:{
+
+            "Inter Milan":94,
+            "Juventus":90,
+            "AC Milan":89,
+            "Napoli":88,
+            "Atalanta":87,
+            "Roma":86,
+            "Lazio":84,
+            "Fiorentina":82,
+            "Bologna":81,
+            "Torino":78
+
+        }
+
+    },
+
+    "Serie B": {
+
+        leagueLevel:77,
+
+        clubs:{
+
+            "Sampdoria":74,
+            "Palermo":73,
+            "Spezia":72,
+            "Bari":70,
+            "Parma":75,
+            "Pisa":70
+
+        }
+
+    }
+
+},
+
+
+France: {
+
+    "Ligue 1": {
+
+        leagueLevel:92,
+
+        clubs:{
+
+            "Paris Saint-Germain":95,
+            "Marseille":84,
+            "Monaco":87,
+            "Lyon":83,
+            "Lille":85,
+            "Nice":82,
+            "Rennes":79,
+            "Lens":82,
+            "Strasbourg":76
+
+        }
+
+    },
+
+    "Ligue 2": {
+
+        leagueLevel:73,
+
+        clubs:{
+
+            "Metz":74,
+            "Lorient":75,
+            "Caen":68,
+            "Paris FC":70,
+            "Bordeaux":72,
+            "Guingamp":67
+
+        }
+
+    }
+
+},
+
+
+Portugal: {
+
+    "Primeira Liga": {
+
+        leagueLevel:88,
+
+        clubs:{
+
+            "Benfica":92,
+            "Porto":92,
+            "Sporting CP":93,
+            "Braga":83,
+            "Vitoria Guimaraes":77,
+            "Boavista":72,
+            "Famalicao":74,
+            "Rio Ave":70
+
+        }
+
+    },
+
+    "Liga Portugal 2": {
+
+        leagueLevel:68,
+
+        clubs:{
+
+            "Maritimo":72,
+            "Tondela":68,
+            "Academico Viseu":65,
+            "Leixoes":64,
+            "Feirense":65
+
+        }
+
+    }
+
+},
+
+
+Netherlands: {
+
+    "Eredivisie": {
+
+        leagueLevel:87,
+
+        clubs:{
+
+            "Ajax":89,
+            "PSV Eindhoven":92,
+            "Feyenoord":90,
+            "AZ Alkmaar":82,
+            "Twente":79,
+            "Utrecht":76,
+            "Groningen":71
+
+        }
+
+    },
+
+    "Eerste Divisie": {
+
+        leagueLevel:67,
+
+        clubs:{
+
+            "Willem II":72,
+            "NAC Breda":69,
+            "ADO Den Haag":68,
+            "Roda JC":66,
+            "Groningen":70
+
+        }
+
+    }
+
+},
+
+
+Belgium: {
+
+    "Belgian Pro League": {
+
+        leagueLevel:84,
+
+        clubs:{
+
+            "Club Brugge":89,
+            "Anderlecht":85,
+            "Genk":84,
+            "Gent":80,
+            "Union Saint-Gilloise":86,
+            "Antwerp":81,
+            "Standard Liege":76
+
+        }
+
+    }
+
+},
+
+
+Turkey: {
+
+    "Super Lig": {
+
+        leagueLevel:82,
+
+        clubs:{
+
+            "Galatasaray":91,
+            "Fenerbahce":90,
+            "Besiktas":83,
+            "Trabzonspor":82,
+            "Basaksehir":77,
+            "Adana Demirspor":72
+
+        }
+
+    }
+
+},
+
+
+Scotland: {
+
+    "Scottish Premiership": {
+
+        leagueLevel:76,
+
+        clubs:{
+
+            "Celtic":89,
+            "Rangers":88,
+            "Aberdeen":72,
+            "Hearts":71,
+            "Hibernian":68,
+            "Motherwell":65
+
+        }
+
+    }
+
+},
+
+
+Austria: {
+
+    "Austrian Bundesliga": {
+
+        leagueLevel:75,
+
+        clubs:{
+
+            "Red Bull Salzburg":87,
+            "Sturm Graz":84,
+            "Rapid Vienna":78,
+            "Austria Vienna":74,
+            "LASK":77
+
+        }
+
+    }
+
+},
+
+
+Switzerland: {
+
+    "Swiss Super League": {
+
+        leagueLevel:73,
+
+        clubs:{
+
+            "Young Boys":84,
+            "Basel":80,
+            "Servette":76,
+            "Lugano":78,
+            "Zurich":74
+
+        }
+
+    }
+
+},
+
+
+Greece: {
+
+    "Super League Greece": {
+
+        leagueLevel:73,
+
+        clubs:{
+
+            "Olympiacos":87,
+            "Panathinaikos":84,
+            "PAOK":85,
+            "AEK Athens":84,
+            "Aris":73
+
+        }
+
+    }
+
+},
+
+
+Denmark: {
+
+    "Danish Superliga": {
+
+        leagueLevel:72,
+
+        clubs:{
+
+            "FC Copenhagen":84,
+            "Midtjylland":83,
+            "Brondby":80,
+            "AGF":73,
+            "Randers":69
+
+        }
+
+    }
+
+},
+
+
+Norway: {
+
+    "Eliteserien": {
+
+        leagueLevel:70,
+
+        clubs:{
+
+            "Bodo/Glimt":86,
+            "Molde":82,
+            "Rosenborg":77,
+            "Viking":75,
+            "Brann":77
+
+        }
+
+    }
+
+},
+
+
+Sweden: {
+
+    "Allsvenskan": {
+
+        leagueLevel:69,
+
+        clubs:{
+
+            "Malmo":84,
+            "Hammarby":75,
+            "Djurgarden":78,
+            "AIK":75,
+            "Goteborg":72
+
+        }
+
+    }
+
+},
+
+
+Poland: {
+
+    "Ekstraklasa": {
+
+        leagueLevel:69,
+
+        clubs:{
+
+            "Legia Warsaw":82,
+            "Lech Poznan":82,
+            "Rakow":79,
+            "Jagiellonia":78,
+            "Pogon Szczecin":74
+
+        }
+
+    }
+
+},
+
+
+Czechia: {
+
+    "Czech First League": {
+
+        leagueLevel:72,
+
+        clubs:{
+
+            "Slavia Prague":87,
+            "Sparta Prague":86,
+            "Viktoria Plzen":82,
+            "Baník Ostrava":72,
+            "Sigma Olomouc":69
+
+        }
+
+    }
+
+},
+
+
+Croatia: {
+
+    "HNL": {
+
+        leagueLevel:67,
+
+        clubs:{
+
+            "Dinamo Zagreb":87,
+            "Hajduk Split":79,
+            "Rijeka":76,
+            "Osijek":72
+
+        }
+
+    }
+
+},
+
+
+Serbia: {
+
+    "Serbian SuperLiga": {
+
+        leagueLevel:66,
+
+        clubs:{
+
+            "Red Star Belgrade":88,
+            "Partizan":82,
+            "Vojvodina":72,
+            "Cukaricki":69
+
+        }
+
+    }
+
+},
+
+
+Ukraine: {
+
+    "Ukrainian Premier League": {
+
+        leagueLevel:67,
+
+        clubs:{
+
+            "Shakhtar Donetsk":85,
+            "Dynamo Kyiv":84,
+            "Dnipro-1":73,
+            "Polissya Zhytomyr":70,
+            "Vorskla Poltava":67
+
+        }
+
+    }
+
+}
+
+};
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const homeCountry =
+document.getElementById("homeCountry");
+
+const homeLeague =
+document.getElementById("homeLeague");
+
+const homeClub =
+document.getElementById("homeClub");
+
+
+const awayCountry =
+document.getElementById("awayCountry");
+
+const awayLeague =
+document.getElementById("awayLeague");
+
+const awayClub =
+document.getElementById("awayClub");
+
+
+/* =========================================================
+   LOAD COUNTRIES
+========================================================= */
+
+function loadCountries(select){
+
+    Object.keys(footballDatabase)
+    .sort()
+    .forEach(country=>{
+
+        const option =
+        document.createElement("option");
+
+        option.value=country;
+        option.textContent=country;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+loadCountries(homeCountry);
+loadCountries(awayCountry);
+
+
+/* =========================================================
+   LOAD LEAGUES
+========================================================= */
+
+function loadLeagues(countrySelect,leagueSelect,clubSelect){
+
+    leagueSelect.innerHTML =
+    '<option value="">Select League</option>';
+
+    clubSelect.innerHTML =
+    '<option value="">Select Club</option>';
+
+
+    const country =
+    countrySelect.value;
+
+
+    if(!country){
+        return;
+    }
+
+
+    const leagues =
+    footballDatabase[country];
+
+
+    Object.keys(leagues)
+    .forEach(league=>{
+
+        const option =
+        document.createElement("option");
+
+        option.value=league;
+
+        option.textContent=
+        league +
+        " — League Level " +
+        leagues[league].leagueLevel;
+
+        leagueSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================================
+   LOAD CLUBS
+========================================================= */
+
+function loadClubs(countrySelect,leagueSelect,clubSelect){
+
+    clubSelect.innerHTML =
+    '<option value="">Select Club</option>';
+
+
+    const country =
+    countrySelect.value;
+
+    const league =
+    leagueSelect.value;
+
+
+    if(!country || !league){
+        return;
+    }
+
+
+    const clubs =
+    footballDatabase[country][league].clubs;
+
+
+    Object.keys(clubs)
+    .sort()
+    .forEach(club=>{
+
+        const option =
+        document.createElement("option");
+
+        option.value=club;
+
+        option.textContent=
+        club +
+        " — Rating " +
+        clubs[club];
+
+        clubSelect.appendChild(option);
+
+    });
+
+}
+
+
+/* =========================================================
+   CLUB INFORMATION
+========================================================= */
+
+function showClubInfo(
+    countrySelect,
+    leagueSelect,
+    clubSelect,
+    infoElement,
+    side
+){
+
+    const country =
+    countrySelect.value;
+
+    const league =
+    leagueSelect.value;
+
+    const club =
+    clubSelect.value;
+
+
+    if(!country || !league || !club){
+
+        infoElement.innerHTML=`
+
+        <h4>
+        ${side==="home" ? "🏠" : "✈️"}
+        ${side==="home" ? "Home" : "Away"}
+        Club Information
+        </h4>
+
+        <p>Select a country, league and club.</p>
+
+        `;
+
+        return;
+
+    }
+
+
+    const leagueData =
+    footballDatabase[country][league];
+
+
+    const clubRating =
+    leagueData.clubs[club];
+
+
+    /*
+       TEAM QUALITY
+
+       For this starter database the club rating
+       represents the main team-quality estimate.
+
+       You can later replace this with separate
+       quality values.
+    */
+
+    const teamQuality =
+    clubRating;
+
+
+    infoElement.innerHTML=`
+
+    <h4>
+    ${side==="home" ? "🏠" : "✈️"}
+    ${club}
+    </h4>
+
+    <div class="info-row">
+
+        <span class="info-label">
+        Country
+        </span>
+
+        <span class="info-value">
+        ${country}
+        </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+        <span class="info-label">
+        League
+        </span>
+
+        <span class="info-value">
+        ${league}
+        </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+        <span class="info-label">
+        Club Rating
+        </span>
+
+        <span class="info-value rating">
+        ${clubRating}/100
+        </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+        <span class="info-label">
+        Team Quality
+        </span>
+
+        <span class="info-value rating">
+        ${teamQuality}/100
+        </span>
+
+    </div>
+
+
+    <div class="info-row">
+
+        <span class="info-label">
+        League Level
+        </span>
+
+        <span class="info-value league-rating">
+        ${leagueData.leagueLevel}/100
+        </span>
+
+    </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   HOME EVENTS
+========================================================= */
+
+homeCountry.addEventListener("change",()=>{
+
+    loadLeagues(
+        homeCountry,
+        homeLeague,
+        homeClub
+    );
+
+    showClubInfo(
+        homeCountry,
+        homeLeague,
+        homeClub,
+        document.getElementById("homeInfo"),
+        "home"
+    );
+
+});
+
+
+homeLeague.addEventListener("change",()=>{
+
+    loadClubs(
+        homeCountry,
+        homeLeague,
+        homeClub
+    );
+
+});
+
+
+homeClub.addEventListener("change",()=>{
+
+    showClubInfo(
+        homeCountry,
+        homeLeague,
+        homeClub,
+        document.getElementById("homeInfo"),
+        "home"
+    );
+
+});
+
+
+/* =========================================================
+   AWAY EVENTS
+========================================================= */
+
+awayCountry.addEventListener("change",()=>{
+
+    loadLeagues(
+        awayCountry,
+        awayLeague,
+        awayClub
+    );
+
+    showClubInfo(
+        awayCountry,
+        awayLeague,
+        awayClub,
+        document.getElementById("awayInfo"),
+        "away"
+    );
+
+});
+
+
+awayLeague.addEventListener("change",()=>{
+
+    loadClubs(
+        awayCountry,
+        awayLeague,
+        awayClub
+    );
+
+});
+
+
+awayClub.addEventListener("change",()=>{
+
+    showClubInfo(
+        awayCountry,
+        awayLeague,
+        awayClub,
+        document.getElementById("awayInfo"),
+        "away"
+    );
+
+});
+
+
+/* =========================================================
+   COMPARE TEAMS
+========================================================= */
+
+document.getElementById("compareBtn")
+.addEventListener("click",()=>{
+
+
+    const hCountry =
+    homeCountry.value;
+
+    const hLeague =
+    homeLeague.value;
+
+    const hClub =
+    homeClub.value;
+
+
+    const aCountry =
+    awayCountry.value;
+
+    const aLeague =
+    awayLeague.value;
+
+    const aClub =
+    awayClub.value;
+
+
+    if(
+        !hCountry ||
+        !hLeague ||
+        !hClub ||
+        !aCountry ||
+        !aLeague ||
+        !aClub
+    ){
+
+        alert(
+        "Please select country, league and club for both teams."
+        );
+
+        return;
+
+    }
+
+
+    const homeData =
+    footballDatabase[hCountry][hLeague];
+
+
+    const awayData =
+    footballDatabase[aCountry][aLeague];
+
+
+    const homeRating =
+    homeData.clubs[hClub];
+
+
+    const awayRating =
+    awayData.clubs[aClub];
+
+
+    const homeQuality =
+    homeRating;
+
+
+    const awayQuality =
+    awayRating;
+
+
+    const homeLeagueLevel =
+    homeData.leagueLevel;
+
+
+    const awayLeagueLevel =
+    awayData.leagueLevel;
+
+
+    /* DISPLAY */
+
+    document.getElementById(
+        "clubRatingComparison"
+    ).textContent=
+
+    homeRating+
+    " - "+
+    awayRating;
+
+
+    document.getElementById(
+        "qualityComparison"
+    ).textContent=
+
+    homeQuality+
+    " - "+
+    awayQuality;
+
+
+    document.getElementById(
+        "leagueComparison"
+    ).textContent=
+
+    homeLeagueLevel+
+    " - "+
+    awayLeagueLevel;
+
+
+    /* =====================================================
+       OVERALL MODEL SCORE
+
+       Club quality has the largest influence.
+
+       League level is also included so that a team
+       from a stronger league is not treated exactly
+       the same as a team from a weaker league.
+    ===================================================== */
+
+    const homeModel =
+
+        (homeRating * 0.70) +
+
+        (homeQuality * 0.15) +
+
+        (homeLeagueLevel * 0.15);
+
+
+    const awayModel =
+
+        (awayRating * 0.70) +
+
+        (awayQuality * 0.15) +
+
+        (awayLeagueLevel * 0.15);
+
+
+    const difference =
+    homeModel-awayModel;
+
+
+    const absoluteDifference =
+    Math.abs(difference);
+
+
+    let result;
+
+
+    if(difference>=10){
+
+        result=`
+
+        <span class="home-win">
+
+        🏠 HOME TEAM HAS THE STRONGER PROFILE
+
+        <br><br>
+
+        ${hClub}
+
+        </span>
+
+        `;
+
+    }
+
+    else if(difference<=-10){
+
+        result=`
+
+        <span class="away-win">
+
+        ✈️ AWAY TEAM HAS THE STRONGER PROFILE
+
+        <br><br>
+
+        ${aClub}
+
+        </span>
+
+        `;
+
+    }
+
+    else{
+
+        result=`
+
+        <span class="draw">
+
+        ⚖️ CLOSE COMPARISON
+
+        <br><br>
+
+        Neither team has a sufficiently large
+        model advantage.
+
+        </span>
+
+        `;
+
+    }
+
+
+    document.getElementById(
+        "comparisonResult"
+    ).innerHTML=result;
+
+
+    /* =====================================================
+       MOST IMPORTANT VALUE
+    ===================================================== */
+
+    let important;
+
+
+    const ratingGap =
+    Math.abs(homeRating-awayRating);
+
+
+    const qualityGap =
+    Math.abs(homeQuality-awayQuality);
+
+
+    const leagueGap =
+    Math.abs(homeLeagueLevel-awayLeagueLevel);
+
+
+    if(
+        ratingGap>=15 &&
+        ratingGap>=qualityGap &&
+        ratingGap>=leagueGap
+    ){
+
+        important=`
+
+        <strong>🏆 CLUB RATING IS THE MOST IMPORTANT
+        DIFFERENCE.</strong>
+
+        <br><br>
+
+        ${hClub}: ${homeRating}/100
+
+        <br>
+
+        ${aClub}: ${awayRating}/100
+
+        <br><br>
+
+        Rating difference:
+
+        <strong>${ratingGap} points</strong>.
+
+        This is currently the largest separation
+        between the two selected teams.
+
+        `;
+
+    }
+
+    else if(
+        qualityGap>=15 &&
+        qualityGap>=ratingGap &&
+        qualityGap>=leagueGap
+    ){
+
+        important=`
+
+        <strong>💪 TEAM QUALITY IS THE MOST IMPORTANT
+        DIFFERENCE.</strong>
+
+        <br><br>
+
+        Home:
+
+        ${homeQuality}/100
+
+        <br>
+
+        Away:
+
+        ${awayQuality}/100
+
+        <br><br>
+
+        Quality difference:
+
+        <strong>${qualityGap} points</strong>.
+
+        `;
+
+    }
+
+    else if(leagueGap>=15){
+
+        important=`
+
+        <strong>🌍 LEAGUE LEVEL IS THE MOST IMPORTANT
+        DIFFERENCE.</strong>
+
+        <br><br>
+
+        ${hClub} league:
+
+        ${homeLeagueLevel}/100
+
+        <br>
+
+        ${aClub} league:
+
+        ${awayLeagueLevel}/100
+
+        <br><br>
+
+        League-level difference:
+
+        <strong>${leagueGap} points</strong>.
+
+        This is especially useful when comparing
+        clubs from different countries or divisions.
+
+        `;
+
+    }
+
+    else{
+
+        important=`
+
+        <strong>⚖️ NO SINGLE VALUE DOMINATES.</strong>
+
+        <br><br>
+
+        Club rating, team quality and league level
+        are relatively close.
+
+        <br><br>
+
+        This should be treated as a
+        <strong>low-separation comparison</strong>.
+
+        `;
+
+    }
+
+
+    document.getElementById(
+        "importantValue"
+    ).innerHTML=important;
+
+
+});
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+document.getElementById("resetBtn")
+.addEventListener("click",()=>{
+
+    homeCountry.value="";
+    awayCountry.value="";
+
+
+    homeLeague.innerHTML=
+    '<option value="">Select League</option>';
+
+    awayLeague.innerHTML=
+    '<option value="">Select League</option>';
+
+
+    homeClub.innerHTML=
+    '<option value="">Select Club</option>';
+
+    awayClub.innerHTML=
+    '<option value="">Select Club</option>';
+
+
+    document.getElementById("homeInfo").innerHTML=`
+
+        <h4>🏠 Home Club Information</h4>
+
+        <p>Select a country, league and club.</p>
+
+    `;
+
+
+    document.getElementById("awayInfo").innerHTML=`
+
+        <h4>✈️ Away Club Information</h4>
+
+        <p>Select a country, league and club.</p>
+
+    `;
+
+
+    document.getElementById(
+        "clubRatingComparison"
+    ).textContent="0 - 0";
+
+
+    document.getElementById(
+        "qualityComparison"
+    ).textContent="0 - 0";
+
+
+    document.getElementById(
+        "leagueComparison"
+    ).textContent="0 - 0";
+
+
+    document.getElementById(
+        "comparisonResult"
+    ).textContent=
+    "Select two clubs to begin comparison.";
+
+
+    document.getElementById(
+        "importantValue"
+    ).textContent=
+    "Waiting for comparison...";
+
+});
+
+</script>
+
+</body>
+
+</html>

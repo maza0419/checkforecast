@@ -1,0 +1,2872 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - Leverage Match Analyzer</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+
+    background:
+    linear-gradient(
+        135deg,
+        #0f2027,
+        #203a43,
+        #2c5364
+    );
+
+    padding: 20px;
+
+    color: #222;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.container {
+
+    max-width: 1150px;
+
+    margin: auto;
+
+    background: #fff;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    box-shadow:
+    0 15px 45px rgba(0,0,0,.40);
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+ul {
+
+    list-style: none;
+
+    margin-bottom: 25px;
+
+    background: #fff;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+ul li {
+    float: left;
+}
+
+ul li a {
+
+    display: block;
+
+    padding: 14px 10px;
+
+    text-decoration: none;
+
+    color: #1565C0;
+
+    font-weight: bold;
+}
+
+ul li a:hover {
+    background: #dce6f2;
+}
+
+ul::after {
+
+    content: "";
+
+    display: table;
+
+    clear: both;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+h1 {
+
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 8px;
+}
+
+.subtitle {
+
+    text-align: center;
+
+    color: #666;
+
+    line-height: 1.7;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    overflow: hidden;
+
+    border-radius: 12px;
+}
+
+th {
+
+    padding: 15px;
+
+    color: white;
+
+    font-size: 17px;
+}
+
+th:nth-child(1) {
+    background: #28a745;
+}
+
+th:nth-child(2) {
+    background: #1565C0;
+}
+
+th:nth-child(3) {
+    background: #dc3545;
+}
+
+td {
+
+    padding: 15px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+    background: #f5f5f5;
+}
+
+td:nth-child(2) {
+
+    min-width: 300px;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   FACTOR DESCRIPTION
+========================================================= */
+
+.stat-title {
+
+    text-align: center;
+
+    display: block;
+
+    color: #1565C0;
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+    margin-bottom: 6px;
+}
+
+.stat-description {
+
+    text-align: center;
+
+    display: block;
+
+    color: #666;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+select {
+
+    width: 190px;
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.home {
+    background: #28a745;
+}
+
+.away {
+    background: #dc3545;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.buttons {
+
+    text-align: center;
+
+    margin: 25px 0;
+}
+
+button {
+
+    padding: 14px 25px;
+
+    margin: 5px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+#analyze {
+    background: #1565C0;
+}
+
+#reset {
+    background: #ff9800;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result {
+
+    margin-top: 25px;
+
+    padding: 25px;
+
+    background: #f8f9fa;
+
+    border-radius: 15px;
+}
+
+.result h2 {
+
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 20px;
+}
+
+.rating {
+
+    text-align: center;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    margin: 10px;
+}
+
+.prediction {
+
+    text-align: center;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #1565C0;
+
+    margin: 20px 0;
+}
+
+.confidence {
+
+    text-align: center;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   CONFIDENCE BAR
+========================================================= */
+
+.confidence-container {
+
+    max-width: 600px;
+
+    margin: auto;
+}
+
+.confidence-bar {
+
+    width: 100%;
+
+    height: 18px;
+
+    background: #ddd;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+#confidenceFill {
+
+    width: 0%;
+
+    height: 100%;
+
+    background: #28a745;
+
+    transition: width .5s ease;
+}
+
+
+/* =========================================================
+   LEVERAGE SECTION
+========================================================= */
+
+.leverage-box {
+
+    margin-top: 30px;
+
+    padding: 25px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #eef5ff,
+        #ffffff
+    );
+
+    border-radius: 15px;
+
+    border: 2px solid #1565C0;
+}
+
+.leverage-box h2 {
+
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 10px;
+}
+
+.leverage-intro {
+
+    text-align: center;
+
+    color: #555;
+
+    line-height: 1.7;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   LEVERAGE GRID
+========================================================= */
+
+.leverage-grid {
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.leverage-card {
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-shadow:
+    0 4px 12px rgba(0,0,0,.08);
+}
+
+.leverage-card h3 {
+
+    color: #1565C0;
+
+    font-size: 15px;
+
+    margin-bottom: 10px;
+}
+
+.leverage-number {
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #222;
+
+    margin-bottom: 8px;
+}
+
+.leverage-description {
+
+    color: #666;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   LEVERAGE TABLE
+========================================================= */
+
+.leverage-table {
+
+    width: 100%;
+
+    background: white;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+}
+
+.leverage-table th {
+
+    background: #1565C0;
+
+    color: white;
+
+    font-size: 14px;
+}
+
+.leverage-table td {
+
+    font-size: 14px;
+
+    padding: 12px;
+}
+
+.leverage-high {
+
+    color: #dc3545;
+
+    font-weight: bold;
+}
+
+.leverage-medium {
+
+    color: #ff9800;
+
+    font-weight: bold;
+}
+
+.leverage-low {
+
+    color: #28a745;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   FACTOR COMMENTARY
+========================================================= */
+
+.factor-commentary {
+
+    margin-top: 25px;
+}
+
+.factor-commentary h3 {
+
+    color: #1565C0;
+
+    margin-bottom: 15px;
+}
+
+.factor-card {
+
+    background: white;
+
+    padding: 18px;
+
+    margin-bottom: 12px;
+
+    border-radius: 12px;
+
+    border-left: 5px solid #1565C0;
+
+    box-shadow:
+    0 4px 12px rgba(0,0,0,.07);
+}
+
+.factor-card h4 {
+
+    color: #1565C0;
+
+    margin-bottom: 8px;
+}
+
+.factor-card p {
+
+    line-height: 1.7;
+
+    color: #444;
+}
+
+
+/* =========================================================
+   GOAL ENVIRONMENT
+========================================================= */
+
+.goal-box {
+
+    margin-top: 25px;
+
+    padding: 22px;
+
+    background: #fff8e1;
+
+    border-left: 6px solid #ff9800;
+
+    border-radius: 12px;
+}
+
+.goal-box h3 {
+
+    color: #e65100;
+
+    margin-bottom: 12px;
+}
+
+.goal-box p {
+
+    line-height: 1.8;
+
+    color: #444;
+}
+
+
+/* =========================================================
+   OUTCOMES
+========================================================= */
+
+.outcome-box {
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin-top: 25px;
+}
+
+.outcome {
+
+    background: white;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    border-left: 5px solid #28a745;
+
+    box-shadow:
+    0 4px 12px rgba(0,0,0,.08);
+}
+
+.outcome h4 {
+
+    color: #1565C0;
+
+    margin-bottom: 8px;
+}
+
+.outcome p {
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   ANALYST BOX
+========================================================= */
+
+.analyst-remark {
+
+    margin-top: 25px;
+
+    padding: 23px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #eef5ff,
+        #ffffff
+    );
+
+    border-left: 6px solid #1565C0;
+
+    border-radius: 12px;
+}
+
+.analyst-remark h3 {
+
+    color: #1565C0;
+
+    margin-bottom: 15px;
+}
+
+.analyst-remark p {
+
+    line-height: 1.9;
+
+    color: #333;
+}
+
+
+/* =========================================================
+   WARNING
+========================================================= */
+
+.warning {
+
+    margin-top: 25px;
+
+    padding: 18px;
+
+    background: #fff3cd;
+
+    border-left: 5px solid #ff9800;
+
+    border-radius: 10px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    ul li {
+
+        float: none;
+
+        width: 100%;
+    }
+
+    ul li a {
+
+        text-align: center;
+
+        font-size: 14px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    td:nth-child(2) {
+        min-width: 150px;
+    }
+
+    select {
+
+        width: 125px;
+
+        font-size: 11px;
+    }
+
+    .outcome-box,
+    .leverage-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .prediction {
+        font-size: 21px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<ul>
+
+<li>
+<a href="index.html">HOME</a>
+</li>
+
+<li>
+<a href="Analysis.html">ANALYSIS</a>
+</li>
+
+<li>
+<a href="Prediction.html">PREDICTION</a>
+</li>
+
+<li>
+<a href="Forecast.html">FORECAST</a>
+</li>
+
+<li>
+<a href="Stregnth.html">STRENGTH</a>
+</li>
+
+<li>
+<a href="Booking1.html">BOOK1</a>
+</li>
+
+<li>
+<a href="Booking2.html">BOOK2</a>
+</li>
+
+</ul>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<h1>
+⚽ Football Value Capital
+</h1>
+
+<p class="subtitle">
+
+Six-factor football analysis with
+<strong>leverage detection</strong>.
+
+The model identifies not only which team is stronger,
+but which factors have the greatest influence on the
+matchup.
+
+</p>
+
+
+<form id="forecastForm">
+
+
+<!-- =========================================================
+     FACTOR TABLE
+========================================================= -->
+
+<table>
+
+<tr>
+
+<th>🏠 HOME</th>
+
+<th>KEY MATCH FACTOR</th>
+
+<th>✈️ AWAY</th>
+
+</tr>
+
+
+<!-- FORM -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">📈 FORM</span>
+
+<span class="stat-description">
+
+Recent performance, momentum,
+consistency and current direction.
+
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+</tr>
+
+
+<!-- ATTACK -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">⚽ ATTACK</span>
+
+<span class="stat-description">
+
+Scoring power, chance creation,
+finishing and attacking pressure.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+</tr>
+
+
+<!-- DEFENCE -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">🛡️ DEFENCE</span>
+
+<span class="stat-description">
+
+Defensive organization, goals conceded,
+chance prevention and resilience.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+</tr>
+
+
+<!-- QUALITY -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">🏆 TEAM QUALITY</span>
+
+<span class="stat-description">
+
+Squad ability, depth, player quality,
+experience and competitive level.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+</tr>
+
+
+<!-- HOME AWAY -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">
+🏠 HOME / AWAY STRENGTH
+</span>
+
+<span class="stat-description">
+
+Specific performance strength in the
+relevant venue.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+</tr>
+
+
+<!-- GOALS -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Very High Goal Threat</option>
+<option value="90">High Goal Threat</option>
+<option value="80">Strong Goal Potential</option>
+<option value="70">Above Average Goals</option>
+<option value="60">Moderate Goal Potential</option>
+<option value="50">Balanced Goal Level</option>
+<option value="40">Below Average Goals</option>
+<option value="30">Low Goal Environment</option>
+<option value="20">Very Low Goal Environment</option>
+<option value="10">Extreme Low Goal Risk</option>
+<option value="0">Very Defensive</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">
+🎯 GOAL ENVIRONMENT / MATCH LEVEL
+</span>
+
+<span class="stat-description">
+
+Expected scoring character:
+open, controlled, high-event or low-event.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Very High Goal Threat</option>
+<option value="90">High Goal Threat</option>
+<option value="80">Strong Goal Potential</option>
+<option value="70">Above Average Goals</option>
+<option value="60">Moderate Goal Potential</option>
+<option value="50">Balanced Goal Level</option>
+<option value="40">Below Average Goals</option>
+<option value="30">Low Goal Environment</option>
+<option value="20">Very Low Goal Environment</option>
+<option value="10">Extreme Low Goal Risk</option>
+<option value="0">Very Defensive</option>
+</select>
+</td>
+
+</tr>
+
+</table>
+
+
+<!-- =========================================================
+     BUTTONS
+========================================================= -->
+
+<div class="buttons">
+
+<button type="button" id="reset">
+🔄 Reset
+</button>
+
+<button type="button" id="analyze">
+🔍 Analyze Match
+</button>
+
+</div>
+
+</form>
+
+
+<!-- =========================================================
+     MAIN RESULT
+========================================================= -->
+
+<div class="result">
+
+<h2>📊 Match Analysis</h2>
+
+<div class="rating">
+🏠 Home Rating:
+<span id="homeScore">0</span>/100
+</div>
+
+<div class="rating">
+✈️ Away Rating:
+<span id="awayScore">0</span>/100
+</div>
+
+<div class="prediction" id="prediction">
+Waiting for analysis...
+</div>
+
+<div class="confidence">
+Model Confidence:
+<span id="confidence">0%</span>
+</div>
+
+<div class="confidence-container">
+
+<div class="confidence-bar">
+
+<div id="confidenceFill"></div>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     LEVERAGE ANALYSIS
+========================================================= -->
+
+<div class="leverage-box">
+
+<h2>⚡ LEVERAGE ANALYSIS</h2>
+
+<p class="leverage-intro">
+
+Leverage identifies the factors that can have the
+greatest influence on the model decision. A high
+leverage factor deserves more attention because a
+change in that factor can materially change the
+match assessment.
+
+</p>
+
+
+<div class="leverage-grid">
+
+<div class="leverage-card">
+
+<h3>⚡ TOP LEVERAGE FACTOR</h3>
+
+<div class="leverage-number" id="topLeverage">
+Waiting...
+</div>
+
+<div class="leverage-description" id="topLeverageText">
+Waiting...
+</div>
+
+</div>
+
+
+<div class="leverage-card">
+
+<h3>🎯 MATCHUP LEVERAGE</h3>
+
+<div class="leverage-number" id="matchupLeverage">
+0
+</div>
+
+<div class="leverage-description">
+Measures how strongly one team's strength
+meets the opponent's weakness.
+</div>
+
+</div>
+
+
+<div class="leverage-card">
+
+<h3>📊 DECISION LEVERAGE</h3>
+
+<div class="leverage-number" id="decisionLeverage">
+0
+</div>
+
+<div class="leverage-description">
+Measures how sensitive the final model is
+to the strongest factor.
+</div>
+
+</div>
+
+</div>
+
+
+<table class="leverage-table">
+
+<tr>
+
+<th>Factor</th>
+
+<th>Home</th>
+
+<th>Away</th>
+
+<th>Gap</th>
+
+<th>Weight</th>
+
+<th>Leverage</th>
+
+<th>Interpretation</th>
+
+</tr>
+
+<tr>
+
+<td>📈 Form</td>
+<td id="lh0">-</td>
+<td id="la0">-</td>
+<td id="ld0">-</td>
+<td>1.20</td>
+<td id="lv0">-</td>
+<td id="li0">-</td>
+
+</tr>
+
+<tr>
+
+<td>⚽ Attack</td>
+<td id="lh1">-</td>
+<td id="la1">-</td>
+<td id="ld1">-</td>
+<td>1.30</td>
+<td id="lv1">-</td>
+<td id="li1">-</td>
+
+</tr>
+
+<tr>
+
+<td>🛡️ Defence</td>
+<td id="lh2">-</td>
+<td id="la2">-</td>
+<td id="ld2">-</td>
+<td>1.20</td>
+<td id="lv2">-</td>
+<td id="li2">-</td>
+
+</tr>
+
+<tr>
+
+<td>🏆 Team Quality</td>
+<td id="lh3">-</td>
+<td id="la3">-</td>
+<td id="ld3">-</td>
+<td>1.00</td>
+<td id="lv3">-</td>
+<td id="li3">-</td>
+
+</tr>
+
+<tr>
+
+<td>🏠 Home/Away</td>
+<td id="lh4">-</td>
+<td id="la4">-</td>
+<td id="ld4">-</td>
+<td>1.15</td>
+<td id="lv4">-</td>
+<td id="li4">-</td>
+
+</tr>
+
+<tr>
+
+<td>🎯 Goal Environment</td>
+<td id="lh5">-</td>
+<td id="la5">-</td>
+<td id="ld5">-</td>
+<td>0.80</td>
+<td id="lv5">-</td>
+<td id="li5">-</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- =========================================================
+     FACTOR COMMENTARY
+========================================================= -->
+
+<div class="factor-commentary">
+
+<h3>🔎 Factor-by-Factor Commentary</h3>
+
+<div class="factor-card">
+
+<h4>📈 Form</h4>
+
+<p id="formCommentary">Waiting...</p>
+
+</div>
+
+<div class="factor-card">
+
+<h4>⚽ Attack</h4>
+
+<p id="attackCommentary">Waiting...</p>
+
+</div>
+
+<div class="factor-card">
+
+<h4>🛡️ Defence</h4>
+
+<p id="defenceCommentary">Waiting...</p>
+
+</div>
+
+<div class="factor-card">
+
+<h4>🏆 Team Quality</h4>
+
+<p id="qualityCommentary">Waiting...</p>
+
+</div>
+
+<div class="factor-card">
+
+<h4>🏠 Home / Away Strength</h4>
+
+<p id="locationCommentary">Waiting...</p>
+
+</div>
+
+<div class="factor-card">
+
+<h4>🎯 Goal Environment</h4>
+
+<p id="goalFactorCommentary">Waiting...</p>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     GOAL BOX
+========================================================= -->
+
+<div class="goal-box">
+
+<h3>🎯 Goal Environment Assessment</h3>
+
+<p id="goalAnalysis">
+Waiting for analysis...
+</p>
+
+</div>
+
+
+<!-- =========================================================
+     OUTCOMES
+========================================================= -->
+
+<div class="outcome-box">
+
+<div class="outcome">
+
+<h4>🏆 Result Lean</h4>
+
+<p id="resultSuggestion">Waiting...</p>
+
+</div>
+
+<div class="outcome">
+
+<h4>⚽ Goals Lean</h4>
+
+<p id="goalSuggestion">Waiting...</p>
+
+</div>
+
+<div class="outcome">
+
+<h4>🥅 BTTS Lean</h4>
+
+<p id="bttsSuggestion">Waiting...</p>
+
+</div>
+
+<div class="outcome">
+
+<h4>📊 Match Character</h4>
+
+<p id="matchCharacter">Waiting...</p>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     ANALYST
+========================================================= -->
+
+<div class="analyst-remark">
+
+<h3>🧠 Strong Analyst Commentary</h3>
+
+<p id="analysisText">
+Waiting for analysis...
+</p>
+
+</div>
+
+
+<div class="warning">
+
+<strong>⚠️ Important:</strong>
+
+Leverage is a model-sensitivity measure, not a
+guarantee. A high-leverage factor means that the
+factor matters greatly to the model; it does not mean
+the predicted match outcome is certain.
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   FACTORS
+========================================================= */
+
+const factors = [
+
+    "Form",
+
+    "Attack",
+
+    "Defence",
+
+    "Team Quality",
+
+    "Home/Away Strength",
+
+    "Goal Environment"
+
+];
+
+
+/* =========================================================
+   WEIGHTS
+========================================================= */
+
+const weights = [
+
+    1.20,
+
+    1.30,
+
+    1.20,
+
+    1.00,
+
+    1.15,
+
+    0.80
+
+];
+
+
+/* =========================================================
+   ANALYZE
+========================================================= */
+
+document.getElementById("analyze").onclick = function() {
+
+
+    const home =
+    document.querySelectorAll(".home");
+
+    const away =
+    document.querySelectorAll(".away");
+
+
+    let homeValues = [];
+
+    let awayValues = [];
+
+
+    home.forEach(function(item){
+
+        homeValues.push(
+            Number(item.value)
+        );
+
+    });
+
+
+    away.forEach(function(item){
+
+        awayValues.push(
+            Number(item.value)
+        );
+
+    });
+
+
+    /* =====================================================
+       VALIDATION
+    ===================================================== */
+
+    if (
+        homeValues.some(v => isNaN(v)) ||
+        awayValues.some(v => isNaN(v)) ||
+        homeValues.some(v => v === 0 && false)
+    ) {
+
+        alert(
+            "Please rate all six factors for both teams."
+        );
+
+        return;
+    }
+
+
+    /* =====================================================
+       VALUES
+    ===================================================== */
+
+    const formH = homeValues[0];
+    const attackH = homeValues[1];
+    const defenceH = homeValues[2];
+    const qualityH = homeValues[3];
+    const locationH = homeValues[4];
+    const goalH = homeValues[5];
+
+
+    const formA = awayValues[0];
+    const attackA = awayValues[1];
+    const defenceA = awayValues[2];
+    const qualityA = awayValues[3];
+    const locationA = awayValues[4];
+    const goalA = awayValues[5];
+
+
+    /* =====================================================
+       TOTAL WEIGHT
+    ===================================================== */
+
+    const totalWeight =
+        weights.reduce(
+            (sum,value) => sum + value,
+            0
+        );
+
+
+    /* =====================================================
+       WEIGHTED SCORES
+    ===================================================== */
+
+    const homeWeighted =
+
+        formH * weights[0] +
+        attackH * weights[1] +
+        defenceH * weights[2] +
+        qualityH * weights[3] +
+        locationH * weights[4] +
+        goalH * weights[5];
+
+
+    const awayWeighted =
+
+        formA * weights[0] +
+        attackA * weights[1] +
+        defenceA * weights[2] +
+        qualityA * weights[3] +
+        locationA * weights[4] +
+        goalA * weights[5];
+
+
+    const homeRating =
+        Math.round(
+            homeWeighted / totalWeight
+        );
+
+
+    const awayRating =
+        Math.round(
+            awayWeighted / totalWeight
+        );
+
+
+    document.getElementById(
+        "homeScore"
+    ).textContent = homeRating;
+
+
+    document.getElementById(
+        "awayScore"
+    ).textContent = awayRating;
+
+
+    /* =====================================================
+       FACTOR LEVERAGE
+       
+       Formula:
+       absolute gap × factor weight
+       
+       This tells us which factor has the greatest
+       influence on the Home vs Away model separation.
+    ===================================================== */
+
+    let leverageData = [];
+
+
+    for (
+        let i = 0;
+        i < factors.length;
+        i++
+    ) {
+
+        const gap =
+            homeValues[i] -
+            awayValues[i];
+
+
+        const absoluteGap =
+            Math.abs(gap);
+
+
+        const leverage =
+            absoluteGap *
+            weights[i];
+
+
+        leverageData.push({
+
+            index: i,
+
+            name: factors[i],
+
+            home: homeValues[i],
+
+            away: awayValues[i],
+
+            gap: gap,
+
+            absoluteGap: absoluteGap,
+
+            weight: weights[i],
+
+            leverage: leverage
+
+        });
+
+    }
+
+
+    /* =====================================================
+       SORT BY LEVERAGE
+    ===================================================== */
+
+    const sortedLeverage =
+        [...leverageData].sort(
+            (a,b) =>
+            b.leverage - a.leverage
+        );
+
+
+    const top =
+        sortedLeverage[0];
+
+
+    /* =====================================================
+       LEVERAGE TABLE
+    ===================================================== */
+
+    leverageData.forEach(function(item){
+
+        const i = item.index;
+
+
+        document.getElementById(
+            "lh" + i
+        ).textContent =
+            item.home + "%";
+
+
+        document.getElementById(
+            "la" + i
+        ).textContent =
+            item.away + "%";
+
+
+        const gapText =
+            item.gap > 0
+            ? "+" + item.gap
+            : item.gap;
+
+
+        document.getElementById(
+            "ld" + i
+        ).textContent =
+            gapText;
+
+
+        document.getElementById(
+            "lv" + i
+        ).textContent =
+            Math.round(item.leverage);
+
+
+        let level;
+
+
+        if (item.leverage >= 35) {
+
+            level = "HIGH";
+
+            document.getElementById(
+                "lv" + i
+            ).className =
+                "leverage-high";
+
+        }
+
+        else if (item.leverage >= 18) {
+
+            level = "MEDIUM";
+
+            document.getElementById(
+                "lv" + i
+            ).className =
+                "leverage-medium";
+
+        }
+
+        else {
+
+            level = "LOW";
+
+            document.getElementById(
+                "lv" + i
+            ).className =
+                "leverage-low";
+
+        }
+
+
+        let direction;
+
+
+        if (item.gap >= 8) {
+
+            direction =
+            "Home leverage";
+
+        }
+
+        else if (item.gap <= -8) {
+
+            direction =
+            "Away leverage";
+
+        }
+
+        else {
+
+            direction =
+            "Neutral";
+
+        }
+
+
+        document.getElementById(
+            "li" + i
+        ).textContent =
+            level + " — " + direction;
+
+    });
+
+
+    /* =====================================================
+       TOP LEVERAGE
+    ===================================================== */
+
+    let topDirection;
+
+
+    if (top.gap >= 8) {
+
+        topDirection =
+        "Home";
+
+    }
+
+    else if (top.gap <= -8) {
+
+        topDirection =
+        "Away";
+
+    }
+
+    else {
+
+        topDirection =
+        "Neutral";
+
+    }
+
+
+    document.getElementById(
+        "topLeverage"
+    ).textContent =
+        top.name;
+
+
+    document.getElementById(
+        "topLeverageText"
+    ).innerHTML =
+
+        `<strong>${topDirection}</strong>
+        has the strongest leverage through
+        <strong>${top.name}</strong>.
+        The factor gap is
+        <strong>${Math.abs(top.gap)} points</strong>
+        and its weighted leverage is
+        <strong>${Math.round(top.leverage)}</strong>.`;
+
+
+    /* =====================================================
+       MATCHUP LEVERAGE
+       
+       Strength vs opponent weakness.
+       
+       Example:
+       Home Attack 90
+       Away Defence 40
+       
+       = very strong matchup leverage.
+    ===================================================== */
+
+    const homeAttackVsAwayDefence =
+        attackH + (100 - defenceA);
+
+
+    const awayAttackVsHomeDefence =
+        attackA + (100 - defenceH);
+
+
+    const homeMatchup =
+        homeAttackVsAwayDefence / 2;
+
+
+    const awayMatchup =
+        awayAttackVsHomeDefence / 2;
+
+
+    const matchupDifference =
+        Math.abs(
+            homeMatchup -
+            awayMatchup
+        );
+
+
+    const matchupLeverage =
+        Math.round(
+            matchupDifference
+        );
+
+
+    document.getElementById(
+        "matchupLeverage"
+    ).textContent =
+        matchupLeverage + "/100";
+
+
+    /* =====================================================
+       DECISION LEVERAGE
+       
+       How concentrated is the model's separation
+       around the strongest factor?
+    ===================================================== */
+
+    const totalLeverage =
+        leverageData.reduce(
+            (sum,item) =>
+            sum + item.leverage,
+            0
+        );
+
+
+    let decisionLeverage = 0;
+
+
+    if (totalLeverage > 0) {
+
+        decisionLeverage =
+            Math.round(
+                (
+                    top.leverage /
+                    totalLeverage
+                ) * 100
+            );
+
+    }
+
+
+    document.getElementById(
+        "decisionLeverage"
+    ).textContent =
+        decisionLeverage + "%";
+
+
+    /* =====================================================
+       RESULT DIFFERENCE
+    ===================================================== */
+
+    const difference =
+        Math.abs(
+            homeRating -
+            awayRating
+        );
+
+
+    /* =====================================================
+       CONFIDENCE
+    ===================================================== */
+
+    let confidence;
+
+
+    if (difference >= 30)
+        confidence = 82;
+
+    else if (difference >= 22)
+        confidence = 75;
+
+    else if (difference >= 15)
+        confidence = 68;
+
+    else if (difference >= 8)
+        confidence = 59;
+
+    else
+        confidence = 50;
+
+
+    /*
+       When the model depends heavily on one factor,
+       reduce confidence slightly because the result is
+       more sensitive to that single input.
+    */
+
+    if (decisionLeverage >= 40) {
+
+        confidence -= 5;
+
+    }
+
+
+    confidence =
+        Math.max(
+            40,
+            Math.min(
+                85,
+                confidence
+            )
+        );
+
+
+    document.getElementById(
+        "confidence"
+    ).textContent =
+        confidence + "%";
+
+
+    document.getElementById(
+        "confidenceFill"
+    ).style.width =
+        confidence + "%";
+
+
+    /* =====================================================
+       STRONGEST / WEAKEST
+    ===================================================== */
+
+    const homeObjects =
+        homeValues.map(
+            (value,index) => ({
+                name: factors[index],
+                value: value
+            })
+        );
+
+
+    const awayObjects =
+        awayValues.map(
+            (value,index) => ({
+                name: factors[index],
+                value: value
+            })
+        );
+
+
+    const homeStrongest =
+        homeObjects.reduce(
+            (a,b) =>
+            a.value >= b.value ? a : b
+        );
+
+
+    const homeWeakest =
+        homeObjects.reduce(
+            (a,b) =>
+            a.value <= b.value ? a : b
+        );
+
+
+    const awayStrongest =
+        awayObjects.reduce(
+            (a,b) =>
+            a.value >= b.value ? a : b
+        );
+
+
+    const awayWeakest =
+        awayObjects.reduce(
+            (a,b) =>
+            a.value <= b.value ? a : b
+        );
+
+
+    /* =====================================================
+       FACTOR COMMENTARY
+    ===================================================== */
+
+    function compareFactor(
+        h,
+        a,
+        explanation
+    ){
+
+        const diff =
+            h - a;
+
+
+        if (diff >= 20) {
+
+            return `
+            <strong>HOME ADVANTAGE.</strong>
+            Home ${h}% vs Away ${a}%.
+            ${explanation}
+            This factor provides meaningful leverage
+            toward the home side.
+            `;
+
+        }
+
+
+        if (diff >= 8) {
+
+            return `
+            <strong>SLIGHT HOME ADVANTAGE.</strong>
+            Home ${h}% vs Away ${a}%.
+            ${explanation}
+            The signal favours Home, but leverage
+            is moderate.
+            `;
+
+        }
+
+
+        if (diff <= -20) {
+
+            return `
+            <strong>AWAY ADVANTAGE.</strong>
+            Away ${a}% vs Home ${h}%.
+            ${explanation}
+            This factor provides meaningful leverage
+            toward the away side.
+            `;
+
+        }
+
+
+        if (diff <= -8) {
+
+            return `
+            <strong>SLIGHT AWAY ADVANTAGE.</strong>
+            Away ${a}% vs Home ${h}%.
+            ${explanation}
+            The signal favours Away, but leverage
+            is moderate.
+            `;
+
+        }
+
+
+        return `
+        <strong>BALANCED FACTOR.</strong>
+        Home ${h}% — Away ${a}%.
+        ${explanation}
+        This factor currently provides little
+        directional leverage.
+        `;
+
+    }
+
+
+    document.getElementById(
+        "formCommentary"
+    ).innerHTML =
+
+        compareFactor(
+            formH,
+            formA,
+            "Form measures current momentum and consistency."
+        );
+
+
+    document.getElementById(
+        "attackCommentary"
+    ).innerHTML =
+
+        compareFactor(
+            attackH,
+            attackA,
+            "Attack measures scoring ability and chance creation."
+        );
+
+
+    document.getElementById(
+        "defenceCommentary"
+    ).innerHTML =
+
+        compareFactor(
+            defenceH,
+            defenceA,
+            "Defence measures resistance to opponent pressure."
+        );
+
+
+    document.getElementById(
+        "qualityCommentary"
+    ).innerHTML =
+
+        compareFactor(
+            qualityH,
+            qualityA,
+            "Team Quality measures overall squad capability."
+        );
+
+
+    document.getElementById(
+        "locationCommentary"
+    ).innerHTML =
+
+        compareFactor(
+            locationH,
+            locationA,
+            "This measures venue-specific performance."
+        );
+
+
+    /* =====================================================
+       GOAL ENVIRONMENT
+    ===================================================== */
+
+    const goalEnvironment =
+        Math.round(
+            (goalH + goalA) / 2
+        );
+
+
+    let goalDescription;
+
+
+    if (goalEnvironment >= 80) {
+
+        goalDescription = `
+        <strong>HIGH GOAL ENVIRONMENT.</strong>
+        Combined rating: ${goalEnvironment}/100.
+        The match profile supports an open,
+        high-event game.
+        `;
+
+    }
+
+    else if (goalEnvironment >= 65) {
+
+        goalDescription = `
+        <strong>ABOVE-AVERAGE GOAL ENVIRONMENT.</strong>
+        Combined rating: ${goalEnvironment}/100.
+        There is meaningful support for goals.
+        `;
+
+    }
+
+    else if (goalEnvironment >= 45) {
+
+        goalDescription = `
+        <strong>BALANCED GOAL ENVIRONMENT.</strong>
+        Combined rating: ${goalEnvironment}/100.
+        The goal profile is mixed.
+        `;
+
+    }
+
+    else if (goalEnvironment >= 25) {
+
+        goalDescription = `
+        <strong>LOW GOAL ENVIRONMENT.</strong>
+        Combined rating: ${goalEnvironment}/100.
+        The match profile leans toward controlled play.
+        `;
+
+    }
+
+    else {
+
+        goalDescription = `
+        <strong>VERY LOW GOAL ENVIRONMENT.</strong>
+        Combined rating: ${goalEnvironment}/100.
+        The profile strongly favours a low-event game.
+        `;
+
+    }
+
+
+    document.getElementById(
+        "goalFactorCommentary"
+    ).innerHTML =
+        goalDescription;
+
+
+    document.getElementById(
+        "goalAnalysis"
+    ).innerHTML =
+        goalDescription;
+
+
+    /* =====================================================
+       PREDICTION
+    ===================================================== */
+
+    let prediction;
+
+
+    if (homeRating - awayRating >= 20) {
+
+        prediction =
+        "🏠 STRONG HOME ADVANTAGE";
+
+    }
+
+    else if (homeRating - awayRating >= 8) {
+
+        prediction =
+        "🏠 HOME ADVANTAGE";
+
+    }
+
+    else if (awayRating - homeRating >= 20) {
+
+        prediction =
+        "✈️ STRONG AWAY ADVANTAGE";
+
+    }
+
+    else if (awayRating - homeRating >= 8) {
+
+        prediction =
+        "✈️ AWAY ADVANTAGE";
+
+    }
+
+    else {
+
+        prediction =
+        "🤝 BALANCED MATCH";
+
+    }
+
+
+    document.getElementById(
+        "prediction"
+    ).textContent =
+        prediction;
+
+
+    /* =====================================================
+       RESULT LEAN
+    ===================================================== */
+
+    let resultSuggestion;
+
+
+    if (homeRating - awayRating >= 20) {
+
+        resultSuggestion =
+        "HOME WIN LEAN — strong overall model separation.";
+
+    }
+
+    else if (homeRating - awayRating >= 8) {
+
+        resultSuggestion =
+        "HOME LEAN — moderate advantage. Avoid treating the gap as certainty.";
+
+    }
+
+    else if (awayRating - homeRating >= 20) {
+
+        resultSuggestion =
+        "AWAY WIN LEAN — strong overall model separation.";
+
+    }
+
+    else if (awayRating - homeRating >= 8) {
+
+        resultSuggestion =
+        "AWAY LEAN — moderate advantage.";
+
+    }
+
+    else {
+
+        resultSuggestion =
+        "NO CLEAR WINNER — the model sees insufficient separation.";
+
+    }
+
+
+    document.getElementById(
+        "resultSuggestion"
+    ).textContent =
+        resultSuggestion;
+
+
+    /* =====================================================
+       GOALS
+    ===================================================== */
+
+    let goalSuggestion;
+
+
+    if (goalEnvironment >= 80) {
+
+        goalSuggestion =
+        "Strong goal environment.";
+
+    }
+
+    else if (goalEnvironment >= 65) {
+
+        goalSuggestion =
+        "Above-average goal potential.";
+
+    }
+
+    else if (goalEnvironment >= 45) {
+
+        goalSuggestion =
+        "Balanced goal profile.";
+
+    }
+
+    else {
+
+        goalSuggestion =
+        "Low-goal environment.";
+
+    }
+
+
+    document.getElementById(
+        "goalSuggestion"
+    ).textContent =
+        goalSuggestion;
+
+
+    /* =====================================================
+       BTTS
+    ===================================================== */
+
+    const bttsScore =
+
+        (
+            attackH +
+            attackA +
+            (100 - defenceH) +
+            (100 - defenceA)
+        ) / 4;
+
+
+    let bttsSuggestion;
+
+
+    if (
+        bttsScore >= 70 &&
+        goalEnvironment >= 60
+    ) {
+
+        bttsSuggestion =
+        "Positive BTTS signal.";
+
+    }
+
+    else if (
+        bttsScore <= 40 ||
+        goalEnvironment < 35
+    ) {
+
+        bttsSuggestion =
+        "Weak BTTS signal.";
+
+    }
+
+    else {
+
+        bttsSuggestion =
+        "Mixed BTTS signal.";
+
+    }
+
+
+    document.getElementById(
+        "bttsSuggestion"
+    ).textContent =
+        bttsSuggestion;
+
+
+    /* =====================================================
+       MATCH CHARACTER
+    ===================================================== */
+
+    let matchCharacter;
+
+
+    if (
+        goalEnvironment >= 75 &&
+        difference < 12
+    ) {
+
+        matchCharacter =
+        "OPEN + COMPETITIVE";
+
+    }
+
+    else if (
+        goalEnvironment >= 75
+    ) {
+
+        matchCharacter =
+        "OPEN + ONE-SIDED POTENTIAL";
+
+    }
+
+    else if (
+        goalEnvironment < 40 &&
+        difference < 12
+    ) {
+
+        matchCharacter =
+        "TIGHT + CONTROLLED";
+
+    }
+
+    else if (
+        goalEnvironment < 40
+    ) {
+
+        matchCharacter =
+        "CONTROLLED + ONE-SIDED";
+
+    }
+
+    else {
+
+        matchCharacter =
+        "BALANCED MATCH PROFILE";
+
+    }
+
+
+    document.getElementById(
+        "matchCharacter"
+    ).textContent =
+        matchCharacter;
+
+
+    /* =====================================================
+       FINAL ANALYST COMMENTARY
+    ===================================================== */
+
+    let direction =
+        homeRating > awayRating
+        ? "HOME"
+        : awayRating > homeRating
+        ? "AWAY"
+        : "NEITHER";
+
+
+    let leverageWarning;
+
+
+    if (decisionLeverage >= 40) {
+
+        leverageWarning = `
+        <br><br>
+        ⚠️ <strong>HIGH LEVERAGE WARNING:</strong>
+        The model's separation is heavily concentrated
+        in ${top.name}. If that factor is incorrectly
+        rated, the final model conclusion could change
+        significantly.
+        `;
+
+    }
+
+    else {
+
+        leverageWarning = `
+        <br><br>
+        ✅ <strong>DISTRIBUTED SIGNAL:</strong>
+        The model's advantage is not excessively
+        concentrated in one factor.
+        `;
+
+    }
+
+
+    const analysis = `
+
+    The model currently leans toward
+    <strong>${direction}</strong>.
+
+    Home rating:
+    <strong>${homeRating}/100</strong>.
+
+    Away rating:
+    <strong>${awayRating}/100</strong>.
+
+    The most influential factor is
+    <strong>${top.name}</strong>,
+    with a leverage score of
+    <strong>${Math.round(top.leverage)}</strong>.
+
+    The strongest Home factor is
+    <strong>${homeStrongest.name}</strong>
+    (${homeStrongest.value}%).
+
+    The strongest Away factor is
+    <strong>${awayStrongest.name}</strong>
+    (${awayStrongest.value}%).
+
+    The key matchup leverage is
+    <strong>${matchupLeverage}/100</strong>.
+
+    Decision leverage is
+    <strong>${decisionLeverage}%</strong>,
+    meaning the top factor accounts for approximately
+    this share of the total factor separation.
+
+    Goal environment:
+    <strong>${goalEnvironment}/100</strong>.
+
+    ${leverageWarning}
+
+    <br><br>
+
+    <strong>Analytical principle:</strong>
+    a strong prediction should ideally be supported
+    by several independent factors rather than one
+    exceptionally high rating.
+
+    `;
+
+
+    document.getElementById(
+        "analysisText"
+    ).innerHTML =
+        analysis;
+
+};
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+document.getElementById("reset").onclick = function() {
+
+
+    document
+    .querySelectorAll("#forecastForm select")
+    .forEach(function(select){
+
+        select.selectedIndex = 0;
+
+    });
+
+
+    document.getElementById(
+        "homeScore"
+    ).textContent = "0";
+
+
+    document.getElementById(
+        "awayScore"
+    ).textContent = "0";
+
+
+    document.getElementById(
+        "confidence"
+    ).textContent = "0%";
+
+
+    document.getElementById(
+        "confidenceFill"
+    ).style.width = "0%";
+
+
+    document.getElementById(
+        "prediction"
+    ).textContent =
+        "Waiting for analysis...";
+
+
+    document.getElementById(
+        "topLeverage"
+    ).textContent =
+        "Waiting...";
+
+
+    document.getElementById(
+        "topLeverageText"
+    ).textContent =
+        "Waiting...";
+
+
+    document.getElementById(
+        "matchupLeverage"
+    ).textContent =
+        "0";
+
+
+    document.getElementById(
+        "decisionLeverage"
+    ).textContent =
+        "0";
+
+
+    for(let i = 0; i < 6; i++){
+
+        document.getElementById(
+            "lh" + i
+        ).textContent = "-";
+
+        document.getElementById(
+            "la" + i
+        ).textContent = "-";
+
+        document.getElementById(
+            "ld" + i
+        ).textContent = "-";
+
+        document.getElementById(
+            "lv" + i
+        ).textContent = "-";
+
+        document.getElementById(
+            "li" + i
+        ).textContent = "-";
+
+    }
+
+
+    const ids = [
+
+        "formCommentary",
+
+        "attackCommentary",
+
+        "defenceCommentary",
+
+        "qualityCommentary",
+
+        "locationCommentary",
+
+        "goalFactorCommentary",
+
+        "goalAnalysis",
+
+        "resultSuggestion",
+
+        "goalSuggestion",
+
+        "bttsSuggestion",
+
+        "matchCharacter",
+
+        "analysisText"
+
+    ];
+
+
+    ids.forEach(function(id){
+
+        document.getElementById(id)
+        .innerHTML =
+        "Waiting...";
+
+    });
+
+};
+
+</script>
+
+</body>
+
+</html>

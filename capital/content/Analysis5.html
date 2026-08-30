@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital</title>
+
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+
+    background:
+    linear-gradient(
+        135deg,
+        #0f2027,
+        #203a43,
+        #2c5364
+    );
+
+    padding: 20px;
+
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+
+    max-width: 950px;
+
+    margin: auto;
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.4);
+
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+ul {
+
+    list-style: none;
+
+    margin: 0 0 25px 0;
+
+    padding: 0;
+
+    background: white;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+}
+
+
+ul li {
+
+    float: left;
+
+}
+
+
+ul li a {
+
+    display: block;
+
+    color: #1565C0;
+
+    text-align: center;
+
+    padding: 14px 8px;
+
+    text-decoration: none;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+}
+
+
+ul li a:hover {
+
+    background: #dce6f2;
+
+}
+
+
+ul::after {
+
+    content: "";
+
+    display: table;
+
+    clear: both;
+
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+h1 {
+
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+}
+
+
+th {
+
+    padding: 15px;
+
+    color: white;
+
+    font-size: 18px;
+
+}
+
+
+th:nth-child(1) {
+
+    background: #28a745;
+
+}
+
+
+th:nth-child(2) {
+
+    background: #1565C0;
+
+}
+
+
+th:nth-child(3) {
+
+    background: #dc3545;
+
+}
+
+
+td {
+
+    padding: 15px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+
+tr:nth-child(even) {
+
+    background: #f4f4f4;
+
+}
+
+
+td:nth-child(2) {
+
+    font-weight: bold;
+
+    color: #333;
+
+}
+
+
+/* =========================
+   SELECT
+========================= */
+
+select {
+
+    width: 190px;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    border: none;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.home {
+
+    background: #28a745;
+
+}
+
+
+.away {
+
+    background: #dc3545;
+
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.buttons {
+
+    text-align: center;
+
+    margin-top: 25px;
+
+}
+
+
+button {
+
+    padding: 15px 25px;
+
+    margin: 5px;
+
+    font-size: 17px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    color: white;
+
+    font-weight: bold;
+
+}
+
+
+#analyze {
+
+    background: #1565C0;
+
+}
+
+
+#reset {
+
+    background: #ff9800;
+
+}
+
+
+button:hover {
+
+    opacity: .9;
+
+    transform: scale(1.02);
+
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+.result {
+
+    margin-top: 30px;
+
+    padding: 25px;
+
+    background: #f8f9fa;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+}
+
+
+.result h2 {
+
+    color: #1565C0;
+
+    margin-bottom: 20px;
+
+}
+
+
+.rating {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    margin: 12px;
+
+}
+
+
+.prediction {
+
+    font-size: 28px;
+
+    color: #1565C0;
+
+    font-weight: bold;
+
+    margin: 20px 0;
+
+}
+
+
+.confidence {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    margin: 15px;
+
+}
+
+
+/* =========================
+   ANALYSIS BOX
+========================= */
+
+.analysis-box {
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    text-align: left;
+
+    border-left: 5px solid #1565C0;
+
+}
+
+
+.analysis-box p {
+
+    margin: 10px 0;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================
+   ANALYST REMARK
+========================= */
+
+.analyst-remark {
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #eef5ff,
+        #ffffff
+    );
+
+    border-radius: 12px;
+
+    border-left: 5px solid #1565C0;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.08);
+
+    text-align: left;
+
+}
+
+
+.analyst-remark h3 {
+
+    color: #1565C0;
+
+    margin-bottom: 12px;
+
+    font-size: 20px;
+
+}
+
+
+.analyst-remark p {
+
+    color: #333;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+
+}
+
+
+/* =========================
+   STRONG / WEAK
+========================= */
+
+.strong {
+
+    color: #28a745;
+
+    font-weight: bold;
+
+}
+
+
+.weak {
+
+    color: #dc3545;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px) {
+
+    body {
+
+        padding: 10px;
+
+    }
+
+
+    .container {
+
+        padding: 15px;
+
+    }
+
+
+    ul li {
+
+        float: none;
+
+        width: 100%;
+
+    }
+
+
+    ul li a {
+
+        font-size: 16px;
+
+    }
+
+
+    select {
+
+        width: 145px;
+
+        font-size: 12px;
+
+    }
+
+
+    th,
+    td {
+
+        padding: 9px 4px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<ul>
+
+    <li>
+        <a href="index.html">
+            HOME
+        </a>
+    </li>
+
+    <li>
+        <a href="Analysis.html">
+            ANALYSIS
+        </a>
+    </li>
+
+    <li>
+        <a href="Prediction.html">
+            PREDICTION
+        </a>
+    </li>
+
+    <li>
+        <a href="Forecast.html">
+            FORECAST
+        </a>
+    </li>
+
+    <li>
+        <a href="Stregnth.html">
+            STRENGTH
+        </a>
+    </li>
+
+    <li>
+        <a href="Booking1.html">
+            BOOK1
+        </a>
+    </li>
+
+    <li>
+        <a href="Booking2.html">
+            BOOK2
+        </a>
+    </li>
+
+</ul>
+
+
+<!-- =========================
+     TITLE
+========================= -->
+
+<h1>
+    ⚽ Football Value Capital
+</h1>
+
+
+<form id="forecastForm">
+
+
+<table>
+
+<tr>
+
+    <th>
+        HOME
+    </th>
+
+    <th>
+        STATISTIC
+    </th>
+
+    <th>
+        AWAY
+    </th>
+
+</tr>
+
+
+<!-- =========================
+     FORM
+========================= -->
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option value="" selected>
+Rate
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+
+<td>
+📈 Form
+</td>
+
+
+<td>
+
+<select class="away">
+
+<option value="" selected>
+Rate
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- =========================
+     ATTACK
+========================= -->
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option value="" selected>
+Rate
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+
+<td>
+⚽ Attack
+</td>
+
+
+<td>
+
+<select class="away">
+
+<option value="" selected>
+Rate
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- =========================
+     DEFENCE
+========================= -->
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option value="" selected>
+Rate
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+
+<td>
+🛡️ Defence
+</td>
+
+
+<td>
+
+<select class="away">
+
+<option value="" selected>
+Rate
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- =========================
+     TEAM QUALITY
+========================= -->
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option value="" selected>
+Rate
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+
+<td>
+🏆 Team Quality
+</td>
+
+
+<td>
+
+<select class="away">
+
+<option value="" selected>
+Rate
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- =========================
+     HOME / AWAY STRENGTH
+========================= -->
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option value="" selected>
+Rate
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+
+<td>
+Location🏠 Home / Away Strength
+</td>
+
+
+<td>
+
+<select class="away">
+
+<option value="" selected>
+Rate
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+</table>
+
+
+<!-- =========================
+     BUTTONS
+========================= -->
+
+<div class="buttons">
+
+<button
+    type="button"
+    id="reset">
+
+    🔄 Reset
+
+</button>
+
+
+<button
+    type="button"
+    id="analyze">
+
+    🔍 Analyze Match
+
+</button>
+
+</div>
+
+
+</form>
+
+
+<!-- =========================
+     RESULT
+========================= -->
+
+<div class="result">
+
+
+<h2>
+📊 Match Analysis
+</h2>
+
+
+<div class="rating">
+
+🏠 Home Rating:
+
+<span id="homeScore">
+0
+</span>
+
+/100
+
+</div>
+
+
+<div class="rating">
+
+✈️ Away Rating:
+
+<span id="awayScore">
+0
+</span>
+
+/100
+
+</div>
+
+
+<div
+    class="prediction"
+    id="prediction">
+
+Waiting for analysis...
+
+</div>
+
+
+<div class="confidence">
+
+Confidence:
+
+<span id="confidence">
+0%
+</span>
+
+</div>
+
+
+<!-- =========================
+     ANALYSIS DETAILS
+========================= -->
+
+<div class="analysis-box">
+
+
+<p>
+
+<strong>
+💪 Home Strongest Area:
+</strong>
+
+<span id="homeStrong">
+Waiting...
+</span>
+
+</p>
+
+
+<p>
+
+<strong>
+⚠️ Home Weakest Area:
+</strong>
+
+<span id="homeWeak">
+Waiting...
+</span>
+
+</p>
+
+
+<p>
+
+<strong>
+💪 Away Strongest Area:
+</strong>
+
+<span id="awayStrong">
+Waiting...
+</span>
+
+</p>
+
+
+<p>
+
+<strong>
+⚠️ Away Weakest Area:
+</strong>
+
+<span id="awayWeak">
+Waiting...
+</span>
+
+</p>
+
+
+<!-- =========================
+     ANALYST REMARK
+========================= -->
+
+<div class="analyst-remark">
+
+
+<h3>
+🧠 Analyst Remark
+</h3>
+
+
+<p id="analysisText">
+
+Waiting for analysis...
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   STATISTIC NAMES
+===================================================== */
+
+const statistics = [
+
+    "Form",
+
+    "Attack",
+
+    "Defence",
+
+    "Team Quality",
+
+    "Location"
+
+];
+
+
+/* =====================================================
+   ANALYZE MATCH
+===================================================== */
+
+document.getElementById("analyze").onclick = function() {
+
+
+    const home =
+    document.querySelectorAll(".home");
+
+
+    const away =
+    document.querySelectorAll(".away");
+
+
+    let homeTotal = 0;
+
+    let awayTotal = 0;
+
+    let homeCount = 0;
+
+    let awayCount = 0;
+
+
+    let homeValues = [];
+
+    let awayValues = [];
+
+
+    /* =========================
+       HOME VALUES
+    ========================= */
+
+    home.forEach(function(item, index) {
+
+        if (item.value !== "") {
+
+            let value =
+            Number(item.value);
+
+
+            homeTotal += value;
+
+            homeCount++;
+
+
+            homeValues.push({
+
+                name:
+                statistics[index],
+
+                value:
+                value
+
+            });
+
+        }
+
+    });
+
+
+    /* =========================
+       AWAY VALUES
+    ========================= */
+
+    away.forEach(function(item, index) {
+
+        if (item.value !== "") {
+
+            let value =
+            Number(item.value);
+
+
+            awayTotal += value;
+
+            awayCount++;
+
+
+            awayValues.push({
+
+                name:
+                statistics[index],
+
+                value:
+                value
+
+            });
+
+        }
+
+    });
+
+
+    /* =========================
+       CHECK INPUT
+    ========================= */
+
+    if (
+        homeCount === 0 ||
+        awayCount === 0
+    ) {
+
+        alert(
+            "Please rate at least one statistic for both teams."
+        );
+
+        return;
+
+    }
+
+
+    /* =========================
+       CALCULATE RATINGS
+    ========================= */
+
+    let homeRating =
+    Math.round(
+        homeTotal /
+        homeCount
+    );
+
+
+    let awayRating =
+    Math.round(
+        awayTotal /
+        awayCount
+    );
+
+
+    /* =========================
+       DISPLAY RATINGS
+    ========================= */
+
+    document.getElementById(
+        "homeScore"
+    ).innerHTML =
+    homeRating;
+
+
+    document.getElementById(
+        "awayScore"
+    ).innerHTML =
+    awayRating;
+
+
+    /* =========================
+       FIND STRONGEST
+    ========================= */
+
+    let homeStrongest =
+    homeValues.reduce(
+        (a, b) =>
+        a.value > b.value
+        ? a
+        : b
+    );
+
+
+    let awayStrongest =
+    awayValues.reduce(
+        (a, b) =>
+        a.value > b.value
+        ? a
+        : b
+    );
+
+
+    /* =========================
+       FIND WEAKEST
+    ========================= */
+
+    let homeWeakest =
+    homeValues.reduce(
+        (a, b) =>
+        a.value < b.value
+        ? a
+        : b
+    );
+
+
+    let awayWeakest =
+    awayValues.reduce(
+        (a, b) =>
+        a.value < b.value
+        ? a
+        : b
+    );
+
+
+    /* =========================
+       DISPLAY STRONGEST
+    ========================= */
+
+    document.getElementById(
+        "homeStrong"
+    ).innerHTML =
+
+    `<span class="strong">
+    ${homeStrongest.name}
+    (${homeStrongest.value}%)
+    </span>`;
+
+
+    document.getElementById(
+        "awayStrong"
+    ).innerHTML =
+
+    `<span class="strong">
+    ${awayStrongest.name}
+    (${awayStrongest.value}%)
+    </span>`;
+
+
+    /* =========================
+       DISPLAY WEAKEST
+    ========================= */
+
+    document.getElementById(
+        "homeWeak"
+    ).innerHTML =
+
+    `<span class="weak">
+    ${homeWeakest.name}
+    (${homeWeakest.value}%)
+    </span>`;
+
+
+    document.getElementById(
+        "awayWeak"
+    ).innerHTML =
+
+    `<span class="weak">
+    ${awayWeakest.name}
+    (${awayWeakest.value}%)
+    </span>`;
+
+
+    /* =========================
+       DIFFERENCE
+    ========================= */
+
+    let difference =
+    Math.abs(
+        homeRating -
+        awayRating
+    );
+
+
+    /* =========================
+       CONFIDENCE
+    ========================= */
+
+    let confidence;
+
+
+    if (difference >= 30) {
+
+        confidence = 85;
+
+    }
+
+    else if (difference >= 20) {
+
+        confidence = 75;
+
+    }
+
+    else if (difference >= 10) {
+
+        confidence = 65;
+
+    }
+
+    else if (difference >= 5) {
+
+        confidence = 55;
+
+    }
+
+    else {
+
+        confidence = 45;
+
+    }
+
+
+    document.getElementById(
+        "confidence"
+    ).innerHTML =
+    confidence + "%";
+
+
+    /* =========================
+       PREDICTION
+    ========================= */
+
+    let prediction;
+
+
+    if (
+        homeRating -
+        awayRating >= 20
+    ) {
+
+        prediction =
+        "🏠 STRONG HOME ADVANTAGE";
+
+    }
+
+    else if (
+        homeRating -
+        awayRating >= 10
+    ) {
+
+        prediction =
+        "🏠 HOME ADVANTAGE";
+
+    }
+
+    else if (
+        awayRating -
+        homeRating >= 20
+    ) {
+
+        prediction =
+        "✈️ STRONG AWAY ADVANTAGE";
+
+    }
+
+    else if (
+        awayRating -
+        homeRating >= 10
+    ) {
+
+        prediction =
+        "✈️ AWAY ADVANTAGE";
+
+    }
+
+    else {
+
+        prediction =
+        "🤝 BALANCED MATCH";
+
+    }
+
+
+    document.getElementById(
+        "prediction"
+    ).innerHTML =
+    prediction;
+
+
+    /* =================================================
+       PROFESSIONAL ANALYST REMARK
+    ================================================= */
+
+    let analysisText;
+
+
+    /* =========================
+       HOME ADVANTAGE
+    ========================= */
+
+    if (homeRating > awayRating) {
+
+
+        analysisText =
+
+        `The home side holds the overall
+        statistical advantage with a
+        ${homeRating}/100 rating compared
+        with ${awayRating}/100 for the
+        away side.
+        
+        The strongest indicator for the
+        home team is
+        <strong>${homeStrongest.name}</strong>,
+        rated at
+        <strong>${homeStrongest.value}%</strong>.
+        
+        Its main area of concern is
+        <strong>${homeWeakest.name}</strong>,
+        rated at
+        <strong>${homeWeakest.value}%</strong>.
+        
+        The away side's strongest area is
+        <strong>${awayStrongest.name}</strong>,
+        at ${awayStrongest.value}%,
+        which could help it remain
+        competitive.
+        
+        Overall, the ratings favour the
+        home team, but the result should
+        not be considered certain because
+        the weaker areas of both teams can
+        influence the match.`;
+
+
+    }
+
+
+    /* =========================
+       AWAY ADVANTAGE
+    ========================= */
+
+    else if (awayRating > homeRating) {
+
+
+        analysisText =
+
+        `The away side holds the overall
+        statistical advantage with a
+        ${awayRating}/100 rating compared
+        with ${homeRating}/100 for the
+        home side.
+        
+        The strongest indicator for the
+        away team is
+        <strong>${awayStrongest.name}</strong>,
+        rated at
+        <strong>${awayStrongest.value}%</strong>.
+        
+        Its main area of concern is
+        <strong>${awayWeakest.name}</strong>,
+        rated at
+        <strong>${awayWeakest.value}%</strong>.
+        
+        The home team's strongest area is
+        <strong>${homeStrongest.name}</strong>,
+        at ${homeStrongest.value}%,
+        which gives the home side a
+        potential route to compete.
+        
+        Overall, the ratings favour the
+        away team, but the advantage is
+        based only on the selected
+        indicators and should not be
+        treated as a guaranteed result.`;
+
+
+    }
+
+
+    /* =========================
+       BALANCED
+    ========================= */
+
+    else {
+
+
+        analysisText =
+
+        `The two teams are evenly matched
+        based on the selected indicators,
+        with both recording an overall
+        rating of ${homeRating}/100.
+        
+        The home team's strongest area is
+        <strong>${homeStrongest.name}</strong>
+        at ${homeStrongest.value}%,
+        while the away team's strongest
+        area is
+        <strong>${awayStrongest.name}</strong>
+        at ${awayStrongest.value}%.
+        
+        Neither team has established a
+        meaningful overall statistical
+        advantage.
+        
+        This should therefore be treated
+        as a balanced matchup where
+        additional information may be
+        needed before selecting a strong
+        outcome.`;
+
+
+    }
+
+
+    /* =========================
+       DISPLAY REMARK
+    ========================= */
+
+    document.getElementById(
+        "analysisText"
+    ).innerHTML =
+    analysisText;
+
+};
+
+
+/* =====================================================
+   RESET BUTTON
+===================================================== */
+
+document.getElementById("reset").onclick = function() {
+
+
+    /* =========================
+       RESET DROPDOWNS
+    ========================= */
+
+    const selects =
+    document.querySelectorAll(
+        "#forecastForm select"
+    );
+
+
+    selects.forEach(function(select) {
+
+        select.selectedIndex = 0;
+
+    });
+
+
+    /* =========================
+       RESET RESULTS
+    ========================= */
+
+    document.getElementById(
+        "homeScore"
+    ).innerHTML =
+    "0";
+
+
+    document.getElementById(
+        "awayScore"
+    ).innerHTML =
+    "0";
+
+
+    document.getElementById(
+        "confidence"
+    ).innerHTML =
+    "0%";
+
+
+    document.getElementById(
+        "prediction"
+    ).innerHTML =
+    "Waiting for analysis...";
+
+
+    document.getElementById(
+        "homeStrong"
+    ).innerHTML =
+    "Waiting...";
+
+
+    document.getElementById(
+        "homeWeak"
+    ).innerHTML =
+    "Waiting...";
+
+
+    document.getElementById(
+        "awayStrong"
+    ).innerHTML =
+    "Waiting...";
+
+
+    document.getElementById(
+        "awayWeak"
+    ).innerHTML =
+    "Waiting...";
+
+
+    document.getElementById(
+        "analysisText"
+    ).innerHTML =
+    "Waiting for analysis...";
+
+};
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,2401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - Match Analyzer</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+
+    background:
+    linear-gradient(
+        135deg,
+        #0f2027,
+        #203a43,
+        #2c5364
+    );
+
+    padding: 20px;
+
+    color: #222;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.container {
+
+    max-width: 1100px;
+
+    margin: auto;
+
+    background: #fff;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    box-shadow:
+    0 15px 45px rgba(0,0,0,.40);
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+ul {
+
+    list-style: none;
+
+    margin-bottom: 25px;
+
+    background: #fff;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+ul li {
+    float: left;
+}
+
+ul li a {
+
+    display: block;
+
+    padding: 14px 10px;
+
+    text-decoration: none;
+
+    color: #1565C0;
+
+    font-weight: bold;
+}
+
+ul li a:hover {
+    background: #dce6f2;
+}
+
+ul::after {
+
+    content: "";
+
+    display: table;
+
+    clear: both;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+h1 {
+
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 8px;
+}
+
+.subtitle {
+
+    text-align: center;
+
+    color: #666;
+
+    line-height: 1.7;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    overflow: hidden;
+
+    border-radius: 12px;
+}
+
+th {
+
+    padding: 15px;
+
+    color: white;
+
+    font-size: 18px;
+}
+
+th:nth-child(1) {
+    background: #28a745;
+}
+
+th:nth-child(2) {
+    background: #1565C0;
+}
+
+th:nth-child(3) {
+    background: #dc3545;
+}
+
+td {
+
+    padding: 15px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+    background: #f5f5f5;
+}
+
+td:nth-child(2) {
+
+    min-width: 300px;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   FACTOR DESCRIPTION
+========================================================= */
+
+.stat-title {
+
+    display: block;
+
+    color: #1565C0;
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+    margin-bottom: 6px;
+}
+
+.stat-description {
+
+    display: block;
+
+    color: #666;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+select {
+
+    width: 190px;
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.home {
+    background: #28a745;
+}
+
+.away {
+    background: #dc3545;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.buttons {
+
+    text-align: center;
+
+    margin: 25px 0;
+}
+
+button {
+
+    padding: 14px 25px;
+
+    margin: 5px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+#analyze {
+    background: #1565C0;
+}
+
+#reset {
+    background: #ff9800;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result {
+
+    margin-top: 25px;
+
+    padding: 25px;
+
+    background: #f8f9fa;
+
+    border-radius: 15px;
+}
+
+.result h2 {
+
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 20px;
+}
+
+.rating {
+
+    text-align: center;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    margin: 10px;
+}
+
+.prediction {
+
+    text-align: center;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #1565C0;
+
+    margin: 20px 0;
+}
+
+.confidence {
+
+    text-align: center;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   CONFIDENCE BAR
+========================================================= */
+
+.confidence-container {
+
+    max-width: 600px;
+
+    margin: auto;
+}
+
+.confidence-bar {
+
+    width: 100%;
+
+    height: 18px;
+
+    background: #ddd;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+#confidenceFill {
+
+    width: 0%;
+
+    height: 100%;
+
+    background: #28a745;
+
+    transition: width .5s ease;
+}
+
+
+/* =========================================================
+   FACTOR COMMENTARY
+========================================================= */
+
+.factor-commentary {
+
+    margin-top: 25px;
+}
+
+.factor-commentary h3 {
+
+    color: #1565C0;
+
+    margin-bottom: 15px;
+}
+
+.factor-card {
+
+    background: white;
+
+    padding: 18px;
+
+    margin-bottom: 12px;
+
+    border-radius: 12px;
+
+    border-left: 5px solid #1565C0;
+
+    box-shadow:
+    0 4px 12px rgba(0,0,0,.07);
+}
+
+.factor-card h4 {
+
+    color: #1565C0;
+
+    margin-bottom: 8px;
+}
+
+.factor-card p {
+
+    line-height: 1.7;
+
+    color: #444;
+}
+
+
+/* =========================================================
+   STRONG / WEAK
+========================================================= */
+
+.strong {
+
+    color: #28a745;
+
+    font-weight: bold;
+}
+
+.weak {
+
+    color: #dc3545;
+
+    font-weight: bold;
+}
+
+.neutral {
+
+    color: #ff9800;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   ANALYST BOX
+========================================================= */
+
+.analyst-remark {
+
+    margin-top: 25px;
+
+    padding: 23px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #eef5ff,
+        #ffffff
+    );
+
+    border-left: 6px solid #1565C0;
+
+    border-radius: 12px;
+}
+
+.analyst-remark h3 {
+
+    color: #1565C0;
+
+    margin-bottom: 15px;
+}
+
+.analyst-remark p {
+
+    line-height: 1.9;
+
+    color: #333;
+}
+
+
+/* =========================================================
+   GOAL ENVIRONMENT
+========================================================= */
+
+.goal-box {
+
+    margin-top: 25px;
+
+    padding: 22px;
+
+    background: #fff8e1;
+
+    border-left: 6px solid #ff9800;
+
+    border-radius: 12px;
+}
+
+.goal-box h3 {
+
+    color: #e65100;
+
+    margin-bottom: 12px;
+}
+
+.goal-box p {
+
+    line-height: 1.8;
+
+    color: #444;
+}
+
+
+/* =========================================================
+   OUTCOMES
+========================================================= */
+
+.outcome-box {
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin-top: 25px;
+}
+
+.outcome {
+
+    background: white;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    border-left: 5px solid #28a745;
+
+    box-shadow:
+    0 4px 12px rgba(0,0,0,.08);
+}
+
+.outcome h4 {
+
+    color: #1565C0;
+
+    margin-bottom: 8px;
+}
+
+.outcome p {
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   WARNING
+========================================================= */
+
+.warning {
+
+    margin-top: 25px;
+
+    padding: 18px;
+
+    background: #fff3cd;
+
+    border-left: 5px solid #ff9800;
+
+    border-radius: 10px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    ul li {
+
+        float: none;
+
+        width: 100%;
+    }
+
+    ul li a {
+
+        text-align: center;
+
+        font-size: 14px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    td:nth-child(2) {
+        min-width: 150px;
+    }
+
+    select {
+
+        width: 125px;
+
+        font-size: 11px;
+    }
+
+    .outcome-box {
+        grid-template-columns: 1fr;
+    }
+
+    .prediction {
+        font-size: 21px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<ul>
+
+<li>
+<a href="index.html">HOME</a>
+</li>
+
+<li>
+<a href="Analysis.html">ANALYSIS</a>
+</li>
+
+<li>
+<a href="Prediction.html">PREDICTION</a>
+</li>
+
+<li>
+<a href="Forecast.html">FORECAST</a>
+</li>
+
+<li>
+<a href="Stregnth.html">STRENGTH</a>
+</li>
+
+<li>
+<a href="Booking1.html">BOOK1</a>
+</li>
+
+<li>
+<a href="Booking2.html">BOOK2</a>
+</li>
+
+</ul>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<h1>
+⚽ Football Value Capital
+</h1>
+
+<p class="subtitle">
+
+A structured six-factor football analysis system.
+The model compares team strength, identifies
+specific advantages and weaknesses, evaluates
+the goal environment and produces outcome leans.
+
+</p>
+
+
+<form id="forecastForm">
+
+
+<table>
+
+<tr>
+
+<th>🏠 HOME</th>
+
+<th>KEY MATCH FACTOR</th>
+
+<th>✈️ AWAY</th>
+
+</tr>
+
+
+<!-- =========================================================
+     FORM
+========================================================= -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">📈 FORM</span>
+
+<span class="stat-description">
+
+Recent performance, momentum,
+consistency and whether the team is
+currently improving, stable or declining.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+</tr>
+
+
+<!-- =========================================================
+     ATTACK
+========================================================= -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">⚽ ATTACK</span>
+
+<span class="stat-description">
+
+Scoring power, chance creation,
+finishing, attacking pressure and ability
+to convert opportunities into goals.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+</tr>
+
+
+<!-- =========================================================
+     DEFENCE
+========================================================= -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">🛡️ DEFENCE</span>
+
+<span class="stat-description">
+
+Defensive organization, goals conceded,
+chance prevention, discipline and ability
+to survive sustained pressure.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+</tr>
+
+
+<!-- =========================================================
+     TEAM QUALITY
+========================================================= -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">🏆 TEAM QUALITY</span>
+
+<span class="stat-description">
+
+Overall squad ability, player quality,
+depth, experience, tactical quality and
+competitive level.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+</tr>
+
+
+<!-- =========================================================
+     HOME / AWAY STRENGTH
+========================================================= -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">
+🏠 HOME / AWAY STRENGTH
+</span>
+
+<span class="stat-description">
+
+Measures the home team's effectiveness
+at home and the away team's resilience
+specifically in away matches.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Elite — 100%</option>
+<option value="90">V Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">V Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+</select>
+</td>
+
+</tr>
+
+
+<!-- =========================================================
+     GOAL ENVIRONMENT
+========================================================= -->
+
+<tr>
+
+<td>
+<select class="home">
+<option value="">Rate</option>
+<option value="100">Very High Goal Threat</option>
+<option value="90">High Goal Threat</option>
+<option value="80">Strong Goal Potential</option>
+<option value="70">Above Average Goals</option>
+<option value="60">Moderate Goal Potential</option>
+<option value="50">Balanced Goal Level</option>
+<option value="40">Below Average Goals</option>
+<option value="30">Low Goal Environment</option>
+<option value="20">Very Low Goal Environment</option>
+<option value="10">Extreme Low Goal Risk</option>
+<option value="0">Very Defensive</option>
+</select>
+</td>
+
+<td>
+
+<span class="stat-title">
+🎯 GOAL ENVIRONMENT / MATCH LEVEL
+</span>
+
+<span class="stat-description">
+
+Evaluates the expected scoring character
+of the matchup: open versus controlled,
+high-event versus low-event and whether
+the teams' attacking and defensive profiles
+support goals.
+
+</span>
+
+</td>
+
+<td>
+<select class="away">
+<option value="">Rate</option>
+<option value="100">Very High Goal Threat</option>
+<option value="90">High Goal Threat</option>
+<option value="80">Strong Goal Potential</option>
+<option value="70">Above Average Goals</option>
+<option value="60">Moderate Goal Potential</option>
+<option value="50">Balanced Goal Level</option>
+<option value="40">Below Average Goals</option>
+<option value="30">Low Goal Environment</option>
+<option value="20">Very Low Goal Environment</option>
+<option value="10">Extreme Low Goal Risk</option>
+<option value="0">Very Defensive</option>
+</select>
+</td>
+
+</tr>
+
+</table>
+
+
+<!-- =========================================================
+     BUTTONS
+========================================================= -->
+
+<div class="buttons">
+
+<button type="button" id="reset">
+🔄 Reset
+</button>
+
+<button type="button" id="analyze">
+🔍 Analyze Match
+</button>
+
+</div>
+
+</form>
+
+
+<!-- =========================================================
+     RESULTS
+========================================================= -->
+
+<div class="result">
+
+<h2>📊 Match Analysis</h2>
+
+
+<div class="rating">
+🏠 Home Rating:
+<span id="homeScore">0</span>/100
+</div>
+
+
+<div class="rating">
+✈️ Away Rating:
+<span id="awayScore">0</span>/100
+</div>
+
+
+<div class="prediction" id="prediction">
+Waiting for analysis...
+</div>
+
+
+<div class="confidence">
+Model Confidence:
+<span id="confidence">0%</span>
+</div>
+
+
+<div class="confidence-container">
+
+<div class="confidence-bar">
+
+<div id="confidenceFill"></div>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     FACTOR BY FACTOR COMMENTARY
+========================================================= -->
+
+<div class="factor-commentary">
+
+<h3>
+🔎 Factor-by-Factor Commentary
+</h3>
+
+
+<div class="factor-card">
+
+<h4>📈 Form</h4>
+
+<p id="formCommentary">
+Waiting...
+</p>
+
+</div>
+
+
+<div class="factor-card">
+
+<h4>⚽ Attack</h4>
+
+<p id="attackCommentary">
+Waiting...
+</p>
+
+</div>
+
+
+<div class="factor-card">
+
+<h4>🛡️ Defence</h4>
+
+<p id="defenceCommentary">
+Waiting...
+</p>
+
+</div>
+
+
+<div class="factor-card">
+
+<h4>🏆 Team Quality</h4>
+
+<p id="qualityCommentary">
+Waiting...
+</p>
+
+</div>
+
+
+<div class="factor-card">
+
+<h4>🏠 Home / Away Strength</h4>
+
+<p id="locationCommentary">
+Waiting...
+</p>
+
+</div>
+
+
+<div class="factor-card">
+
+<h4>🎯 Goal Environment / Match Level</h4>
+
+<p id="goalFactorCommentary">
+Waiting...
+</p>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     STRONG / WEAK
+========================================================= -->
+
+<div class="factor-card">
+
+<h4>💪 Strongest & Weakest Areas</h4>
+
+<p>
+🏠 Home strongest:
+<span id="homeStrong">Waiting...</span>
+</p>
+
+<p>
+⚠️ Home weakest:
+<span id="homeWeak">Waiting...</span>
+</p>
+
+<p>
+✈️ Away strongest:
+<span id="awayStrong">Waiting...</span>
+</p>
+
+<p>
+⚠️ Away weakest:
+<span id="awayWeak">Waiting...</span>
+</p>
+
+</div>
+
+
+<!-- =========================================================
+     GOAL ENVIRONMENT
+========================================================= -->
+
+<div class="goal-box">
+
+<h3>🎯 Goal Environment Assessment</h3>
+
+<p id="goalAnalysis">
+Waiting for analysis...
+</p>
+
+</div>
+
+
+<!-- =========================================================
+     OUTCOMES
+========================================================= -->
+
+<div class="outcome-box">
+
+<div class="outcome">
+
+<h4>🏆 Result Lean</h4>
+
+<p id="resultSuggestion">
+Waiting...
+</p>
+
+</div>
+
+
+<div class="outcome">
+
+<h4>⚽ Goals Lean</h4>
+
+<p id="goalSuggestion">
+Waiting...
+</p>
+
+</div>
+
+
+<div class="outcome">
+
+<h4>🥅 BTTS Lean</h4>
+
+<p id="bttsSuggestion">
+Waiting...
+</p>
+
+</div>
+
+
+<div class="outcome">
+
+<h4>📊 Match Character</h4>
+
+<p id="matchCharacter">
+Waiting...
+</p>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     STRONG ANALYST COMMENTARY
+========================================================= -->
+
+<div class="analyst-remark">
+
+<h3>
+🧠 Strong Analyst Commentary
+</h3>
+
+<p id="analysisText">
+Waiting for analysis...
+</p>
+
+</div>
+
+
+<!-- =========================================================
+     WARNING
+========================================================= -->
+
+<div class="warning">
+
+<strong>⚠️ Important:</strong>
+
+This model produces an analytical probability signal,
+not a guaranteed result. Even a very strong rating can
+lose because football contains randomness, injuries,
+red cards, finishing variance, tactical changes and
+unexpected match events.
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+const statistics = [
+
+    "Form",
+
+    "Attack",
+
+    "Defence",
+
+    "Team Quality",
+
+    "Home/Away Strength",
+
+    "Goal Environment"
+
+];
+
+
+/* =========================================================
+   ANALYZE
+========================================================= */
+
+document.getElementById("analyze").onclick = function() {
+
+
+    const home =
+    document.querySelectorAll(".home");
+
+    const away =
+    document.querySelectorAll(".away");
+
+
+    let homeValues = [];
+
+    let awayValues = [];
+
+
+    /* =====================================================
+       COLLECT VALUES
+    ===================================================== */
+
+    home.forEach(function(item,index){
+
+        homeValues.push(
+            Number(item.value)
+        );
+
+    });
+
+
+    away.forEach(function(item,index){
+
+        awayValues.push(
+            Number(item.value)
+        );
+
+    });
+
+
+    /* =====================================================
+       VALIDATION
+    ===================================================== */
+
+    if (
+        homeValues.some(v => isNaN(v)) ||
+        awayValues.some(v => isNaN(v))
+    ) {
+
+        alert(
+            "Please rate all six factors for both teams."
+        );
+
+        return;
+    }
+
+
+    /* =====================================================
+       INDIVIDUAL FACTORS
+    ===================================================== */
+
+    const formH = homeValues[0];
+    const attackH = homeValues[1];
+    const defenceH = homeValues[2];
+    const qualityH = homeValues[3];
+    const locationH = homeValues[4];
+    const goalH = homeValues[5];
+
+
+    const formA = awayValues[0];
+    const attackA = awayValues[1];
+    const defenceA = awayValues[2];
+    const qualityA = awayValues[3];
+    const locationA = awayValues[4];
+    const goalA = awayValues[5];
+
+
+    /* =====================================================
+       WEIGHTS
+       
+       Result factors receive stronger weight.
+       Goal Environment mainly influences goal/match
+       character rather than dominating winner prediction.
+    ===================================================== */
+
+    const weights = {
+
+        form: 1.20,
+
+        attack: 1.30,
+
+        defence: 1.20,
+
+        quality: 1.00,
+
+        location: 1.15,
+
+        goal: 0.80
+
+    };
+
+
+    const totalWeight =
+        weights.form +
+        weights.attack +
+        weights.defence +
+        weights.quality +
+        weights.location +
+        weights.goal;
+
+
+    /* =====================================================
+       OVERALL RATINGS
+    ===================================================== */
+
+    const homeWeighted =
+
+        formH * weights.form +
+
+        attackH * weights.attack +
+
+        defenceH * weights.defence +
+
+        qualityH * weights.quality +
+
+        locationH * weights.location +
+
+        goalH * weights.goal;
+
+
+    const awayWeighted =
+
+        formA * weights.form +
+
+        attackA * weights.attack +
+
+        defenceA * weights.defence +
+
+        qualityA * weights.quality +
+
+        locationA * weights.location +
+
+        goalA * weights.goal;
+
+
+    const homeRating =
+        Math.round(
+            homeWeighted / totalWeight
+        );
+
+
+    const awayRating =
+        Math.round(
+            awayWeighted / totalWeight
+        );
+
+
+    document.getElementById("homeScore").textContent =
+        homeRating;
+
+
+    document.getElementById("awayScore").textContent =
+        awayRating;
+
+
+    /* =====================================================
+       DIFFERENCE
+    ===================================================== */
+
+    const difference =
+        Math.abs(
+            homeRating -
+            awayRating
+        );
+
+
+    /* =====================================================
+       CONFIDENCE
+       
+       This is model confidence, NOT guaranteed probability.
+    ===================================================== */
+
+    let confidence;
+
+    if (difference >= 30)
+        confidence = 82;
+
+    else if (difference >= 22)
+        confidence = 75;
+
+    else if (difference >= 15)
+        confidence = 68;
+
+    else if (difference >= 8)
+        confidence = 59;
+
+    else
+        confidence = 50;
+
+
+    /* Goal uncertainty reduces confidence. */
+
+    const goalUncertainty =
+        Math.abs(goalH - goalA);
+
+
+    if (goalUncertainty >= 35) {
+
+        confidence -= 5;
+
+    }
+
+
+    confidence =
+        Math.max(
+            40,
+            Math.min(
+                85,
+                confidence
+            )
+        );
+
+
+    document.getElementById(
+        "confidence"
+    ).textContent =
+        confidence + "%";
+
+
+    document.getElementById(
+        "confidenceFill"
+    ).style.width =
+        confidence + "%";
+
+
+    /* =====================================================
+       FIND STRONGEST / WEAKEST
+    ===================================================== */
+
+    const homeObjects =
+        homeValues.map(
+            (value,index) => ({
+                name: statistics[index],
+                value: value
+            })
+        );
+
+
+    const awayObjects =
+        awayValues.map(
+            (value,index) => ({
+                name: statistics[index],
+                value: value
+            })
+        );
+
+
+    const homeStrongest =
+        homeObjects.reduce(
+            (a,b) =>
+            a.value >= b.value ? a : b
+        );
+
+
+    const homeWeakest =
+        homeObjects.reduce(
+            (a,b) =>
+            a.value <= b.value ? a : b
+        );
+
+
+    const awayStrongest =
+        awayObjects.reduce(
+            (a,b) =>
+            a.value >= b.value ? a : b
+        );
+
+
+    const awayWeakest =
+        awayObjects.reduce(
+            (a,b) =>
+            a.value <= b.value ? a : b
+        );
+
+
+    document.getElementById("homeStrong").innerHTML =
+
+        `<span class="strong">
+        ${homeStrongest.name}
+        (${homeStrongest.value}%)
+        </span>`;
+
+
+    document.getElementById("homeWeak").innerHTML =
+
+        `<span class="weak">
+        ${homeWeakest.name}
+        (${homeWeakest.value}%)
+        </span>`;
+
+
+    document.getElementById("awayStrong").innerHTML =
+
+        `<span class="strong">
+        ${awayStrongest.name}
+        (${awayStrongest.value}%)
+        </span>`;
+
+
+    document.getElementById("awayWeak").innerHTML =
+
+        `<span class="weak">
+        ${awayWeakest.name}
+        (${awayWeakest.value}%)
+        </span>`;
+
+
+    /* =====================================================
+       FACTOR COMMENTARY FUNCTION
+    ===================================================== */
+
+    function compareFactor(
+        name,
+        h,
+        a,
+        explanation
+    ){
+
+        const diff = h - a;
+
+
+        if (diff >= 20) {
+
+            return `<strong>HOME ADVANTAGE.</strong>
+            Home rates ${h}% against ${a}% away.
+            ${explanation}
+            This is a meaningful positive signal
+            for the home side.`;
+
+        }
+
+
+        if (diff >= 8) {
+
+            return `<strong>SLIGHT HOME ADVANTAGE.</strong>
+            Home rates ${h}% against ${a}% away.
+            ${explanation}
+            The advantage exists but is not dominant.`;
+
+        }
+
+
+        if (diff <= -20) {
+
+            return `<strong>AWAY ADVANTAGE.</strong>
+            Away rates ${a}% against ${h}% home.
+            ${explanation}
+            This is a meaningful positive signal
+            for the away side.`;
+
+        }
+
+
+        if (diff <= -8) {
+
+            return `<strong>SLIGHT AWAY ADVANTAGE.</strong>
+            Away rates ${a}% against ${h}% home.
+            ${explanation}
+            The advantage is present but moderate.`;
+
+        }
+
+
+        return `<strong>BALANCED FACTOR.</strong>
+        Home ${h}% — Away ${a}%.
+        ${explanation}
+        Neither side has established a meaningful
+        advantage in this category.`;
+
+    }
+
+
+    /* =====================================================
+       FORM COMMENTARY
+    ===================================================== */
+
+    document.getElementById(
+        "formCommentary"
+    ).innerHTML =
+
+    compareFactor(
+        "Form",
+        formH,
+        formA,
+        "Form represents current momentum and consistency."
+    );
+
+
+    /* =====================================================
+       ATTACK COMMENTARY
+    ===================================================== */
+
+    document.getElementById(
+        "attackCommentary"
+    ).innerHTML =
+
+    compareFactor(
+        "Attack",
+        attackH,
+        attackA,
+        "Attack is especially important when assessing which side has the greater ability to create and finish scoring opportunities."
+    );
+
+
+    /* =====================================================
+       DEFENCE COMMENTARY
+    ===================================================== */
+
+    document.getElementById(
+        "defenceCommentary"
+    ).innerHTML =
+
+    compareFactor(
+        "Defence",
+        defenceH,
+        defenceA,
+        "A stronger defensive rating suggests greater resistance to the opponent's attacking pressure."
+    );
+
+
+    /* =====================================================
+       QUALITY COMMENTARY
+    ===================================================== */
+
+    document.getElementById(
+        "qualityCommentary"
+    ).innerHTML =
+
+    compareFactor(
+        "Team Quality",
+        qualityH,
+        qualityA,
+        "Team Quality provides the broader view of squad strength, depth and competitive ability."
+    );
+
+
+    /* =====================================================
+       LOCATION COMMENTARY
+    ===================================================== */
+
+    document.getElementById(
+        "locationCommentary"
+    ).innerHTML =
+
+    compareFactor(
+        "Home/Away Strength",
+        locationH,
+        locationA,
+        "This factor is specifically about performance in the relevant venue rather than general team strength."
+    );
+
+
+    /* =====================================================
+       GOAL ENVIRONMENT
+    ===================================================== */
+
+    const goalEnvironment =
+        Math.round(
+            (goalH + goalA) / 2
+        );
+
+
+    let goalDescription;
+
+
+    if (goalEnvironment >= 80) {
+
+        goalDescription =
+        `<strong>HIGH GOAL ENVIRONMENT.</strong>
+        Combined goal rating: ${goalEnvironment}/100.
+        Both sides provide strong goal-environment signals.
+        The match profile is compatible with an open,
+        high-event game.`;
+
+    }
+
+    else if (goalEnvironment >= 65) {
+
+        goalDescription =
+        `<strong>ABOVE-AVERAGE GOAL ENVIRONMENT.</strong>
+        Combined rating: ${goalEnvironment}/100.
+        There is meaningful support for goals, although
+        the signal is not as strong as a high-goal profile.`;
+
+    }
+
+    else if (goalEnvironment >= 45) {
+
+        goalDescription =
+        `<strong>BALANCED GOAL ENVIRONMENT.</strong>
+        Combined rating: ${goalEnvironment}/100.
+        The goal profile is mixed. The game could become
+        attacking or controlled depending on how the teams
+        approach the match.`;
+
+    }
+
+    else if (goalEnvironment >= 25) {
+
+        goalDescription =
+        `<strong>LOW GOAL ENVIRONMENT.</strong>
+        Combined rating: ${goalEnvironment}/100.
+        The profile leans toward a more controlled match
+        with fewer expected scoring events.`;
+
+    }
+
+    else {
+
+        goalDescription =
+        `<strong>VERY LOW GOAL ENVIRONMENT.</strong>
+        Combined rating: ${goalEnvironment}/100.
+        The profile strongly favours a defensive,
+        low-event match pattern.`;
+
+    }
+
+
+    document.getElementById(
+        "goalFactorCommentary"
+    ).innerHTML = goalDescription;
+
+
+    document.getElementById(
+        "goalAnalysis"
+    ).innerHTML = goalDescription;
+
+
+    /* =====================================================
+       PREDICTION
+    ===================================================== */
+
+    let prediction;
+
+
+    if (
+        homeRating - awayRating >= 20
+    ) {
+
+        prediction =
+        "🏠 STRONG HOME ADVANTAGE";
+
+    }
+
+    else if (
+        homeRating - awayRating >= 8
+    ) {
+
+        prediction =
+        "🏠 HOME ADVANTAGE";
+
+    }
+
+    else if (
+        awayRating - homeRating >= 20
+    ) {
+
+        prediction =
+        "✈️ STRONG AWAY ADVANTAGE";
+
+    }
+
+    else if (
+        awayRating - homeRating >= 8
+    ) {
+
+        prediction =
+        "✈️ AWAY ADVANTAGE";
+
+    }
+
+    else {
+
+        prediction =
+        "🤝 BALANCED MATCH";
+
+    }
+
+
+    document.getElementById(
+        "prediction"
+    ).textContent =
+        prediction;
+
+
+    /* =====================================================
+       RESULT SUGGESTION
+    ===================================================== */
+
+    let resultSuggestion;
+
+
+    if (homeRating - awayRating >= 20) {
+
+        resultSuggestion =
+        "Primary lean: HOME WIN. The overall model gap is substantial. Consider stronger home-oriented markets only when the underlying statistics support the same direction.";
+
+    }
+
+    else if (homeRating - awayRating >= 8) {
+
+        resultSuggestion =
+        "Primary lean: HOME SIDE. The home team has an edge, but the advantage is moderate. Draw-protection options may be more conservative.";
+
+    }
+
+    else if (awayRating - homeRating >= 20) {
+
+        resultSuggestion =
+        "Primary lean: AWAY WIN. The away side has a substantial model advantage despite playing away.";
+
+    }
+
+    else if (awayRating - homeRating >= 8) {
+
+        resultSuggestion =
+        "Primary lean: AWAY SIDE. The away team has the statistical edge, but the margin is not dominant.";
+
+    }
+
+    else {
+
+        resultSuggestion =
+        "Primary lean: NO CLEAR WINNER. The ratings are close, so draw-oriented or protection markets deserve more attention than a forced winner selection.";
+
+    }
+
+
+    document.getElementById(
+        "resultSuggestion"
+    ).innerHTML =
+        resultSuggestion;
+
+
+    /* =====================================================
+       GOAL SUGGESTION
+    ===================================================== */
+
+    let goalSuggestion;
+
+
+    if (goalEnvironment >= 80) {
+
+        goalSuggestion =
+        "Strong goal environment. Over-goal possibilities deserve investigation, but actual scoring and conceding statistics should confirm the signal.";
+
+    }
+
+    else if (goalEnvironment >= 65) {
+
+        goalSuggestion =
+        "Above-average goal potential. Goals have support, but the signal is not strong enough to rely on the goal environment alone.";
+
+    }
+
+    else if (goalEnvironment >= 45) {
+
+        goalSuggestion =
+        "Balanced goal profile. There is no strong high-goal or low-goal direction.";
+
+    }
+
+    else {
+
+        goalSuggestion =
+        "Low-goal environment. Under-goal possibilities deserve consideration if real scoring/conceding data confirms the profile.";
+
+    }
+
+
+    document.getElementById(
+        "goalSuggestion"
+    ).innerHTML =
+        goalSuggestion;
+
+
+    /* =====================================================
+       BTTS
+    ===================================================== */
+
+    const bttsScore =
+
+        (
+            attackH +
+            attackA +
+            (100 - defenceH) +
+            (100 - defenceA)
+        ) / 4;
+
+
+    let bttsSuggestion;
+
+
+    if (
+        bttsScore >= 70 &&
+        goalEnvironment >= 60
+    ) {
+
+        bttsSuggestion =
+        "Positive BTTS signal. Both attacking profiles and the defensive vulnerability profile support the possibility of both teams scoring.";
+
+    }
+
+    else if (
+        bttsScore <= 40 ||
+        goalEnvironment < 35
+    ) {
+
+        bttsSuggestion =
+        "Weak BTTS signal. The combined attack/defence and goal environment do not strongly support both teams scoring.";
+
+    }
+
+    else {
+
+        bttsSuggestion =
+        "Mixed BTTS signal. The evidence is not strong enough to make BTTS a primary conclusion.";
+
+    }
+
+
+    document.getElementById(
+        "bttsSuggestion"
+    ).innerHTML =
+        bttsSuggestion;
+
+
+    /* =====================================================
+       MATCH CHARACTER
+    ===================================================== */
+
+    let matchCharacter;
+
+
+    if (
+        goalEnvironment >= 75 &&
+        difference < 12
+    ) {
+
+        matchCharacter =
+        "OPEN + COMPETITIVE. Both sides are relatively close while the goal environment is strong.";
+
+    }
+
+    else if (
+        goalEnvironment >= 75
+    ) {
+
+        matchCharacter =
+        "OPEN + ONE-SIDED POTENTIAL. The game environment supports goals while one team has the stronger overall profile.";
+
+    }
+
+    else if (
+        goalEnvironment < 40 &&
+        difference < 12
+    ) {
+
+        matchCharacter =
+        "TIGHT + CONTROLLED. The teams are close and the goal environment is low.";
+
+    }
+
+    else if (
+        goalEnvironment < 40
+    ) {
+
+        matchCharacter =
+        "CONTROLLED + ONE-SIDED. Low goal conditions combine with a meaningful team-strength difference.";
+
+    }
+
+    else {
+
+        matchCharacter =
+        "BALANCED MATCH PROFILE. Neither extreme goal conditions nor a dominant rating gap exists.";
+
+    }
+
+
+    document.getElementById(
+        "matchCharacter"
+    ).innerHTML =
+        matchCharacter;
+
+
+    /* =====================================================
+       STRONG ANALYST COMMENTARY
+    ===================================================== */
+
+    let analysis;
+
+
+    const homeEdge =
+        homeRating - awayRating;
+
+
+    if (homeEdge >= 8) {
+
+        analysis =
+
+        `The model gives the <strong>HOME SIDE</strong>
+        the overall advantage at
+        <strong>${homeRating}/100</strong> versus
+        <strong>${awayRating}/100</strong>.
+        
+        The important point is not simply that the
+        home rating is higher. The model is identifying
+        a collection of signals that collectively favour
+        the home team.
+        
+        The home team's strongest category is
+        <strong>${homeStrongest.name}</strong>
+        (${homeStrongest.value}%).
+        This represents the team's clearest positive
+        factor.
+        
+        Its weakest category is
+        <strong>${homeWeakest.name}</strong>
+        (${homeWeakest.value}%).
+        That weakness represents the most obvious area
+        the away team could potentially attack.
+        
+        On the other side, the away team's strongest
+        factor is <strong>${awayStrongest.name}</strong>
+        (${awayStrongest.value}%).
+        
+        Therefore the key analytical question is:
+        <strong>Does the away team's strongest area
+        directly exploit the home team's weakest area?</strong>
+        
+        The goal environment is
+        <strong>${goalEnvironment}/100</strong>,
+        which indicates the overall scoring character
+        of the match.
+        
+        <br><br>
+        
+        <strong>Final analytical view:</strong>
+        the home side has the stronger profile, but
+        confidence should increase only when several
+        independent factors point in the same direction.
+        A rating advantage is a signal — not a guarantee.`;
+
+    }
+
+    else if (homeEdge <= -8) {
+
+        analysis =
+
+        `The model gives the <strong>AWAY SIDE</strong>
+        the overall advantage at
+        <strong>${awayRating}/100</strong> versus
+        <strong>${homeRating}/100</strong>.
+        
+        The away team's strongest category is
+        <strong>${awayStrongest.name}</strong>
+        (${awayStrongest.value}%).
+        This is the team's clearest positive signal.
+        
+        Its weakest factor is
+        <strong>${awayWeakest.name}</strong>
+        (${awayWeakest.value}%).
+        This represents the area where the home team
+        may find an opportunity.
+        
+        The home team's strongest factor is
+        <strong>${homeStrongest.name}</strong>
+        (${homeStrongest.value}%).
+        
+        The central matchup question is:
+        <strong>Can the home team's strongest factor
+        exploit the away team's weakest area?</strong>
+        
+        The goal environment is
+        <strong>${goalEnvironment}/100</strong>.
+        
+        <br><br>
+        
+        <strong>Final analytical view:</strong>
+        the away side has the stronger statistical
+        profile, but the venue and specific matchup
+        weaknesses must still be considered.`;
+
+    }
+
+    else {
+
+        analysis =
+
+        `The model finds no meaningful overall
+        advantage. Home is rated
+        <strong>${homeRating}/100</strong> while away
+        is rated <strong>${awayRating}/100</strong>.
+        
+        This is important because forcing a winner
+        when the model sees little separation can
+        create unnecessary analytical risk.
+        
+        The home team's strongest factor is
+        <strong>${homeStrongest.name}</strong>
+        (${homeStrongest.value}%).
+        
+        The away team's strongest factor is
+        <strong>${awayStrongest.name}</strong>
+        (${awayStrongest.value}%).
+        
+        The decisive issue should therefore be the
+        interaction between individual strengths and
+        weaknesses rather than the overall rating alone.
+        
+        Goal environment:
+        <strong>${goalEnvironment}/100</strong>.
+        
+        <br><br>
+        
+        <strong>Final analytical view:</strong>
+        this is a low-separation matchup. Additional
+        evidence is more valuable here than forcing
+        a strong winner prediction.`;
+
+    }
+
+
+    document.getElementById(
+        "analysisText"
+    ).innerHTML =
+        analysis;
+
+
+};
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+document.getElementById("reset").onclick = function() {
+
+
+    document
+    .querySelectorAll("#forecastForm select")
+    .forEach(function(select){
+
+        select.selectedIndex = 0;
+
+    });
+
+
+    document.getElementById("homeScore")
+    .textContent = "0";
+
+
+    document.getElementById("awayScore")
+    .textContent = "0";
+
+
+    document.getElementById("confidence")
+    .textContent = "0%";
+
+
+    document.getElementById("confidenceFill")
+    .style.width = "0%";
+
+
+    document.getElementById("prediction")
+    .textContent =
+    "Waiting for analysis...";
+
+
+    const ids = [
+
+        "formCommentary",
+        "attackCommentary",
+        "defenceCommentary",
+        "qualityCommentary",
+        "locationCommentary",
+        "goalFactorCommentary",
+        "homeStrong",
+        "homeWeak",
+        "awayStrong",
+        "awayWeak",
+        "goalAnalysis",
+        "resultSuggestion",
+        "goalSuggestion",
+        "bttsSuggestion",
+        "matchCharacter",
+        "analysisText"
+
+    ];
+
+
+    ids.forEach(function(id){
+
+        document.getElementById(id)
+        .innerHTML =
+        "Waiting...";
+
+    });
+
+};
+
+</script>
+
+</body>
+
+</html>

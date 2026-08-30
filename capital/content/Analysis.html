@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Football Value Capital</title>
+
+
+
+<!--body-->
+<style>
+
+
+h2, p {
+  margin: 10px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: white;
+}
+
+ul li {
+  float: left;
+}
+
+ul li a {
+  display: block;
+  color: #1565C0;
+  text-align: center;
+  padding: 14px 6px;
+  text-decoration: none;
+  font-size: 25px;
+
+}
+
+ul li a:hover {
+  background-color: #d0dae7;
+}
+
+/*body*/
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+padding:20px;
+
+}
+
+.container{
+
+max-width:900px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.4);
+
+}
+
+h1{
+
+text-align:center;
+color:#1565C0;
+margin-bottom:20px;
+
+}
+
+table{
+
+width:100%;
+border-collapse:collapse;
+
+}
+
+th{
+
+padding:15px;
+color:white;
+
+}
+
+th:nth-child(1){
+
+background:#28a745;
+
+}
+
+th:nth-child(2){
+
+background:#1565C0;
+
+}
+
+th:nth-child(3){
+
+background:#dc3545;
+
+}
+
+td{
+
+padding:15px;
+text-align:center;
+border-bottom:1px solid #ddd;
+
+}
+
+tr:nth-child(even){
+
+background:#f4f4f4;
+
+}
+
+select{
+
+width:90px;
+padding:8px;
+border-radius:8px;
+border:none;
+color:white;
+font-size:16px;
+font-weight:bold;
+
+}
+
+.home{
+
+background:#28a745;
+
+}
+
+.away{
+
+background:#dc3545;
+
+}
+
+button{
+
+margin-top:25px;
+padding:15px;
+width:220px;
+font-size:18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+color:white;
+
+}
+
+#analyze{
+
+background:#1565C0;
+
+}
+
+#reset{
+
+background:#ff9800;
+
+margin-left:15px;
+
+}
+
+.result{
+
+margin-top:30px;
+padding:20px;
+background:#f8f9fa;
+border-radius:15px;
+text-align:center;
+
+}
+
+.result h2{
+
+margin-bottom:15px;
+
+}
+
+.score{
+
+font-size:25px;
+font-weight:bold;
+margin:10px;
+
+}
+
+.prediction{
+
+font-size:28px;
+color:#1565C0;
+font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="Analysis.html">ANALYSIS</a></li>
+        <li><a href="Prediction.html">PREDICTION</a></li>
+        <li><a href="Forecast.html">FORECAST</a></li>
+        <li><a href="Stregnth.html">STREGNTH</a></li>
+        <li><a href="Booking1.html">BOOK1</a></li>
+        <li><a href="Booking2.html">BOOK2</a></li>
+        
+    </ul>
+
+
+<h1>⚽ Football Value Capital</h1>
+<form id="forecastForm">
+    <table>
+
+        <tr>
+
+        <th>HOME</th>
+        <th>STATISTIC</th>
+        <th>AWAY</th>
+
+        </tr>
+
+            <tr>
+
+                <td>
+
+                    <select class="home value">
+
+                    <option value="100">100%</option>
+                    <option value="90">90%</option>
+                    <option value="80">80%</option>
+                    <option value="70">70%</option>
+                    <option value="60">60%</option>
+                    <option value="50">50%</option>
+                    <option value="40">40%</option>
+                    <option value="30">30%</option>
+                    <option value="20">20%</option>
+                    <option value="10">10%</option>
+                    <option value="0">0%</option>
+
+                    </select>
+
+                </td>
+
+            <td>Form</td>
+
+                <td>
+
+                    <select class="away value">
+
+                    <option value="100">100%</option>
+                    <option value="90">90%</option>
+                    <option value="80">80%</option>
+                    <option value="70">70%</option>
+                    <option value="60">60%</option>
+                    <option value="50">50%</option>
+                    <option value="40">40%</option>
+                    <option value="30">30%</option>
+                    <option value="20">20%</option>
+                    <option value="10">10%</option>
+                    <option value="0">0%</option>
+
+                    </select>
+
+                </td>
+
+            </tr>
+
+        <tr>
+
+            <td>
+                <select class="home value">
+                    <option value="100">100%</option>
+                    <option value="90">90%</option>
+                    <option value="80">80%</option>
+                    <option value="70">70%</option>
+                    <option value="60">60%</option>
+                    <option value="50">50%</option>
+                    <option value="40">40%</option>
+                    <option value="30">30%</option>
+                    <option value="20">20%</option>
+                    <option value="10">10%</option>
+                    <option value="0">0%</option>
+                </select>
+            </td>
+
+            <td>Attack</td>
+
+            <td>
+                <select class="away value">
+                    <option value="100">100%</option>
+                    <option value="90">90%</option>
+                    <option value="80">80%</option>
+                    <option value="70">70%</option>
+                    <option value="60">60%</option>
+                    <option value="50">50%</option>
+                    <option value="40">40%</option>
+                    <option value="30">30%</option>
+                    <option value="20">20%</option>
+                    <option value="10">10%</option>
+                    <option value="0">0%</option>
+                </select>
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                <select class="home value">
+                    <option value="100">100%</option>
+                    <option value="90">90%</option>
+                    <option value="80">80%</option>
+                    <option value="70">70%</option>
+                    <option value="60">60%</option>
+                    <option value="50">50%</option>
+                    <option value="40">40%</option>
+                    <option value="30">30%</option>
+                    <option value="20">20%</option>
+                    <option value="10">10%</option>
+                    <option value="0">0%</option>
+                </select>
+            </td>
+
+            <td>Defence</td>
+
+            <td>
+                <select class="away value">
+                    <option value="100">100%</option>
+                    <option value="90">90%</option>
+                    <option value="80">80%</option>
+                    <option value="70">70%</option>
+                    <option value="60">60%</option>
+                    <option value="50">50%</option>
+                    <option value="40">40%</option>
+                    <option value="30">30%</option>
+                    <option value="20">20%</option>
+                    <option value="10">10%</option>
+                    <option value="0">0%</option>
+                </select>
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+                <select class="home value">
+                    <option value="100">100%</option>
+                    <option value="90">90%</option>
+                    <option value="80">80%</option>
+                    <option value="70">70%</option>
+                    <option value="60">60%</option>
+                    <option value="50">50%</option>
+                    <option value="40">40%</option>
+                    <option value="30">30%</option>
+                    <option value="20">20%</option>
+                    <option value="10">10%</option>
+                    <option value="0">0%</option>
+                </select>
+            </td>
+
+        
+            <td>Team Quality</td>
+
+        
+            <td>
+                <select class="away value">
+                    <option value="100">100%</option>
+                    <option value="90">90%</option>
+                    <option value="80">80%</option>
+                    <option value="70">70%</option>
+                    <option value="60">60%</option>
+                    <option value="50">50%</option>
+                    <option value="40">40%</option>
+                    <option value="30">30%</option>
+                    <option value="20">20%</option>
+                    <option value="10">10%</option>
+                    <option value="0">0%</option>
+                </select>
+            </td>
+
+        </tr>
+
+    </table>
+
+
+<form id="forecastForm">
+
+
+    
+<center>
+    <button id="reset">Reset</button>
+</center>
+</form>
+
+<center>
+
+<button id="analyze">Analyze Match</button>
+
+</center>
+</form>
+<div class="result">
+
+<h2>Prediction Result</h2>
+
+<div class="score">
+
+Home Score:
+<span id="homeScore">0</span>
+
+</div>
+
+<div class="score">
+
+Away Score:
+<span id="awayScore">0</span>
+
+</div>
+
+<div class="prediction" id="prediction">
+
+Waiting...
+
+</div>
+
+<div style="margin-top:20px;font-size:20px">
+
+Confidence:
+<span id="confidence">0%</span>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const analyze=document.getElementById("analyze");
+
+analyze.onclick=function(){
+
+let home=document.querySelectorAll(".home");
+
+let away=document.querySelectorAll(".away");
+
+let h=0;
+
+let a=0;
+
+home.forEach(x=>{
+
+h+=Number(x.value);
+
+});
+
+away.forEach(x=>{
+
+a+=Number(x.value);
+
+});
+
+document.getElementById("homeScore").innerHTML=h;
+
+document.getElementById("awayScore").innerHTML=a;
+
+let total=h+a;
+
+let confidence=Math.round(Math.abs(h-a)/total*100);
+
+if(total==0){
+
+confidence=0;
+
+}
+
+document.getElementById("confidence").innerHTML=confidence+"%";
+
+if(h>a){
+
+document.getElementById("prediction").innerHTML="🏆 HOME WIN";
+
+}
+
+else if(a>h){
+
+document.getElementById("prediction").innerHTML="✈ AWAY WIN";
+
+}
+
+else{
+
+document.getElementById("prediction").innerHTML="🤝 DRAW";
+
+}
+
+}
+
+document.getElementById("reset").onclick=function(){
+
+location.reload();
+
+}
+
+</script>
+
+</body>
+</html>

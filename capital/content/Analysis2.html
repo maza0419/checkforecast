@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital</title>
+
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+
+    background:
+    linear-gradient(
+        135deg,
+        #0f2027,
+        #203a43,
+        #2c5364
+    );
+
+    padding: 20px;
+
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+
+    max-width: 950px;
+
+    margin: auto;
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.4);
+
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+ul {
+
+    list-style: none;
+
+    margin: 0 0 25px 0;
+
+    padding: 0;
+
+    background: white;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+}
+
+
+ul li {
+
+    float: left;
+
+}
+
+
+ul li a {
+
+    display: block;
+
+    color: #1565C0;
+
+    text-align: center;
+
+    padding: 14px 8px;
+
+    text-decoration: none;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+}
+
+
+ul li a:hover {
+
+    background: #dce6f2;
+
+}
+
+
+ul::after {
+
+    content: "";
+
+    display: table;
+
+    clear: both;
+
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+h1 {
+
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+}
+
+
+th {
+
+    padding: 15px;
+
+    color: white;
+
+    font-size: 18px;
+
+}
+
+
+th:nth-child(1) {
+
+    background: #28a745;
+
+}
+
+
+th:nth-child(2) {
+
+    background: #1565C0;
+
+}
+
+
+th:nth-child(3) {
+
+    background: #dc3545;
+
+}
+
+
+td {
+
+    padding: 15px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+
+tr:nth-child(even) {
+
+    background: #f4f4f4;
+
+}
+
+
+/* =========================
+   STATISTIC
+========================= */
+
+td:nth-child(2) {
+
+    font-weight: bold;
+
+    color: #333;
+
+}
+
+
+/* =========================
+   SELECT
+========================= */
+
+select {
+
+    width: 190px;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    border: none;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+/* HOME */
+
+.home {
+
+    background: #28a745;
+
+}
+
+
+/* AWAY */
+
+.away {
+
+    background: #dc3545;
+
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.buttons {
+
+    text-align: center;
+
+    margin-top: 25px;
+
+}
+
+
+button {
+
+    padding: 15px 25px;
+
+    margin: 5px;
+
+    font-size: 17px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    color: white;
+
+    font-weight: bold;
+
+}
+
+
+#analyze {
+
+    background: #1565C0;
+
+}
+
+
+#reset {
+
+    background: #ff9800;
+
+}
+
+
+button:hover {
+
+    opacity: .9;
+
+    transform: scale(1.02);
+
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+.result {
+
+    margin-top: 30px;
+
+    padding: 25px;
+
+    background: #f8f9fa;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+}
+
+
+.result h2 {
+
+    color: #1565C0;
+
+    margin-bottom: 20px;
+
+}
+
+
+.rating {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    margin: 12px;
+
+}
+
+
+.prediction {
+
+    font-size: 28px;
+
+    color: #1565C0;
+
+    font-weight: bold;
+
+    margin: 20px 0;
+
+}
+
+
+.confidence {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px) {
+
+    body {
+
+        padding: 10px;
+
+    }
+
+
+    .container {
+
+        padding: 15px;
+
+    }
+
+
+    ul li {
+
+        float: none;
+
+        width: 100%;
+
+    }
+
+
+    ul li a {
+
+        font-size: 16px;
+
+    }
+
+
+    select {
+
+        width: 145px;
+
+        font-size: 12px;
+
+    }
+
+
+    th,
+    td {
+
+        padding: 9px 4px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<ul>
+
+    <li>
+        <a href="index.html">
+            HOME
+        </a>
+    </li>
+
+    <li>
+        <a href="Analysis.html">
+            ANALYSIS
+        </a>
+    </li>
+
+    <li>
+        <a href="Prediction.html">
+            PREDICTION
+        </a>
+    </li>
+
+    <li>
+        <a href="Forecast.html">
+            FORECAST
+        </a>
+    </li>
+
+    <li>
+        <a href="Stregnth.html">
+            STRENGTH
+        </a>
+    </li>
+
+    <li>
+        <a href="Booking1.html">
+            BOOK1
+        </a>
+    </li>
+
+    <li>
+        <a href="Booking2.html">
+            BOOK2
+        </a>
+    </li>
+
+</ul>
+
+
+<!-- =========================
+     TITLE
+========================= -->
+
+<h1>
+    ⚽ Football Value Capital
+</h1>
+
+
+<form id="forecastForm">
+
+
+<table>
+
+<tr>
+
+    <th>
+        HOME
+    </th>
+
+    <th>
+        STATISTIC
+    </th>
+
+    <th>
+        AWAY
+    </th>
+
+</tr>
+
+
+<!-- =========================
+     FORM
+========================= -->
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50" selected>
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+
+<td>
+📈 Form
+</td>
+
+
+<td>
+
+<select class="away">
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50" selected>
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- =========================
+     ATTACK
+========================= -->
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50" selected>
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+
+<td>
+⚽ Attack
+</td>
+
+
+<td>
+
+<select class="away">
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50" selected>
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- =========================
+     DEFENCE
+========================= -->
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50" selected>
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+
+<td>
+🛡️ Defence
+</td>
+
+
+<td>
+
+<select class="away">
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50" selected>
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- =========================
+     TEAM QUALITY
+========================= -->
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50" selected>
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+
+<td>
+🏆 Team Quality
+</td>
+
+
+<td>
+
+<select class="away">
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50" selected>
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<!-- =========================
+     HOME / AWAY STRENGTH
+========================= -->
+
+<tr>
+
+<td>
+
+<select class="home">
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50" selected>
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+
+<td>
+🏠 Home / Away Strength
+</td>
+
+
+<td>
+
+<select class="away">
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+V Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50" selected>
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+V Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+</table>
+
+
+<!-- =========================
+     BUTTONS
+========================= -->
+
+<div class="buttons">
+
+
+
+<button type="button" id="reset">
+    Reset
+</button>
+
+
+
+
+<button type="button" id="analyze">
+    Analyze Match
+</button>
+
+</div>
+
+</form>
+
+
+<!-- =========================
+     RESULT
+========================= -->
+
+<div class="result">
+
+<h2>
+📊 Match Rating
+</h2>
+
+
+<div class="rating">
+
+🏠 Home Rating:
+
+<span id="homeScore">
+0
+</span>
+
+/100
+
+</div>
+
+
+<div class="rating">
+
+✈️ Away Rating:
+
+<span id="awayScore">
+0
+</span>
+
+/100
+
+</div>
+
+
+<div
+    class="prediction"
+    id="prediction">
+
+Waiting...
+
+</div>
+
+
+<div class="confidence">
+
+Confidence:
+
+<span id="confidence">
+0%
+</span>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   ANALYZE MATCH
+========================= */
+
+const analyze =
+document.getElementById("analyze");
+
+
+analyze.onclick = function() {
+
+
+    const home =
+    document.querySelectorAll(".home");
+
+
+    const away =
+    document.querySelectorAll(".away");
+
+
+    let homeTotal = 0;
+
+    let awayTotal = 0;
+
+
+    /* HOME */
+
+    home.forEach(function(item) {
+
+        homeTotal +=
+        Number(item.value);
+
+    });
+
+
+    /* AWAY */
+
+    away.forEach(function(item) {
+
+        awayTotal +=
+        Number(item.value);
+
+    });
+
+
+    /* AVERAGE */
+
+    let homeRating =
+    Math.round(
+        homeTotal / home.length
+    );
+
+
+    let awayRating =
+    Math.round(
+        awayTotal / away.length
+    );
+
+
+    /* DISPLAY */
+
+    document.getElementById(
+        "homeScore"
+    ).innerHTML =
+    homeRating;
+
+
+    document.getElementById(
+        "awayScore"
+    ).innerHTML =
+    awayRating;
+
+
+    /* =========================
+       CONFIDENCE
+    ========================= */
+
+    let difference =
+    Math.abs(
+        homeRating -
+        awayRating
+    );
+
+
+    let confidence =
+    difference;
+
+
+    document.getElementById(
+        "confidence"
+    ).innerHTML =
+    confidence + "%";
+
+
+    /* =========================
+       PREDICTION
+    ========================= */
+
+    if (
+        homeRating >
+        awayRating
+    ) {
+
+        document.getElementById(
+            "prediction"
+        ).innerHTML =
+        "🏠 HOME ADVANTAGE";
+
+    }
+
+
+    else if (
+        awayRating >
+        homeRating
+    ) {
+
+        document.getElementById(
+            "prediction"
+        ).innerHTML =
+        "✈️ AWAY ADVANTAGE";
+
+    }
+
+
+    else {
+
+        document.getElementById(
+            "prediction"
+        ).innerHTML =
+        "🤝 BALANCED MATCH";
+
+    }
+
+};
+
+
+/* =========================
+   RESET
+========================= */
+
+document.getElementById(
+    "reset"
+).onclick = function() {
+
+
+    document.getElementById(
+        "forecastForm"
+    ).reset();
+
+
+    document.getElementById(
+        "homeScore"
+    ).innerHTML =
+    "0";
+
+
+    document.getElementById(
+        "awayScore"
+    ).innerHTML =
+    "0";
+
+
+    document.getElementById(
+        "confidence"
+    ).innerHTML =
+    "0%";
+
+
+    document.getElementById(
+        "prediction"
+    ).innerHTML =
+    "Waiting...";
+
+};
+
+</script>
+
+
+</body>
+
+</html>

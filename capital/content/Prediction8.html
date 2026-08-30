@@ -1,0 +1,2284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - Home Team Analyzer</title>
+
+<style>
+
+/* =========================================================
+   GENERAL
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f2027,
+            #203a43,
+            #2c5364
+        );
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.container {
+    max-width: 1050px;
+
+    margin: 20px auto;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.4);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+h1 {
+    text-align: center;
+
+    color: #1565C0;
+
+    font-size: 34px;
+
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+
+    color: #666;
+
+    margin-bottom: 30px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   HOME TEAM
+========================================================= */
+
+.team-box {
+
+    background: #e8f5e9;
+
+    border: 3px solid #28a745;
+
+    padding: 22px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+.team-box h3 {
+
+    color: #28a745;
+
+    margin-bottom: 15px;
+
+    font-size: 21px;
+}
+
+.team-box input {
+
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 13px;
+
+    border: 2px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 17px;
+
+    text-align: center;
+}
+
+.team-box input:focus {
+
+    outline: none;
+
+    border-color: #1565C0;
+
+    box-shadow:
+        0 0 5px rgba(21,101,192,.25);
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 700px;
+}
+
+thead th {
+
+    padding: 16px;
+
+    background: #1565C0;
+
+    color: white;
+
+    font-size: 17px;
+}
+
+tbody td {
+
+    padding: 14px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+
+    background: #f7f9fa;
+}
+
+tbody tr:hover {
+
+    background: #fff8dc;
+}
+
+.stat-title {
+
+    font-weight: bold;
+
+    color: #333;
+
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.home-select {
+
+    width: 220px;
+
+    padding: 11px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #28a745;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.home-select:hover {
+
+    transform: scale(1.02);
+}
+
+
+/* =========================================================
+   NUMBER INPUT
+========================================================= */
+
+.number-input {
+
+    width: 110px;
+
+    padding: 10px;
+
+    border: 2px solid #ddd;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+.number-input:focus {
+
+    outline: none;
+
+    border-color: #1565C0;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.buttons {
+
+    text-align: center;
+
+    margin-top: 30px;
+}
+
+button {
+
+    padding: 14px 30px;
+
+    margin: 5px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.analyze {
+
+    background: #1565C0;
+}
+
+.reset {
+
+    background: #ff9800;
+}
+
+button:hover {
+
+    transform: scale(1.05);
+}
+
+.analyze:hover {
+
+    background: #0d47a1;
+}
+
+.reset:hover {
+
+    background: #e68900;
+}
+
+
+/* =========================================================
+   RESULT SECTION
+========================================================= */
+
+.result {
+
+    display: none;
+
+    margin-top: 35px;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    background: #f4f8fb;
+
+    border: 2px solid #1565C0;
+}
+
+.result h2 {
+
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   RESULT TEAM
+========================================================= */
+
+.result-team {
+
+    text-align: center;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    color: #28a745;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   RESULT TABLE
+========================================================= */
+
+.result-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: white;
+
+    margin-bottom: 25px;
+}
+
+.result-table th {
+
+    background: #1565C0;
+
+    color: white;
+
+    padding: 13px;
+
+    text-align: left;
+}
+
+.result-table td {
+
+    padding: 13px;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.result-table tr:nth-child(even) {
+
+    background: #f7f9fa;
+}
+
+.result-table td:last-child {
+
+    text-align: center;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   SCORE BOX
+========================================================= */
+
+.score-box {
+
+    text-align: center;
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+
+    border: 2px solid #28a745;
+}
+
+.score-label {
+
+    font-size: 16px;
+
+    color: #666;
+
+    margin-bottom: 8px;
+}
+
+.score {
+
+    font-size: 42px;
+
+    font-weight: bold;
+
+    color: #1565C0;
+}
+
+
+/* =========================================================
+   VERDICT
+========================================================= */
+
+.verdict {
+
+    text-align: center;
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+    background: #e8f5e9;
+
+    border: 2px solid #28a745;
+
+    margin-bottom: 20px;
+}
+
+.verdict-title {
+
+    font-size: 15px;
+
+    color: #555;
+
+    margin-bottom: 7px;
+}
+
+.verdict-value {
+
+    font-size: 26px;
+
+    font-weight: bold;
+
+    color: #28a745;
+}
+
+
+/* =========================================================
+   MARKET SUGGESTIONS
+========================================================= */
+
+.suggestions {
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    border: 1px solid #ddd;
+}
+
+.suggestions h3 {
+
+    text-align: center;
+
+    color: #1565C0;
+
+    margin-bottom: 15px;
+}
+
+.suggestion-item {
+
+    padding: 12px;
+
+    margin: 8px 0;
+
+    background: #f7f9fa;
+
+    border-left: 5px solid #28a745;
+
+    border-radius: 5px;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   WARNING
+========================================================= */
+
+.warning {
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    background: #fff3cd;
+
+    border: 1px solid #ffc107;
+
+    border-radius: 8px;
+
+    color: #856404;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px) {
+
+    body {
+
+        padding: 8px;
+    }
+
+    .container {
+
+        padding: 15px;
+
+        margin: 10px auto;
+    }
+
+    h1 {
+
+        font-size: 25px;
+    }
+
+    table {
+
+        min-width: 650px;
+    }
+
+    .table-wrapper {
+
+        overflow-x: auto;
+    }
+
+    .home-select {
+
+        width: 170px;
+
+        font-size: 13px;
+    }
+
+    .number-input {
+
+        width: 90px;
+    }
+
+    .result-table {
+
+        font-size: 14px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONE
+========================================================= */
+
+@media(max-width:400px) {
+
+    .container {
+
+        padding: 10px;
+    }
+
+    h1 {
+
+        font-size: 22px;
+    }
+
+    .team-box {
+
+        padding: 15px;
+    }
+
+    button {
+
+        width: 100%;
+
+        margin: 5px 0;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<h1>⚽ Football Value Capital</h1>
+
+<p class="subtitle">
+
+Home Team Performance & Prediction Analyzer
+
+<br>
+
+Analyze the team's form, quality, league level,
+goal environment, attack, defence and recent results.
+
+</p>
+
+
+<!-- =====================================================
+     FORM
+===================================================== -->
+
+<form id="analysisForm">
+
+
+<!-- =====================================================
+     HOME TEAM
+===================================================== -->
+
+<div class="team-box">
+
+<h3>🏠 HOME TEAM</h3>
+
+<input
+    type="text"
+    id="homeTeam"
+    name="home_team"
+    placeholder="Enter home team name"
+    required>
+
+</div>
+
+
+<!-- =====================================================
+     STATISTICS TABLE
+===================================================== -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>🏠 HOME TEAM DATA</th>
+
+<th>📊 STATISTIC</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+
+<!-- =====================================================
+     FORM
+===================================================== -->
+
+<tr>
+
+<td>
+
+<select
+    class="home-select"
+    name="form"
+    required>
+
+<option value="" selected disabled>
+Rate Form
+</option>
+
+<option value="100">
+Elite — 100%
+</option>
+
+<option value="90">
+Very Strong — 90%
+</option>
+
+<option value="80">
+Strong — 80%
+</option>
+
+<option value="70">
+Good — 70%
+</option>
+
+<option value="60">
+Above Average — 60%
+</option>
+
+<option value="50">
+Average — 50%
+</option>
+
+<option value="40">
+Below Average — 40%
+</option>
+
+<option value="30">
+Weak — 30%
+</option>
+
+<option value="20">
+Very Weak — 20%
+</option>
+
+<option value="10">
+Poor — 10%
+</option>
+
+<option value="0">
+Very Poor — 0%
+</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">
+
+📈 CURRENT FORM
+
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     TEAM QUALITY
+===================================================== -->
+
+<tr>
+
+<td>
+
+<select
+    class="home-select"
+    name="quality"
+    required>
+
+<option value="" selected disabled>
+Rate Team Quality
+</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">
+
+⚔️ TEAM QUALITY
+
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     LEAGUE LEVEL
+===================================================== -->
+
+<tr>
+
+<td>
+
+<select
+    class="home-select"
+    name="league_level"
+    required>
+
+<option value="" selected disabled>
+Rate League Level
+</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">
+
+🏆 LEAGUE LEVEL
+
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     GOAL ENVIRONMENT
+===================================================== -->
+
+<tr>
+
+<td>
+
+<select
+    class="home-select"
+    name="goal_environment"
+    required>
+
+<option value="" selected disabled>
+Rate Goal Environment
+</option>
+
+<option value="100">Very High Goals — 100%</option>
+<option value="90">High Goals — 90%</option>
+<option value="80">Good Goals — 80%</option>
+<option value="70">Above Average — 70%</option>
+<option value="60">Slightly High — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Slightly Low — 40%</option>
+<option value="30">Low Goals — 30%</option>
+<option value="20">Very Low Goals — 20%</option>
+<option value="10">Extremely Low — 10%</option>
+<option value="0">No Goal Environment — 0%</option>
+
+</select>
+
+</td>
+
+<td class="stat-title">
+
+⚽ GOAL ENVIRONMENT
+
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     ATTACK
+===================================================== -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="attack"
+    min="0"
+    max="100"
+    placeholder="0–100"
+    required>
+
+</td>
+
+<td class="stat-title">
+
+⚔️ ATTACK STRENGTH
+
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     DEFENCE
+===================================================== -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="defence"
+    min="0"
+    max="100"
+    placeholder="0–100"
+    required>
+
+</td>
+
+<td class="stat-title">
+
+🛡️ DEFENCE STRENGTH
+
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     WINS
+===================================================== -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="wins"
+    min="0"
+    value="0"
+    required>
+
+</td>
+
+<td class="stat-title">
+
+🏆 WINS
+
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     DRAWS
+===================================================== -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="draws"
+    min="0"
+    value="0"
+    required>
+
+</td>
+
+<td class="stat-title">
+
+🤝 DRAWS
+
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     LOSSES
+===================================================== -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="losses"
+    min="0"
+    value="0"
+    required>
+
+</td>
+
+<td class="stat-title">
+
+📉 LOSSES
+
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     OVER 1.5
+===================================================== -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="over_15"
+    min="0"
+    value="0"
+    required>
+
+</td>
+
+<td class="stat-title">
+
+⚽ OVER 1.5 MATCHES
+
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     1–4 GOALS
+===================================================== -->
+
+<tr>
+
+<td>
+
+<input
+    type="number"
+    class="number-input"
+    name="goals_1_4"
+    min="0"
+    value="0"
+    required>
+
+</td>
+
+<td class="stat-title">
+
+🎯 1–4 GOAL MATCHES
+
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- =====================================================
+     BUTTONS
+===================================================== -->
+
+<div class="buttons">
+
+<button
+    type="button"
+    class="analyze"
+    id="analyzeBtn">
+
+📊 ANALYZE HOME TEAM
+
+</button>
+
+
+<button
+    type="reset"
+    class="reset"
+    id="resetBtn">
+
+🔄 RESET
+
+</button>
+
+</div>
+
+
+</form>
+
+
+<!-- =====================================================
+     RESULT
+===================================================== -->
+
+<div
+    class="result"
+    id="resultBox">
+
+
+<h2>
+📊 HOME TEAM ANALYSIS RESULT
+</h2>
+
+
+<div
+    class="result-team"
+    id="resultTeam">
+
+Home Team
+
+</div>
+
+
+<!-- =====================================================
+     OVERALL SCORE
+===================================================== -->
+
+<div class="score-box">
+
+<div class="score-label">
+
+OVERALL HOME TEAM SCORE
+
+</div>
+
+<div
+    class="score"
+    id="overallScore">
+
+0%
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     COMPUTED RESULT TABLE
+===================================================== -->
+
+<table class="result-table">
+
+<thead>
+
+<tr>
+
+<th>
+📊 ANALYSIS FACTOR
+</th>
+
+<th>
+📈 RESULT
+</th>
+
+<th>
+💡 INTERPRETATION
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+
+<tr>
+
+<td>
+Current Form
+</td>
+
+<td id="resultForm">
+0%
+</td>
+
+<td id="formInterpretation">
+-
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Team Quality
+</td>
+
+<td id="resultQuality">
+0%
+</td>
+
+<td id="qualityInterpretation">
+-
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+League Level
+</td>
+
+<td id="resultLeague">
+0%
+</td>
+
+<td id="leagueInterpretation">
+-
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Goal Environment
+</td>
+
+<td id="resultGoal">
+0%
+</td>
+
+<td id="goalInterpretation">
+-
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Attack Strength
+</td>
+
+<td id="resultAttack">
+0%
+</td>
+
+<td id="attackInterpretation">
+-
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Defence Strength
+</td>
+
+<td id="resultDefence">
+0%
+</td>
+
+<td id="defenceInterpretation">
+-
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Win Rate
+</td>
+
+<td id="resultWinRate">
+0%
+</td>
+
+<td id="winInterpretation">
+-
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Draw Rate
+</td>
+
+<td id="resultDrawRate">
+0%
+</td>
+
+<td id="drawInterpretation">
+-
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Loss Rate
+</td>
+
+<td id="resultLossRate">
+0%
+</td>
+
+<td id="lossInterpretation">
+-
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Over 1.5 Rate
+</td>
+
+<td id="resultOver15">
+0%
+</td>
+
+<td id="overInterpretation">
+-
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+1–4 Goal Rate
+</td>
+
+<td id="resultGoals14">
+0%
+</td>
+
+<td id="goalsInterpretation">
+-
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+
+<!-- =====================================================
+     VERDICT
+===================================================== -->
+
+<div class="verdict">
+
+<div class="verdict-title">
+
+HOME TEAM VERDICT
+
+</div>
+
+<div
+    class="verdict-value"
+    id="verdict">
+
+WAITING...
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     MARKET SUGGESTIONS
+===================================================== -->
+
+<div class="suggestions">
+
+<h3>
+🎯 ANALYZER SUGGESTIONS
+</h3>
+
+
+<div
+    class="suggestion-item"
+    id="suggestion1">
+
+Waiting for analysis...
+
+</div>
+
+
+<div
+    class="suggestion-item"
+    id="suggestion2">
+
+Waiting for analysis...
+
+</div>
+
+
+<div
+    class="suggestion-item"
+    id="suggestion3">
+
+Waiting for analysis...
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     WARNING
+===================================================== -->
+
+<div class="warning">
+
+⚠️ This analyzer evaluates the data entered into the app.
+It does not guarantee a match outcome. More historical data
+generally produces a more useful assessment.
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =========================================================
+   ANALYZE BUTTON
+========================================================= */
+
+document
+.getElementById("analyzeBtn")
+.addEventListener("click", function () {
+
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    const form =
+        document.getElementById("analysisForm");
+
+
+    /* =====================================================
+       VALIDATE FORM
+    ===================================================== */
+
+    if (!form.checkValidity()) {
+
+        form.reportValidity();
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       HOME TEAM
+    ===================================================== */
+
+    const team =
+        document
+        .getElementById("homeTeam")
+        .value;
+
+
+    /* =====================================================
+       GET SELECT VALUES
+    ===================================================== */
+
+    const formRating =
+        Number(
+            form.querySelector(
+                '[name="form"]'
+            ).value
+        );
+
+
+    const quality =
+        Number(
+            form.querySelector(
+                '[name="quality"]'
+            ).value
+        );
+
+
+    const league =
+        Number(
+            form.querySelector(
+                '[name="league_level"]'
+            ).value
+        );
+
+
+    const goalEnvironment =
+        Number(
+            form.querySelector(
+                '[name="goal_environment"]'
+            ).value
+        );
+
+
+    /* =====================================================
+       GET ATTACK AND DEFENCE
+    ===================================================== */
+
+    const attack =
+        Number(
+            form.querySelector(
+                '[name="attack"]'
+            ).value
+        );
+
+
+    const defence =
+        Number(
+            form.querySelector(
+                '[name="defence"]'
+            ).value
+        );
+
+
+    /* =====================================================
+       GET RESULTS
+    ===================================================== */
+
+    const wins =
+        Number(
+            form.querySelector(
+                '[name="wins"]'
+            ).value
+        );
+
+
+    const draws =
+        Number(
+            form.querySelector(
+                '[name="draws"]'
+            ).value
+        );
+
+
+    const losses =
+        Number(
+            form.querySelector(
+                '[name="losses"]'
+            ).value
+        );
+
+
+    const over15 =
+        Number(
+            form.querySelector(
+                '[name="over_15"]'
+            ).value
+        );
+
+
+    const goals14 =
+        Number(
+            form.querySelector(
+                '[name="goals_1_4"]'
+            ).value
+        );
+
+
+    /* =====================================================
+       TOTAL MATCHES
+    ===================================================== */
+
+    const totalMatches =
+        wins +
+        draws +
+        losses;
+
+
+    /* =====================================================
+       CALCULATE RATES
+    ===================================================== */
+
+    let winRate = 0;
+
+    let drawRate = 0;
+
+    let lossRate = 0;
+
+
+    if (totalMatches > 0) {
+
+        winRate =
+            (wins / totalMatches) * 100;
+
+        drawRate =
+            (draws / totalMatches) * 100;
+
+        lossRate =
+            (losses / totalMatches) * 100;
+
+    }
+
+
+    /* =====================================================
+       OVER 1.5 RATE
+    ===================================================== */
+
+    let over15Rate =
+        over15;
+
+
+    /*
+       For now the user enters the percentage.
+
+       Example:
+
+       8 = 8%
+
+       80 = 80%
+
+    */
+
+    if (over15Rate > 100) {
+
+        over15Rate = 100;
+
+    }
+
+
+    /* =====================================================
+       1–4 GOALS RATE
+    ===================================================== */
+
+    let goals14Rate =
+        goals14;
+
+
+    if (goals14Rate > 100) {
+
+        goals14Rate = 100;
+
+    }
+
+
+    /* =====================================================
+       PERFORMANCE SCORE
+       
+       Six main football factors:
+       
+       FORM
+       QUALITY
+       LEAGUE
+       GOAL ENVIRONMENT
+       ATTACK
+       DEFENCE
+    ===================================================== */
+
+    const coreScore =
+
+        (
+            formRating +
+            quality +
+            league +
+            goalEnvironment +
+            attack +
+            defence
+        ) / 6;
+
+
+    /* =====================================================
+       RESULT PERFORMANCE BONUS
+    ===================================================== */
+
+    let resultScore = 50;
+
+
+    if (totalMatches > 0) {
+
+        /*
+           Wins are positive.
+
+           Losses reduce the score.
+
+           Draws are neutral.
+        */
+
+        resultScore =
+            winRate -
+            (lossRate * 0.5) +
+            50;
+
+    }
+
+
+    /*
+       Keep result score between 0 and 100.
+    */
+
+    resultScore =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                resultScore
+            )
+        );
+
+
+    /* =====================================================
+       FINAL SCORE
+    ===================================================== */
+
+    const overallScore =
+
+        (
+            coreScore * 0.75
+        ) +
+
+        (
+            resultScore * 0.25
+        );
+
+
+    const roundedScore =
+        Math.round(
+            overallScore
+        );
+
+
+    /* =====================================================
+       DISPLAY TEAM
+    ===================================================== */
+
+    document
+    .getElementById("resultTeam")
+    .textContent = team;
+
+
+    /* =====================================================
+       DISPLAY OVERALL SCORE
+    ===================================================== */
+
+    document
+    .getElementById("overallScore")
+    .textContent =
+        roundedScore + "%";
+
+
+    /* =====================================================
+       DISPLAY MAIN FACTORS
+    ===================================================== */
+
+    document
+    .getElementById("resultForm")
+    .textContent =
+        formRating + "%";
+
+
+    document
+    .getElementById("resultQuality")
+    .textContent =
+        quality + "%";
+
+
+    document
+    .getElementById("resultLeague")
+    .textContent =
+        league + "%";
+
+
+    document
+    .getElementById("resultGoal")
+    .textContent =
+        goalEnvironment + "%";
+
+
+    document
+    .getElementById("resultAttack")
+    .textContent =
+        attack + "%";
+
+
+    document
+    .getElementById("resultDefence")
+    .textContent =
+        defence + "%";
+
+
+    document
+    .getElementById("resultWinRate")
+    .textContent =
+        Math.round(winRate) + "%";
+
+
+    document
+    .getElementById("resultDrawRate")
+    .textContent =
+        Math.round(drawRate) + "%";
+
+
+    document
+    .getElementById("resultLossRate")
+    .textContent =
+        Math.round(lossRate) + "%";
+
+
+    document
+    .getElementById("resultOver15")
+    .textContent =
+        Math.round(over15Rate) + "%";
+
+
+    document
+    .getElementById("resultGoals14")
+    .textContent =
+        Math.round(goals14Rate) + "%";
+
+
+    /* =====================================================
+       INTERPRETATIONS
+    ===================================================== */
+
+    document
+    .getElementById("formInterpretation")
+    .textContent =
+        interpretRating(formRating);
+
+
+    document
+    .getElementById("qualityInterpretation")
+    .textContent =
+        interpretRating(quality);
+
+
+    document
+    .getElementById("leagueInterpretation")
+    .textContent =
+        interpretRating(league);
+
+
+    document
+    .getElementById("goalInterpretation")
+    .textContent =
+        interpretRating(goalEnvironment);
+
+
+    document
+    .getElementById("attackInterpretation")
+    .textContent =
+        interpretRating(attack);
+
+
+    document
+    .getElementById("defenceInterpretation")
+    .textContent =
+        interpretRating(defence);
+
+
+    document
+    .getElementById("winInterpretation")
+    .textContent =
+        interpretRate(winRate);
+
+
+    document
+    .getElementById("drawInterpretation")
+    .textContent =
+        interpretRate(drawRate);
+
+
+    document
+    .getElementById("lossInterpretation")
+    .textContent =
+        interpretLossRate(lossRate);
+
+
+    document
+    .getElementById("overInterpretation")
+    .textContent =
+        interpretRate(over15Rate);
+
+
+    document
+    .getElementById("goalsInterpretation")
+    .textContent =
+        interpretRate(goals14Rate);
+
+
+    /* =====================================================
+       VERDICT
+    ===================================================== */
+
+    let verdict;
+
+
+    if (roundedScore >= 85) {
+
+        verdict =
+            "🔥 VERY STRONG";
+
+    }
+
+    else if (roundedScore >= 75) {
+
+        verdict =
+            "💪 STRONG";
+
+    }
+
+    else if (roundedScore >= 65) {
+
+        verdict =
+            "✅ ABOVE AVERAGE";
+
+    }
+
+    else if (roundedScore >= 50) {
+
+        verdict =
+            "⚖️ AVERAGE";
+
+    }
+
+    else if (roundedScore >= 35) {
+
+        verdict =
+            "⚠️ WEAK";
+
+    }
+
+    else {
+
+        verdict =
+            "🔴 VERY WEAK";
+
+    }
+
+
+    document
+    .getElementById("verdict")
+    .textContent =
+        verdict;
+
+
+    /* =====================================================
+       SUGGESTION 1
+    ===================================================== */
+
+    let suggestion1;
+
+
+    if (formRating >= 70) {
+
+        suggestion1 =
+            "📈 Team form is strong.";
+
+    }
+
+    else {
+
+        suggestion1 =
+            "⚠️ Team form is not strong enough.";
+
+    }
+
+
+    /* =====================================================
+       SUGGESTION 2
+    ===================================================== */
+
+    let suggestion2;
+
+
+    if (attack >= 70) {
+
+        suggestion2 =
+            "⚽ Strong attacking profile.";
+
+    }
+
+    else if (attack >= 50) {
+
+        suggestion2 =
+            "⚖️ Average attacking profile.";
+
+    }
+
+    else {
+
+        suggestion2 =
+            "⚠️ Weak attacking profile.";
+
+    }
+
+
+    /* =====================================================
+       SUGGESTION 3
+    ===================================================== */
+
+    let suggestion3;
+
+
+    if (
+        over15Rate >= 70 &&
+        goals14Rate >= 60
+    ) {
+
+        suggestion3 =
+            "🎯 Goal trend looks favorable.";
+
+    }
+
+    else if (
+        over15Rate < 40
+    ) {
+
+        suggestion3 =
+            "🛡️ Low-goal trend detected.";
+
+    }
+
+    else {
+
+        suggestion3 =
+            "⚖️ Goal trend is mixed.";
+
+    }
+
+
+    document
+    .getElementById("suggestion1")
+    .textContent =
+        suggestion1;
+
+
+    document
+    .getElementById("suggestion2")
+    .textContent =
+        suggestion2;
+
+
+    document
+    .getElementById("suggestion3")
+    .textContent =
+        suggestion3;
+
+
+    /* =====================================================
+       SHOW RESULT
+    ===================================================== */
+
+    document
+    .getElementById("resultBox")
+    .style.display =
+        "block";
+
+
+    /* =====================================================
+       SCROLL TO RESULT
+    ===================================================== */
+
+    document
+    .getElementById("resultBox")
+    .scrollIntoView({
+        behavior: "smooth"
+    });
+
+});
+
+
+/* =========================================================
+   RATING INTERPRETATION
+========================================================= */
+
+function interpretRating(value) {
+
+
+    if (value >= 85) {
+
+        return "Elite";
+
+    }
+
+    if (value >= 75) {
+
+        return "Very Strong";
+
+    }
+
+    if (value >= 65) {
+
+        return "Strong";
+
+    }
+
+    if (value >= 55) {
+
+        return "Above Average";
+
+    }
+
+    if (value >= 45) {
+
+        return "Average";
+
+    }
+
+    if (value >= 35) {
+
+        return "Below Average";
+
+    }
+
+    if (value >= 20) {
+
+        return "Weak";
+
+    }
+
+    return "Very Weak";
+
+}
+
+
+/* =========================================================
+   RATE INTERPRETATION
+========================================================= */
+
+function interpretRate(value) {
+
+
+    if (value >= 80) {
+
+        return "Very High";
+
+    }
+
+    if (value >= 65) {
+
+        return "High";
+
+    }
+
+    if (value >= 50) {
+
+        return "Moderate";
+
+    }
+
+    if (value >= 35) {
+
+        return "Low";
+
+    }
+
+    return "Very Low";
+
+}
+
+
+/* =========================================================
+   LOSS INTERPRETATION
+========================================================= */
+
+function interpretLossRate(value) {
+
+
+    if (value <= 15) {
+
+        return "Excellent";
+
+    }
+
+    if (value <= 30) {
+
+        return "Acceptable";
+
+    }
+
+    if (value <= 50) {
+
+        return "Concerning";
+
+    }
+
+    return "High Loss Rate";
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+document
+.getElementById("resetBtn")
+.addEventListener("click", function () {
+
+
+    setTimeout(function () {
+
+        document
+        .getElementById("resultBox")
+        .style.display =
+            "none";
+
+    }, 10);
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>

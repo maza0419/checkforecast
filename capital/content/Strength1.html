@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - Rating Interpreter</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    min-height:100vh;
+    padding:20px;
+    color:#222;
+}
+
+.container{
+    max-width:1250px;
+    margin:auto;
+    background:#fff;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 15px 45px rgba(0,0,0,.4);
+}
+
+nav{
+    background:#f8f9fa;
+    border-radius:12px;
+    margin-bottom:25px;
+    overflow:hidden;
+}
+
+nav ul{
+    display:flex;
+    flex-wrap:wrap;
+    list-style:none;
+}
+
+nav li{
+    flex:1;
+    min-width:120px;
+}
+
+nav a{
+    display:block;
+    padding:14px;
+    text-align:center;
+    text-decoration:none;
+    color:#1565C0;
+    font-weight:bold;
+}
+
+nav a:hover{
+    background:#dce6f2;
+}
+
+h1{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#666;
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+/* ==============================
+   INPUT SECTION
+============================== */
+
+.input-section{
+    background:#f5f8fc;
+    padding:22px;
+    border-radius:15px;
+    margin-bottom:25px;
+}
+
+.input-section h2{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:20px;
+}
+
+.team-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.team-card{
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.team-card.home-card{
+    border-top:5px solid #28a745;
+}
+
+.team-card.away-card{
+    border-top:5px solid #dc3545;
+}
+
+.team-card h3{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.home-title{
+    color:#28a745;
+}
+
+.away-title{
+    color:#dc3545;
+}
+
+.input-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.input-group label{
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:6px;
+    color:#555;
+}
+
+input,
+select{
+    width:100%;
+    padding:11px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#1565C0;
+    box-shadow:0 0 0 2px rgba(21,101,192,.1);
+}
+
+/* ==============================
+   LEAGUE
+============================== */
+
+.league-section{
+    margin-top:20px;
+    background:#fff8e1;
+    border-left:6px solid #ff9800;
+    padding:20px;
+    border-radius:12px;
+}
+
+.league-section h3{
+    color:#e65100;
+    margin-bottom:12px;
+}
+
+.league-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.league-grid label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+/* ==============================
+   BUTTONS
+============================== */
+
+.buttons{
+    text-align:center;
+    margin:25px 0;
+}
+
+button{
+    padding:14px 28px;
+    margin:5px;
+    border:none;
+    border-radius:10px;
+    color:#fff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#calculate{
+    background:#1565C0;
+}
+
+#reset{
+    background:#ff9800;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+/* ==============================
+   RATING SCALE
+============================== */
+
+.scale-box{
+    margin-bottom:25px;
+    padding:20px;
+    background:#eef5ff;
+    border:2px solid #1565C0;
+    border-radius:15px;
+}
+
+.scale-box h2{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:15px;
+}
+
+.scale-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:8px;
+}
+
+.scale-item{
+    padding:12px 5px;
+    text-align:center;
+    background:#fff;
+    border-radius:8px;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.scale-item span{
+    display:block;
+    font-size:20px;
+    color:#1565C0;
+    margin-bottom:4px;
+}
+
+/* ==============================
+   RESULTS
+============================== */
+
+.results{
+    margin-top:25px;
+}
+
+.results h2{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:20px;
+}
+
+.result-table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th{
+    padding:15px;
+    color:#fff;
+}
+
+th:first-child{
+    background:#1565C0;
+}
+
+th:nth-child(2){
+    background:#34495e;
+}
+
+th:nth-child(3){
+    background:#28a745;
+}
+
+th:nth-child(4){
+    background:#ff9800;
+}
+
+th:nth-child(5){
+    background:#8e44ad;
+}
+
+td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+tr:nth-child(even){
+    background:#f8f8f8;
+}
+
+.rating-result{
+    display:inline-block;
+    min-width:150px;
+    padding:10px;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+.rating-number{
+    font-size:22px;
+    display:block;
+}
+
+.rating-label{
+    font-size:13px;
+}
+
+/* Rating colors */
+
+.elite{
+    background:#d4edda;
+    color:#155724;
+}
+
+.vstrong{
+    background:#dff5e3;
+    color:#237a3b;
+}
+
+.strong{
+    background:#e8f5e9;
+    color:#2e7d32;
+}
+
+.good{
+    background:#e8f8f0;
+    color:#28784c;
+}
+
+.above{
+    background:#e3f2fd;
+    color:#1565C0;
+}
+
+.average{
+    background:#fff8e1;
+    color:#8a6d00;
+}
+
+.below{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.weak{
+    background:#ffe9d6;
+    color:#a54b00;
+}
+
+.vweak{
+    background:#ffe0e0;
+    color:#a00000;
+}
+
+.poor{
+    background:#ffd6d6;
+    color:#9b0000;
+}
+
+.verypoor{
+    background:#ffcaca;
+    color:#7f0000;
+}
+
+/* ==============================
+   IMPORTANT VALUE HIGHLIGHT
+============================== */
+
+.most-important{
+    margin-top:25px;
+    padding:25px;
+    background:linear-gradient(135deg,#fff8e1,#fff);
+    border:3px solid #ff9800;
+    border-radius:15px;
+}
+
+.most-important h2{
+    color:#e65100;
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.highlight-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.highlight-card{
+    background:#fff;
+    padding:18px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    border-left:6px solid #1565C0;
+}
+
+.highlight-card h3{
+    color:#1565C0;
+    margin-bottom:8px;
+}
+
+.highlight-card strong{
+    font-size:20px;
+}
+
+/* ==============================
+   INTERPRETATION
+============================== */
+
+.interpretation{
+    margin-top:25px;
+    padding:25px;
+    background:#f8f9fa;
+    border-radius:15px;
+}
+
+.interpretation h2{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:20px;
+}
+
+.interpretation-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.interpretation-card{
+    background:#fff;
+    padding:18px;
+    border-radius:12px;
+    border-left:5px solid #1565C0;
+    box-shadow:0 4px 10px rgba(0,0,0,.06);
+}
+
+.interpretation-card h3{
+    color:#1565C0;
+    margin-bottom:8px;
+}
+
+.interpretation-card p{
+    line-height:1.7;
+}
+
+/* ==============================
+   SUMMARY
+============================== */
+
+.summary{
+    margin-top:25px;
+    padding:25px;
+    background:linear-gradient(135deg,#eef5ff,#fff);
+    border:2px solid #1565C0;
+    border-radius:15px;
+}
+
+.summary h2{
+    color:#1565C0;
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.summary p{
+    line-height:1.9;
+    text-align:center;
+}
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media(max-width:750px){
+
+    body{
+        padding:10px;
+    }
+
+    .container{
+        padding:15px;
+    }
+
+    .team-grid,
+    .league-grid,
+    .highlight-grid,
+    .interpretation-grid{
+        grid-template-columns:1fr;
+    }
+
+    .input-grid{
+        grid-template-columns:1fr;
+    }
+
+    .scale-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    nav li{
+        flex:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<nav>
+
+<ul>
+
+<li>
+<a href="index.html">HOME</a>
+</li>
+
+<li>
+<a href="Analysis.html">ANALYSIS</a>
+</li>
+
+<li>
+<a href="Prediction.html">PREDICTION</a>
+</li>
+
+<li>
+<a href="Forecast.html">FORECAST</a>
+</li>
+
+<li>
+<a href="Strength.html">STRENGTH</a>
+</li>
+
+</ul>
+
+</nav>
+
+
+<h1>⚽ Football Value Capital</h1>
+
+<p class="subtitle">
+
+<strong>Football Rating Interpreter</strong><br>
+
+Enter the team's recent wins, draws, losses and goals.
+The system converts the numbers into the seven rating
+selections used by your match-analysis application.
+
+</p>
+
+
+<!-- =====================================================
+     RATING SCALE
+===================================================== -->
+
+<div class="scale-box">
+
+<h2>📊 YOUR RATING SCALE</h2>
+
+<div class="scale-grid">
+
+<div class="scale-item elite">
+<span>100</span>
+Elite
+</div>
+
+<div class="scale-item vstrong">
+<span>90</span>
+V Strong
+</div>
+
+<div class="scale-item strong">
+<span>80</span>
+Strong
+</div>
+
+<div class="scale-item good">
+<span>70</span>
+Good
+</div>
+
+<div class="scale-item above">
+<span>60</span>
+Above Average
+</div>
+
+<div class="scale-item average">
+<span>50</span>
+Average
+</div>
+
+<div class="scale-item below">
+<span>40</span>
+Below Average
+</div>
+
+<div class="scale-item weak">
+<span>30</span>
+Weak
+</div>
+
+<div class="scale-item vweak">
+<span>20</span>
+V Weak
+</div>
+
+<div class="scale-item poor">
+<span>10</span>
+Poor
+</div>
+
+<div class="scale-item verypoor">
+<span>0</span>
+Very Poor
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     TEAM INPUT
+===================================================== -->
+
+<div class="input-section">
+
+<h2>📝 ENTER TEAM DATA</h2>
+
+<div class="team-grid">
+
+
+<!-- HOME -->
+
+<div class="team-card home-card">
+
+<h3 class="home-title">
+🏠 HOME TEAM
+</h3>
+
+<div class="input-grid">
+
+<div class="input-group">
+
+<label>Last 10 Matches - Wins</label>
+
+<input
+type="number"
+id="homeWins"
+min="0"
+max="10"
+value="5">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Last 10 Matches - Draws</label>
+
+<input
+type="number"
+id="homeDraws"
+min="0"
+max="10"
+value="2">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Last 10 Matches - Losses</label>
+
+<input
+type="number"
+id="homeLosses"
+min="0"
+max="10"
+value="3">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Goals Scored</label>
+
+<input
+type="number"
+id="homeGoalsFor"
+min="0"
+value="15">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Goals Conceded</label>
+
+<input
+type="number"
+id="homeGoalsAgainst"
+min="0"
+value="12">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Last 10 Home Wins</label>
+
+<input
+type="number"
+id="homeVenueWins"
+min="0"
+max="10"
+value="6">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Last 10 Home Draws</label>
+
+<input
+type="number"
+id="homeVenueDraws"
+min="0"
+max="10"
+value="2">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Home Goals Scored</label>
+
+<input
+type="number"
+id="homeVenueGoalsFor"
+min="0"
+value="18">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Home Goals Conceded</label>
+
+<input
+type="number"
+id="homeVenueGoalsAgainst"
+min="0"
+value="10">
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- AWAY -->
+
+<div class="team-card away-card">
+
+<h3 class="away-title">
+✈️ AWAY TEAM
+</h3>
+
+<div class="input-grid">
+
+<div class="input-group">
+
+<label>Last 10 Matches - Wins</label>
+
+<input
+type="number"
+id="awayWins"
+min="0"
+max="10"
+value="4">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Last 10 Matches - Draws</label>
+
+<input
+type="number"
+id="awayDraws"
+min="0"
+max="10"
+value="3">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Last 10 Matches - Losses</label>
+
+<input
+type="number"
+id="awayLosses"
+min="0"
+max="10"
+value="3">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Goals Scored</label>
+
+<input
+type="number"
+id="awayGoalsFor"
+min="0"
+value="14">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Goals Conceded</label>
+
+<input
+type="number"
+id="awayGoalsAgainst"
+min="0"
+value="13">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Last 10 Away Wins</label>
+
+<input
+type="number"
+id="awayVenueWins"
+min="0"
+max="10"
+value="4">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Last 10 Away Draws</label>
+
+<input
+type="number"
+id="awayVenueDraws"
+min="0"
+max="10"
+value="2">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Away Goals Scored</label>
+
+<input
+type="number"
+id="awayVenueGoalsFor"
+min="0"
+value="14">
+
+</div>
+
+
+<div class="input-group">
+
+<label>Away Goals Conceded</label>
+
+<input
+type="number"
+id="awayVenueGoalsAgainst"
+min="0"
+value="12">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     LEAGUE LEVEL
+===================================================== -->
+
+<div class="league-section">
+
+<h3>🌍 LEAGUE LEVEL</h3>
+
+<p style="line-height:1.7;margin-bottom:15px;">
+
+League level cannot be accurately calculated from wins,
+draws and goals alone. It represents the competitive
+strength of the competition.
+
+</p>
+
+<div class="league-grid">
+
+<div>
+
+<label>Home League Level</label>
+
+<select id="homeLeague">
+
+<option value="100">Elite League — 100%</option>
+<option value="95">Top European Level — 95%</option>
+<option value="90">Very Strong League — 90%</option>
+<option value="85">Strong League — 85%</option>
+<option value="80">Good League — 80%</option>
+<option value="75">Above Average — 75%</option>
+<option value="70">Average Strong — 70%</option>
+<option value="65" selected>Average — 65%</option>
+<option value="60">Below Average — 60%</option>
+<option value="50">Weak League — 50%</option>
+<option value="40">Very Weak League — 40%</option>
+<option value="30">Low Level — 30%</option>
+<option value="20">Very Low Level — 20%</option>
+<option value="10">Extreme Low Level — 10%</option>
+<option value="0">Lowest Level — 0%</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Away League Level</label>
+
+<select id="awayLeague">
+
+<option value="100">Elite League — 100%</option>
+<option value="95">Top European Level — 95%</option>
+<option value="90">Very Strong League — 90%</option>
+<option value="85">Strong League — 85%</option>
+<option value="80">Good League — 80%</option>
+<option value="75">Above Average — 75%</option>
+<option value="70">Average Strong — 70%</option>
+<option value="65" selected>Average — 65%</option>
+<option value="60">Below Average — 60%</option>
+<option value="50">Weak League — 50%</option>
+<option value="40">Very Weak League — 40%</option>
+<option value="30">Low Level — 30%</option>
+<option value="20">Very Low Level — 20%</option>
+<option value="10">Extreme Low Level — 10%</option>
+<option value="0">Lowest Level — 0%</option>
+
+</select>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="buttons">
+
+<button id="reset" type="button">
+🔄 RESET
+</button>
+
+<button id="calculate" type="button">
+🔍 INTERPRET DATA
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     RESULTS
+===================================================== -->
+
+<div class="results">
+
+<h2>📊 CALCULATED RATINGS</h2>
+
+<div class="result-table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>FACTOR</th>
+
+<th>HOW IT WAS CALCULATED</th>
+
+<th>🏠 HOME RATING</th>
+
+<th>✈️ AWAY RATING</th>
+
+<th>INTERPRETATION</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td><strong>📈 FORM</strong></td>
+
+<td id="formCalculation">
+Waiting...
+</td>
+
+<td id="homeFormResult">
+Waiting...
+</td>
+
+<td id="awayFormResult">
+Waiting...
+</td>
+
+<td>
+Recent W/D/L performance
+</td>
+
+</tr>
+
+
+<tr>
+
+<td><strong>⚽ ATTACK</strong></td>
+
+<td id="attackCalculation">
+Waiting...
+</td>
+
+<td id="homeAttackResult">
+Waiting...
+</td>
+
+<td id="awayAttackResult">
+Waiting...
+</td>
+
+<td>
+Goals scored per match
+</td>
+
+</tr>
+
+
+<tr>
+
+<td><strong>🛡️ DEFENCE</strong></td>
+
+<td id="defenceCalculation">
+Waiting...
+</td>
+
+<td id="homeDefenceResult">
+Waiting...
+</td>
+
+<td id="awayDefenceResult">
+Waiting...
+</td>
+
+<td>
+Goals conceded per match
+</td>
+
+</tr>
+
+
+<tr>
+
+<td><strong>🏆 TEAM QUALITY</strong></td>
+
+<td id="qualityCalculation">
+Waiting...
+</td>
+
+<td id="homeQualityResult">
+Waiting...
+</td>
+
+<td id="awayQualityResult">
+Waiting...
+</td>
+
+<td>
+Overall performance profile
+</td>
+
+</tr>
+
+
+<tr>
+
+<td><strong>🌍 LEAGUE LEVEL</strong></td>
+
+<td>
+Manually selected competitive level
+</td>
+
+<td id="homeLeagueResult">
+Waiting...
+</td>
+
+<td id="awayLeagueResult">
+Waiting...
+</td>
+
+<td>
+Competition strength
+</td>
+
+</tr>
+
+
+<tr>
+
+<td><strong>🏠 HOME / AWAY STRENGTH</strong></td>
+
+<td id="venueCalculation">
+Waiting...
+</td>
+
+<td id="homeVenueResult">
+Waiting...
+</td>
+
+<td id="awayVenueResult">
+Waiting...
+</td>
+
+<td>
+Venue-specific performance
+</td>
+
+</tr>
+
+
+<tr>
+
+<td><strong>🎯 GOAL ENVIRONMENT</strong></td>
+
+<td id="goalCalculation">
+Waiting...
+</td>
+
+<td id="homeGoalResult">
+Waiting...
+</td>
+
+<td id="awayGoalResult">
+Waiting...
+</td>
+
+<td>
+Expected goal environment
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     MOST IMPORTANT VALUES
+===================================================== -->
+
+<div class="most-important">
+
+<h2>
+⭐ MOST IMPORTANT VALUES SELECTED
+</h2>
+
+<div class="highlight-grid">
+
+<div class="highlight-card">
+
+<h3>🏠 Home Strongest Factor</h3>
+
+<strong id="homeBest">
+Waiting...
+</strong>
+
+</div>
+
+
+<div class="highlight-card">
+
+<h3>✈️ Away Strongest Factor</h3>
+
+<strong id="awayBest">
+Waiting...
+</strong>
+
+</div>
+
+
+<div class="highlight-card">
+
+<h3>🏠 Home Weakest Factor</h3>
+
+<strong id="homeWorst">
+Waiting...
+</strong>
+
+</div>
+
+
+<div class="highlight-card">
+
+<h3>✈️ Away Weakest Factor</h3>
+
+<strong id="awayWorst">
+Waiting...
+</strong>
+
+</div>
+
+
+<div class="highlight-card">
+
+<h3>⚽ Strongest Attack</h3>
+
+<strong id="bestAttack">
+Waiting...
+</strong>
+
+</div>
+
+
+<div class="highlight-card">
+
+<h3>🛡️ Strongest Defence</h3>
+
+<strong id="bestDefence">
+Waiting...
+</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     INTERPRETATION
+===================================================== -->
+
+<div class="interpretation">
+
+<h2>
+🧠 HOW THE NUMBERS PRODUCED THE RATINGS
+</h2>
+
+<div class="interpretation-grid">
+
+<div class="interpretation-card">
+
+<h3>📈 FORM</h3>
+
+<p>
+
+Form is based primarily on the team's last 10 results.
+
+<br><br>
+
+<strong>Points = Wins × 3 + Draws × 1</strong>
+
+<br><br>
+
+The resulting Points Per Game (PPG) is converted
+to the rating scale.
+
+</p>
+
+</div>
+
+
+<div class="interpretation-card">
+
+<h3>⚽ ATTACK</h3>
+
+<p>
+
+Attack is determined mainly by goals scored per match.
+
+<br><br>
+
+More goals per match = higher attack rating.
+
+<br><br>
+
+The app compares the scoring rate against
+a football performance scale.
+
+</p>
+
+</div>
+
+
+<div class="interpretation-card">
+
+<h3>🛡️ DEFENCE</h3>
+
+<p>
+
+Defence uses goals conceded per match.
+
+<br><br>
+
+<strong>Lower goals conceded = better defence.</strong>
+
+<br><br>
+
+A team conceding fewer goals receives a higher
+defensive rating.
+
+</p>
+
+</div>
+
+
+<div class="interpretation-card">
+
+<h3>🏆 TEAM QUALITY</h3>
+
+<p>
+
+Team Quality combines:
+
+<br>
+
+• Results<br>
+• Points per game<br>
+• Goals scored<br>
+• Goals conceded<br>
+• Goal difference
+
+<br><br>
+
+It is broader than simple form.
+
+</p>
+
+</div>
+
+
+<div class="interpretation-card">
+
+<h3>🌍 LEAGUE LEVEL</h3>
+
+<p>
+
+League Level is not derived from one team's
+wins and goals.
+
+<br><br>
+
+It represents the strength of the competition.
+
+For example, a team's statistics should be
+interpreted within the level of the league
+where those statistics were produced.
+
+</p>
+
+</div>
+
+
+<div class="interpretation-card">
+
+<h3>🏠 HOME / AWAY STRENGTH</h3>
+
+<p>
+
+Home Strength uses the home team's home results.
+
+<br><br>
+
+Away Strength uses the away team's away results.
+
+<br><br>
+
+This prevents overall form from hiding
+venue-specific performance.
+
+</p>
+
+</div>
+
+
+<div class="interpretation-card">
+
+<h3>🎯 GOAL ENVIRONMENT</h3>
+
+<p>
+
+Goal Environment considers the scoring and
+conceding rates of both teams.
+
+<br><br>
+
+It asks:
+
+<br>
+
+<strong>
+How many total goals are these teams
+producing and allowing?
+</strong>
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     SUMMARY
+===================================================== -->
+
+<div class="summary">
+
+<h2>📋 FINAL INTERPRETATION</h2>
+
+<p id="finalSummary">
+
+Enter the data and click
+<strong>INTERPRET DATA</strong>.
+
+</p>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   RATING FUNCTION
+========================================================= */
+
+function ratingObject(score){
+
+    let rating;
+
+    if(score >= 90){
+
+        rating = 100;
+
+    }else if(score >= 80){
+
+        rating = 90;
+
+    }else if(score >= 70){
+
+        rating = 80;
+
+    }else if(score >= 60){
+
+        rating = 70;
+
+    }else if(score >= 50){
+
+        rating = 60;
+
+    }else if(score >= 40){
+
+        rating = 50;
+
+    }else if(score >= 30){
+
+        rating = 40;
+
+    }else if(score >= 20){
+
+        rating = 30;
+
+    }else if(score >= 10){
+
+        rating = 20;
+
+    }else if(score > 0){
+
+        rating = 10;
+
+    }else{
+
+        rating = 0;
+
+    }
+
+    return rating;
+
+}
+
+
+/* =========================================================
+   RATING LABEL
+========================================================= */
+
+function ratingLabel(rating){
+
+    const labels = {
+
+        100:"Elite",
+        90:"V Strong",
+        80:"Strong",
+        70:"Good",
+        60:"Above Average",
+        50:"Average",
+        40:"Below Average",
+        30:"Weak",
+        20:"V Weak",
+        10:"Poor",
+        0:"Very Poor"
+
+    };
+
+    return labels[rating];
+
+}
+
+
+/* =========================================================
+   CSS CLASS
+========================================================= */
+
+function ratingClass(rating){
+
+    const classes = {
+
+        100:"elite",
+        90:"vstrong",
+        80:"strong",
+        70:"good",
+        60:"above",
+        50:"average",
+        40:"below",
+        30:"weak",
+        20:"vweak",
+        10:"poor",
+        0:"verypoor"
+
+    };
+
+    return classes[rating];
+
+}
+
+
+/* =========================================================
+   DISPLAY RATING
+========================================================= */
+
+function displayRating(score){
+
+    const rating = ratingObject(score);
+
+    return `
+
+        <div class="rating-result ${ratingClass(rating)}">
+
+            <span class="rating-number">
+                ${rating}%
+            </span>
+
+            <span class="rating-label">
+                ${ratingLabel(rating)}
+            </span>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   GET NUMBER
+========================================================= */
+
+function num(id){
+
+    return Number(
+        document.getElementById(id).value
+    ) || 0;
+
+}
+
+
+/* =========================================================
+   FORM SCORE
+========================================================= */
+
+function calculateForm(wins,draws){
+
+    const points =
+        (wins * 3) + draws;
+
+    const ppg =
+        points / 10;
+
+    /*
+       3.0 PPG = 100
+       2.7 PPG = 90
+       2.4 PPG = 80
+       2.1 PPG = 70
+       1.8 PPG = 60
+       1.5 PPG = 50
+       1.2 PPG = 40
+       0.9 PPG = 30
+       0.6 PPG = 20
+       0.3 PPG = 10
+       0.0 PPG = 0
+    */
+
+    let score =
+        (ppg / 3) * 100;
+
+    score =
+        Math.max(
+            0,
+            Math.min(100,score)
+        );
+
+    return {
+        score:score,
+        ppg:ppg
+    };
+
+}
+
+
+/* =========================================================
+   ATTACK SCORE
+========================================================= */
+
+function calculateAttack(goals){
+
+    const goalsPerMatch =
+        goals / 10;
+
+    /*
+       2.50+ = 100
+       2.20 = 90
+       1.90 = 80
+       1.60 = 70
+       1.40 = 60
+       1.20 = 50
+       1.00 = 40
+       0.80 = 30
+       0.60 = 20
+       0.40 = 10
+       <0.40 = 0
+    */
+
+    let score;
+
+    if(goalsPerMatch >= 2.5)
+        score = 100;
+
+    else if(goalsPerMatch >= 2.2)
+        score = 90;
+
+    else if(goalsPerMatch >= 1.9)
+        score = 80;
+
+    else if(goalsPerMatch >= 1.6)
+        score = 70;
+
+    else if(goalsPerMatch >= 1.4)
+        score = 60;
+
+    else if(goalsPerMatch >= 1.2)
+        score = 50;
+
+    else if(goalsPerMatch >= 1.0)
+        score = 40;
+
+    else if(goalsPerMatch >= .8)
+        score = 30;
+
+    else if(goalsPerMatch >= .6)
+        score = 20;
+
+    else if(goalsPerMatch >= .4)
+        score = 10;
+
+    else
+        score = 0;
+
+    return {
+        score:score,
+        gpg:goalsPerMatch
+    };
+
+}
+
+
+/* =========================================================
+   DEFENCE SCORE
+========================================================= */
+
+function calculateDefence(goalsAgainst){
+
+    const concededPerMatch =
+        goalsAgainst / 10;
+
+    let score;
+
+    /*
+       Lower goals conceded = better.
+
+       <=0.50 = 100
+       <=0.70 = 90
+       <=0.90 = 80
+       <=1.10 = 70
+       <=1.30 = 60
+       <=1.50 = 50
+       <=1.70 = 40
+       <=1.90 = 30
+       <=2.10 = 20
+       <=2.30 = 10
+       >2.30 = 0
+    */
+
+    if(concededPerMatch <= .50)
+        score = 100;
+
+    else if(concededPerMatch <= .70)
+        score = 90;
+
+    else if(concededPerMatch <= .90)
+        score = 80;
+
+    else if(concededPerMatch <= 1.10)
+        score = 70;
+
+    else if(concededPerMatch <= 1.30)
+        score = 60;
+
+    else if(concededPerMatch <= 1.50)
+        score = 50;
+
+    else if(concededPerMatch <= 1.70)
+        score = 40;
+
+    else if(concededPerMatch <= 1.90)
+        score = 30;
+
+    else if(concededPerMatch <= 2.10)
+        score = 20;
+
+    else if(concededPerMatch <= 2.30)
+        score = 10;
+
+    else
+        score = 0;
+
+    return {
+        score:score,
+        cpg:concededPerMatch
+    };
+
+}
+
+
+/* =========================================================
+   TEAM QUALITY
+========================================================= */
+
+function calculateQuality(
+    wins,
+    draws,
+    goalsFor,
+    goalsAgainst
+){
+
+    const points =
+        wins * 3 + draws;
+
+    const ppg =
+        points / 10;
+
+    const gpg =
+        goalsFor / 10;
+
+    const conceded =
+        goalsAgainst / 10;
+
+    const goalDifference =
+        goalsFor - goalsAgainst;
+
+    /*
+       Quality combines:
+       40% results
+       30% attack
+       30% goal difference/defence
+    */
+
+    const formComponent =
+        (ppg / 3) * 100;
+
+    const attackComponent =
+        Math.min(
+            100,
+            (gpg / 2.5) * 100
+        );
+
+    let defenceComponent =
+        100 -
+        ((conceded - .5) / 1.8 * 100);
+
+    defenceComponent =
+        Math.max(
+            0,
+            Math.min(100,defenceComponent)
+        );
+
+    let score =
+
+        formComponent * .40 +
+
+        attackComponent * .30 +
+
+        defenceComponent * .30;
+
+    return {
+        score:score,
+        ppg:ppg,
+        gd:goalDifference
+    };
+
+}
+
+
+/* =========================================================
+   VENUE STRENGTH
+========================================================= */
+
+function calculateVenue(
+    wins,
+    draws
+){
+
+    const points =
+        wins * 3 + draws;
+
+    const ppg =
+        points / 10;
+
+    const score =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                (ppg / 3) * 100
+            )
+        );
+
+    return {
+        score:score,
+        ppg:ppg
+    };
+
+}
+
+
+/* =========================================================
+   GOAL ENVIRONMENT
+========================================================= */
+
+function calculateGoalEnvironment(
+    goalsFor,
+    goalsAgainst
+){
+
+    const totalGoals =
+        goalsFor + goalsAgainst;
+
+    const goalsPerMatch =
+        totalGoals / 10;
+
+    /*
+       4.0+ = 100
+       3.6 = 90
+       3.2 = 80
+       2.8 = 70
+       2.5 = 60
+       2.2 = 50
+       1.9 = 40
+       1.6 = 30
+       1.3 = 20
+       1.0 = 10
+       <1.0 = 0
+    */
+
+    let score;
+
+    if(goalsPerMatch >= 4)
+        score=100;
+
+    else if(goalsPerMatch >= 3.6)
+        score=90;
+
+    else if(goalsPerMatch >= 3.2)
+        score=80;
+
+    else if(goalsPerMatch >= 2.8)
+        score=70;
+
+    else if(goalsPerMatch >= 2.5)
+        score=60;
+
+    else if(goalsPerMatch >= 2.2)
+        score=50;
+
+    else if(goalsPerMatch >= 1.9)
+        score=40;
+
+    else if(goalsPerMatch >= 1.6)
+        score=30;
+
+    else if(goalsPerMatch >= 1.3)
+        score=20;
+
+    else if(goalsPerMatch >= 1.0)
+        score=10;
+
+    else
+        score=0;
+
+    return {
+        score:score,
+        gpm:goalsPerMatch
+    };
+
+}
+
+
+/* =========================================================
+   ANALYZE
+========================================================= */
+
+document.getElementById("calculate").onclick =
+function(){
+
+    /* HOME */
+
+    const hw = num("homeWins");
+    const hd = num("homeDraws");
+    const hl = num("homeLosses");
+
+    const hgf = num("homeGoalsFor");
+    const hga = num("homeGoalsAgainst");
+
+    const hvw = num("homeVenueWins");
+    const hvd = num("homeVenueDraws");
+
+    const hvgf = num("homeVenueGoalsFor");
+    const hvga = num("homeVenueGoalsAgainst");
+
+    /* AWAY */
+
+    const aw = num("awayWins");
+    const ad = num("awayDraws");
+    const al = num("awayLosses");
+
+    const agf = num("awayGoalsFor");
+    const aga = num("awayGoalsAgainst");
+
+    const avw = num("awayVenueWins");
+    const avd = num("awayVenueDraws");
+
+    const avgf = num("awayVenueGoalsFor");
+    const avga = num("awayVenueGoalsAgainst");
+
+    /* LEAGUE */
+
+    const homeLeague =
+        Number(
+            document.getElementById("homeLeague").value
+        );
+
+    const awayLeague =
+        Number(
+            document.getElementById("awayLeague").value
+        );
+
+
+    /* ==========================
+       CALCULATIONS
+    ========================== */
+
+    const homeForm =
+        calculateForm(hw,hd);
+
+    const awayForm =
+        calculateForm(aw,ad);
+
+
+    const homeAttack =
+        calculateAttack(hgf);
+
+    const awayAttack =
+        calculateAttack(agf);
+
+
+    const homeDefence =
+        calculateDefence(hga);
+
+    const awayDefence =
+        calculateDefence(aga);
+
+
+    const homeQuality =
+        calculateQuality(
+            hw,
+            hd,
+            hgf,
+            hga
+        );
+
+    const awayQuality =
+        calculateQuality(
+            aw,
+            ad,
+            agf,
+            aga
+        );
+
+
+    const homeVenue =
+        calculateVenue(
+            hvw,
+            hvd
+        );
+
+    const awayVenue =
+        calculateVenue(
+            avw,
+            avd
+        );
+
+
+    /*
+       Goal environment uses
+       venue-specific scoring data
+       because this match is being
+       evaluated at home/away venues.
+    */
+
+    const homeGoal =
+        calculateGoalEnvironment(
+            hvgf,
+            hvga
+        );
+
+    const awayGoal =
+        calculateGoalEnvironment(
+            avgf,
+            avga
+        );
+
+
+    /* ==========================
+       DISPLAY RATINGS
+    ========================== */
+
+    document.getElementById("homeFormResult").innerHTML =
+        displayRating(homeForm.score);
+
+    document.getElementById("awayFormResult").innerHTML =
+        displayRating(awayForm.score);
+
+
+    document.getElementById("homeAttackResult").innerHTML =
+        displayRating(homeAttack.score);
+
+    document.getElementById("awayAttackResult").innerHTML =
+        displayRating(awayAttack.score);
+
+
+    document.getElementById("homeDefenceResult").innerHTML =
+        displayRating(homeDefence.score);
+
+    document.getElementById("awayDefenceResult").innerHTML =
+        displayRating(awayDefence.score);
+
+
+    document.getElementById("homeQualityResult").innerHTML =
+        displayRating(homeQuality.score);
+
+    document.getElementById("awayQualityResult").innerHTML =
+        displayRating(awayQuality.score);
+
+
+    document.getElementById("homeLeagueResult").innerHTML =
+        displayRating(homeLeague);
+
+    document.getElementById("awayLeagueResult").innerHTML =
+        displayRating(awayLeague);
+
+
+    document.getElementById("homeVenueResult").innerHTML =
+        displayRating(homeVenue.score);
+
+    document.getElementById("awayVenueResult").innerHTML =
+        displayRating(awayVenue.score);
+
+
+    document.getElementById("homeGoalResult").innerHTML =
+        displayRating(homeGoal.score);
+
+    document.getElementById("awayGoalResult").innerHTML =
+        displayRating(awayGoal.score);
+
+
+    /* ==========================
+       CALCULATION TEXT
+    ========================== */
+
+    document.getElementById("formCalculation").innerHTML =
+
+        `Home: ${hw}W-${hd}D-${hl}L.
+        PPG: ${homeForm.ppg.toFixed(2)}
+        <br>
+        Away: ${aw}W-${ad}D-${al}L.
+        PPG: ${awayForm.ppg.toFixed(2)}`;
+
+
+    document.getElementById("attackCalculation").innerHTML =
+
+        `Home: ${homeAttack.gpg.toFixed(2)}
+        goals/game
+        <br>
+        Away: ${awayAttack.gpg.toFixed(2)}
+        goals/game`;
+
+
+    document.getElementById("defenceCalculation").innerHTML =
+
+        `Home: ${homeDefence.cpg.toFixed(2)}
+        conceded/game
+        <br>
+        Away: ${awayDefence.cpg.toFixed(2)}
+        conceded/game`;
+
+
+    document.getElementById("qualityCalculation").innerHTML =
+
+        `Home GD: ${homeQuality.gd}
+        <br>
+        Away GD: ${awayQuality.gd}`;
+
+
+    document.getElementById("venueCalculation").innerHTML =
+
+        `Home PPG at home:
+        ${homeVenue.ppg.toFixed(2)}
+        <br>
+        Away PPG away:
+        ${awayVenue.ppg.toFixed(2)}`;
+
+
+    document.getElementById("goalCalculation").innerHTML =
+
+        `Home venue:
+        ${homeGoal.gpm.toFixed(2)} goals/game
+        <br>
+        Away venue:
+        ${awayGoal.gpm.toFixed(2)} goals/game`;
+
+
+    /* ==========================
+       FACTOR ARRAYS
+    ========================== */
+
+    const homeFactors = [
+
+        {
+            name:"Form",
+            score:ratingObject(homeForm.score)
+        },
+
+        {
+            name:"Attack",
+            score:ratingObject(homeAttack.score)
+        },
+
+        {
+            name:"Defence",
+            score:ratingObject(homeDefence.score)
+        },
+
+        {
+            name:"Team Quality",
+            score:ratingObject(homeQuality.score)
+        },
+
+        {
+            name:"League Level",
+            score:ratingObject(homeLeague)
+        },
+
+        {
+            name:"Home Strength",
+            score:ratingObject(homeVenue.score)
+        },
+
+        {
+            name:"Goal Environment",
+            score:ratingObject(homeGoal.score)
+        }
+
+    ];
+
+
+    const awayFactors = [
+
+        {
+            name:"Form",
+            score:ratingObject(awayForm.score)
+        },
+
+        {
+            name:"Attack",
+            score:ratingObject(awayAttack.score)
+        },
+
+        {
+            name:"Defence",
+            score:ratingObject(awayDefence.score)
+        },
+
+        {
+            name:"Team Quality",
+            score:ratingObject(awayQuality.score)
+        },
+
+        {
+            name:"League Level",
+            score:ratingObject(awayLeague)
+        },
+
+        {
+            name:"Away Strength",
+            score:ratingObject(awayVenue.score)
+        },
+
+        {
+            name:"Goal Environment",
+            score:ratingObject(awayGoal.score)
+        }
+
+    ];
+
+
+    /* ==========================
+       BEST / WORST
+    ========================== */
+
+    const homeBest =
+        homeFactors.reduce(
+            (a,b)=>
+            a.score >= b.score ? a : b
+        );
+
+    const homeWorst =
+        homeFactors.reduce(
+            (a,b)=>
+            a.score <= b.score ? a : b
+        );
+
+
+    const awayBest =
+        awayFactors.reduce(
+            (a,b)=>
+            a.score >= b.score ? a : b
+        );
+
+    const awayWorst =
+        awayFactors.reduce(
+            (a,b)=>
+            a.score <= b.score ? a : b
+        );
+
+
+    document.getElementById("homeBest").innerHTML =
+
+        `${homeBest.name} — ${homeBest.score}%`;
+
+    document.getElementById("homeWorst").innerHTML =
+
+        `${homeWorst.name} — ${homeWorst.score}%`;
+
+    document.getElementById("awayBest").innerHTML =
+
+        `${awayBest.name} — ${awayBest.score}%`;
+
+    document.getElementById("awayWorst").innerHTML =
+
+        `${awayWorst.name} — ${awayWorst.score}%`;
+
+
+    /* ==========================
+       ATTACK / DEFENCE LEADERS
+    ========================== */
+
+    const attackWinner =
+        homeAttack.score >= awayAttack.score
+        ? "🏠 HOME"
+        : "✈️ AWAY";
+
+
+    const defenceWinner =
+        homeDefence.score >= awayDefence.score
+        ? "🏠 HOME"
+        : "✈️ AWAY";
+
+
+    document.getElementById("bestAttack").innerHTML =
+
+        `${attackWinner} —
+        ${Math.round(
+            Math.max(
+                homeAttack.score,
+                awayAttack.score
+            )
+        )}%`;
+
+    document.getElementById("bestDefence").innerHTML =
+
+        `${defenceWinner} —
+        ${Math.round(
+            Math.max(
+                homeDefence.score,
+                awayDefence.score
+            )
+        )}%`;
+
+
+    /* ==========================
+       FINAL SUMMARY
+    ========================== */
+
+    const homeOverall =
+
+        (
+            homeForm.score * .20 +
+            homeAttack.score * .15 +
+            homeDefence.score * .15 +
+            homeQuality.score * .20 +
+            homeLeague * .10 +
+            homeVenue.score * .10 +
+            homeGoal.score * .10
+        );
+
+
+    const awayOverall =
+
+        (
+            awayForm.score * .20 +
+            awayAttack.score * .15 +
+            awayDefence.score * .15 +
+            awayQuality.score * .20 +
+            awayLeague * .10 +
+            awayVenue.score * .10 +
+            awayGoal.score * .10
+        );
+
+
+    const homeFinal =
+        ratingObject(homeOverall);
+
+    const awayFinal =
+        ratingObject(awayOverall);
+
+
+    let direction;
+
+    if(homeFinal >= awayFinal + 20){
+
+        direction =
+            "🏠 STRONG HOME PROFILE";
+
+    }
+
+    else if(homeFinal >= awayFinal + 10){
+
+        direction =
+            "🏠 HOME PROFILE ADVANTAGE";
+
+    }
+
+    else if(awayFinal >= homeFinal + 20){
+
+        direction =
+            "✈️ STRONG AWAY PROFILE";
+
+    }
+
+    else if(awayFinal >= homeFinal + 10){
+
+        direction =
+            "✈️ AWAY PROFILE ADVANTAGE";
+
+    }
+
+    else{
+
+        direction =
+            "⚖️ CLOSE / BALANCED PROFILE";
+
+    }
+
+
+    document.getElementById("finalSummary").innerHTML =
+
+        `<strong>${direction}</strong>
+
+        <br><br>
+
+        Overall Home Profile:
+        <strong>${homeFinal}% —
+        ${ratingLabel(homeFinal)}</strong>
+
+        <br>
+
+        Overall Away Profile:
+        <strong>${awayFinal}% —
+        ${ratingLabel(awayFinal)}</strong>
+
+        <br><br>
+
+        The individual factor ratings should be
+        considered before the overall profile. A strong
+        overall number is more useful when several
+        independent factors agree rather than when one
+        factor is doing all the work.`;
+
+};
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+document.getElementById("reset").onclick =
+function(){
+
+    document
+    .querySelectorAll("input")
+    .forEach(input=>{
+
+        input.value = 0;
+
+    });
+
+
+    document
+    .querySelectorAll("select")
+    .forEach(select=>{
+
+        select.selectedIndex = 0;
+
+    });
+
+
+    const ids = [
+
+        "homeFormResult",
+        "awayFormResult",
+
+        "homeAttackResult",
+        "awayAttackResult",
+
+        "homeDefenceResult",
+        "awayDefenceResult",
+
+        "homeQualityResult",
+        "awayQualityResult",
+
+        "homeLeagueResult",
+        "awayLeagueResult",
+
+        "homeVenueResult",
+        "awayVenueResult",
+
+        "homeGoalResult",
+        "awayGoalResult",
+
+        "formCalculation",
+        "attackCalculation",
+        "defenceCalculation",
+        "qualityCalculation",
+        "venueCalculation",
+        "goalCalculation",
+
+        "homeBest",
+        "awayBest",
+        "homeWorst",
+        "awayWorst",
+
+        "bestAttack",
+        "bestDefence"
+
+    ];
+
+
+    ids.forEach(id=>{
+
+        document.getElementById(id).innerHTML =
+            "Waiting...";
+
+    });
+
+
+    document.getElementById("finalSummary").innerHTML =
+
+        `Enter the data and click
+        <strong>INTERPRET DATA</strong>.`;
+
+};
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - European League & Club Database</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#071923,#123c4a,#17627a);
+    min-height:100vh;
+    padding:20px;
+    color:#222;
+}
+
+.container{
+    max-width:1450px;
+    margin:auto;
+    background:#f7f9fb;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+
+/* ===============================
+   NAVIGATION
+================================ */
+
+nav{
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:25px;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+    flex-wrap:wrap;
+}
+
+nav li{
+    flex:1;
+}
+
+nav a{
+    display:block;
+    text-decoration:none;
+    text-align:center;
+    padding:15px 8px;
+    color:#1565c0;
+    font-weight:bold;
+}
+
+nav a:hover{
+    background:#e3f2fd;
+}
+
+/* ===============================
+   HEADER
+================================ */
+
+.header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.header h1{
+    color:#1565c0;
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.header p{
+    color:#666;
+    line-height:1.7;
+}
+
+/* ===============================
+   DASHBOARD
+================================ */
+
+.dashboard{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.dashboard-card{
+    background:#fff;
+    padding:20px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.dashboard-card h3{
+    color:#1565c0;
+    margin-bottom:8px;
+}
+
+.dashboard-card span{
+    font-size:27px;
+    font-weight:bold;
+}
+
+/* ===============================
+   FILTER AREA
+================================ */
+
+.filter-box{
+    background:#fff;
+    padding:25px;
+    border-radius:16px;
+    margin-bottom:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,.07);
+}
+
+.filter-box h2{
+    color:#1565c0;
+    margin-bottom:20px;
+}
+
+.filters{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:15px;
+}
+
+.filter-group label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+    color:#444;
+}
+
+select,
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    background:#fff;
+    font-size:14px;
+}
+
+button{
+    border:none;
+    border-radius:9px;
+    padding:13px 20px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#clearFilters{
+    background:#ff9800;
+}
+
+#compareBtn{
+    background:#1565c0;
+}
+
+/* ===============================
+   TABLE
+================================ */
+
+.table-wrapper{
+    overflow-x:auto;
+    background:#fff;
+    border-radius:16px;
+    box-shadow:0 5px 15px rgba(0,0,0,.07);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1100px;
+}
+
+thead{
+    background:#1565c0;
+    color:white;
+}
+
+th{
+    padding:15px;
+    text-align:center;
+}
+
+td{
+    padding:13px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+tbody tr:hover{
+    background:#eef7ff;
+}
+
+.country{
+    font-weight:bold;
+}
+
+.league{
+    color:#1565c0;
+    font-weight:bold;
+}
+
+.club{
+    font-weight:bold;
+}
+
+.rating{
+    font-weight:bold;
+}
+
+.elite{
+    color:#087f23;
+    font-weight:bold;
+}
+
+.strong{
+    color:#1565c0;
+    font-weight:bold;
+}
+
+.average{
+    color:#e68900;
+    font-weight:bold;
+}
+
+.weak{
+    color:#d32f2f;
+    font-weight:bold;
+}
+
+/* ===============================
+   RATING BAR
+================================ */
+
+.bar{
+    width:120px;
+    height:9px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+    margin:auto;
+}
+
+.bar-fill{
+    height:100%;
+    background:#28a745;
+}
+
+/* ===============================
+   SELECTED CLUB
+================================ */
+
+.club-detail{
+    margin-top:25px;
+    background:#fff;
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 5px 15px rgba(0,0,0,.07);
+}
+
+.club-detail h2{
+    color:#1565c0;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:15px;
+}
+
+.detail-card{
+    padding:20px;
+    background:#f8fafc;
+    border-radius:12px;
+    text-align:center;
+    border-top:5px solid #1565c0;
+}
+
+.detail-card h3{
+    color:#555;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.detail-card strong{
+    font-size:25px;
+}
+
+/* ===============================
+   COMPARISON
+================================ */
+
+.compare-box{
+    margin-top:25px;
+    background:#fff;
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 5px 15px rgba(0,0,0,.07);
+}
+
+.compare-box h2{
+    text-align:center;
+    color:#1565c0;
+    margin-bottom:20px;
+}
+
+.compare-grid{
+    display:grid;
+    grid-template-columns:
+        1fr 1fr;
+    gap:20px;
+}
+
+.compare-team{
+    background:#f8fafc;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.compare-team h3{
+    color:#1565c0;
+    margin-bottom:15px;
+}
+
+.compare-team select{
+    margin-bottom:12px;
+}
+
+.compare-score{
+    font-size:35px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+.winner{
+    border:3px solid #28a745;
+    background:#effff3;
+}
+
+.comparison-result{
+    margin-top:20px;
+    padding:20px;
+    background:#eef5ff;
+    border-radius:12px;
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* ===============================
+   LEGEND
+================================ */
+
+.legend{
+    margin-top:25px;
+    background:#fff;
+    padding:20px;
+    border-radius:14px;
+}
+
+.legend h3{
+    color:#1565c0;
+    margin-bottom:12px;
+}
+
+.legend p{
+    line-height:1.8;
+}
+
+/* ===============================
+   FOOTER
+================================ */
+
+.footer{
+    margin-top:30px;
+    text-align:center;
+    color:#777;
+    line-height:1.7;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+@media(max-width:900px){
+
+    .dashboard,
+    .filters,
+    .detail-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    body{
+        padding:8px;
+    }
+
+    .container{
+        padding:12px;
+    }
+
+    .dashboard,
+    .filters,
+    .detail-grid,
+    .compare-grid{
+        grid-template-columns:1fr;
+    }
+
+    .header h1{
+        font-size:25px;
+    }
+
+    nav li{
+        flex:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ===============================
+     NAVIGATION
+================================ -->
+
+<nav>
+
+<ul>
+
+<li>
+<a href="index.html">HOME</a>
+</li>
+
+<li>
+<a href="Analysis.html">ANALYSIS</a>
+</li>
+
+<li>
+<a href="Prediction.html">PREDICTION</a>
+</li>
+
+<li>
+<a href="Forecast.html">FORECAST</a>
+</li>
+
+<li>
+<a href="Strength.html">STRENGTH</a>
+</li>
+
+<li>
+<a href="Booking1.html">BOOK1</a>
+</li>
+
+<li>
+<a href="Booking2.html">BOOK2</a>
+</li>
+
+</ul>
+
+</nav>
+
+
+<!-- ===============================
+     HEADER
+================================ -->
+
+<div class="header">
+
+<h1>
+⚽ Football Value Capital
+</h1>
+
+<p>
+European League & Club Strength Database
+</p>
+
+<p>
+Compare club quality, league level and overall
+football strength across major European football countries.
+</p>
+
+</div>
+
+
+<!-- ===============================
+     DASHBOARD
+================================ -->
+
+<div class="dashboard">
+
+<div class="dashboard-card">
+
+<h3>Countries</h3>
+
+<span id="countryCount">
+20
+</span>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<h3>League Levels</h3>
+
+<span id="leagueCount">
+120
+</span>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<h3>Clubs</h3>
+
+<span id="clubCount">
+0
+</span>
+
+</div>
+
+
+<div class="dashboard-card">
+
+<h3>Highest Rating</h3>
+
+<span id="highestRating">
+0
+</span>
+
+</div>
+
+</div>
+
+
+<!-- ===============================
+     FILTER
+================================ -->
+
+<div class="filter-box">
+
+<h2>
+🔎 SEARCH FOOTBALL DATABASE
+</h2>
+
+<div class="filters">
+
+<div class="filter-group">
+
+<label>
+Country
+</label>
+
+<select id="countryFilter">
+
+<option value="">
+All Countries
+</option>
+
+</select>
+
+</div>
+
+
+<div class="filter-group">
+
+<label>
+League Level
+</label>
+
+<select id="tierFilter">
+
+<option value="">
+All League Levels
+</option>
+
+<option value="1">
+Tier 1
+</option>
+
+<option value="2">
+Tier 2
+</option>
+
+<option value="3">
+Tier 3
+</option>
+
+<option value="4">
+Tier 4
+</option>
+
+<option value="5">
+Tier 5
+</option>
+
+<option value="6">
+Tier 6
+</option>
+
+</select>
+
+</div>
+
+
+<div class="filter-group">
+
+<label>
+Club Search
+</label>
+
+<input
+type="text"
+id="clubSearch"
+placeholder="Search club..."
+>
+
+</div>
+
+
+<div class="filter-group">
+
+<label>
+&nbsp;
+</label>
+
+<button id="clearFilters">
+Reset Filters
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ===============================
+     DATABASE TABLE
+================================ -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+Country
+</th>
+
+<th>
+League
+</th>
+
+<th>
+Tier
+</th>
+
+<th>
+Club
+</th>
+
+<th>
+Club Rating
+</th>
+
+<th>
+Team Quality
+</th>
+
+<th>
+League Level
+</th>
+
+<th>
+Overall Strength
+</th>
+
+<th>
+Classification
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="clubTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- ===============================
+     CLUB DETAIL
+================================ -->
+
+<div class="club-detail">
+
+<h2>
+🏆 SELECTED CLUB PROFILE
+</h2>
+
+<div class="detail-grid">
+
+<div class="detail-card">
+
+<h3>
+CLUB RATING
+</h3>
+
+<strong id="detailClubRating">
+--
+</strong>
+
+</div>
+
+
+<div class="detail-card">
+
+<h3>
+TEAM QUALITY
+</h3>
+
+<strong id="detailQuality">
+--
+</strong>
+
+</div>
+
+
+<div class="detail-card">
+
+<h3>
+LEAGUE LEVEL
+</h3>
+
+<strong id="detailLeague">
+--
+</strong>
+
+</div>
+
+
+<div class="detail-card">
+
+<h3>
+OVERALL STRENGTH
+</h3>
+
+<strong id="detailOverall">
+--
+</strong>
+
+</div>
+
+</div>
+
+<p
+id="selectedClub"
+style="
+text-align:center;
+margin-top:20px;
+font-size:20px;
+font-weight:bold;
+color:#1565c0;
+">
+Select a club from the table.
+</p>
+
+</div>
+
+
+<!-- ===============================
+     COMPARISON
+================================ -->
+
+<div class="compare-box">
+
+<h2>
+⚔️ CLUB COMPARISON
+</h2>
+
+<div class="compare-grid">
+
+<div
+class="compare-team"
+id="compareHome"
+>
+
+<h3>
+🏠 CLUB A
+</h3>
+
+<select id="clubA">
+<option value="">
+Select Club
+</option>
+</select>
+
+<div
+class="compare-score"
+id="scoreA">
+--
+</div>
+
+<p id="infoA">
+Waiting...
+</p>
+
+</div>
+
+
+<div
+class="compare-team"
+id="compareAway"
+>
+
+<h3>
+✈️ CLUB B
+</h3>
+
+<select id="clubB">
+<option value="">
+Select Club
+</option>
+</select>
+
+<div
+class="compare-score"
+id="scoreB">
+--
+</div>
+
+<p id="infoB">
+Waiting...
+</p>
+
+</div>
+
+</div>
+
+<div style="text-align:center;margin-top:20px;">
+
+<button id="compareBtn">
+⚖️ COMPARE CLUBS
+</button>
+
+</div>
+
+<div
+class="comparison-result"
+id="comparisonResult">
+
+Select two clubs to compare.
+
+</div>
+
+</div>
+
+
+<!-- ===============================
+     LEGEND
+================================ -->
+
+<div class="legend">
+
+<h3>
+📊 RATING SYSTEM
+</h3>
+
+<p>
+<strong>90–100:</strong>
+Elite
+</p>
+
+<p>
+<strong>80–89:</strong>
+Very Strong
+</p>
+
+<p>
+<strong>70–79:</strong>
+Strong
+</p>
+
+<p>
+<strong>60–69:</strong>
+Good
+</p>
+
+<p>
+<strong>50–59:</strong>
+Average
+</p>
+
+<p>
+<strong>40–49:</strong>
+Below Average
+</p>
+
+<p>
+<strong>30–39:</strong>
+Weak
+</p>
+
+<p>
+<strong>0–29:</strong>
+Very Weak
+</p>
+
+</div>
+
+
+<div class="footer">
+
+Football Value Capital — European Football Intelligence Database.
+
+<br>
+
+Club ratings are model estimates designed for analysis and comparison.
+They are not official UEFA ratings or guaranteed match predictions.
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   EUROPEAN FOOTBALL DATABASE
+
+   20 COUNTRIES
+   6 TIERS EACH
+
+   The ratings are baseline model ratings.
+========================================================= */
+
+
+const countries = [
+
+{
+name:"England",
+league:"Premier League",
+tier1:[
+["Arsenal",94,96],
+["Manchester City",94,96],
+["Liverpool",93,95],
+["Manchester United",86,88],
+["Chelsea",87,89],
+["Newcastle United",84,86]
+]
+},
+
+{
+name:"Spain",
+league:"La Liga",
+tier1:[
+["Real Madrid",97,98],
+["Barcelona",95,97],
+["Atletico Madrid",91,93],
+["Athletic Bilbao",84,86],
+["Real Sociedad",82,84],
+["Villarreal",83,85]
+]
+},
+
+{
+name:"Italy",
+league:"Serie A",
+tier1:[
+["Inter",94,96],
+["Juventus",89,91],
+["AC Milan",89,91],
+["Napoli",90,92],
+["Roma",84,86],
+["Lazio",83,85]
+]
+},
+
+{
+name:"Germany",
+league:"Bundesliga",
+tier1:[
+["Bayern Munich",96,98],
+["Bayer Leverkusen",91,93],
+["Borussia Dortmund",88,90],
+["RB Leipzig",85,87],
+["Eintracht Frankfurt",83,85],
+["Stuttgart",82,84]
+]
+},
+
+{
+name:"France",
+league:"Ligue 1",
+tier1:[
+["Paris Saint-Germain",96,98],
+["Marseille",84,86],
+["Monaco",85,87],
+["Lille",84,86],
+["Lyon",81,83],
+["Nice",80,82]
+]
+},
+
+{
+name:"Portugal",
+league:"Primeira Liga",
+tier1:[
+["Benfica",89,92],
+["Porto",89,92],
+["Sporting CP",91,93],
+["Braga",81,83],
+["Vitoria Guimaraes",76,78],
+["Boavista",67,70]
+]
+},
+
+{
+name:"Netherlands",
+league:"Eredivisie",
+tier1:[
+["Ajax",87,90],
+["PSV Eindhoven",91,93],
+["Feyenoord",89,91],
+["AZ Alkmaar",81,83],
+["Twente",79,81],
+["Utrecht",74,76]
+]
+},
+
+{
+name:"Belgium",
+league:"Belgian Pro League",
+tier1:[
+["Club Brugge",86,89],
+["Anderlecht",82,84],
+["Genk",81,83],
+["Union Saint-Gilloise",83,85],
+["Gent",76,78],
+["Antwerp",79,81]
+]
+},
+
+{
+name:"Turkey",
+league:"Super Lig",
+tier1:[
+["Galatasaray",86,89],
+["Fenerbahce",87,89],
+["Besiktas",81,83],
+["Trabzonspor",78,80],
+["Basaksehir",76,78],
+["Adana Demirspor",68,70]
+]
+},
+
+{
+name:"Scotland",
+league:"Scottish Premiership",
+tier1:[
+["Celtic",86,89],
+["Rangers",85,88],
+["Hearts",72,75],
+["Aberdeen",69,72],
+["Hibernian",68,71],
+["Motherwell",64,67]
+]
+},
+
+{
+name:"Austria",
+league:"Austrian Bundesliga",
+tier1:[
+["RB Salzburg",84,87],
+["Sturm Graz",82,85],
+["Rapid Vienna",76,79],
+["Austria Vienna",73,76],
+["LASK",75,78],
+["Wolfsberger",70,73]
+]
+},
+
+{
+name:"Switzerland",
+league:"Swiss Super League",
+tier1:[
+["Young Boys",82,85],
+["Basel",79,82],
+["Servette",76,79],
+["Lugano",77,80],
+["Zurich",73,76],
+["St Gallen",72,75]
+]
+},
+
+{
+name:"Greece",
+league:"Super League Greece",
+tier1:[
+["Olympiacos",83,86],
+["Panathinaikos",81,84],
+["PAOK",82,85],
+["AEK Athens",81,84],
+["Aris",73,76],
+["Atromitos",66,69]
+]
+},
+
+{
+name:"Denmark",
+league:"Danish Superliga",
+tier1:[
+["FC Copenhagen",82,85],
+["Midtjylland",80,83],
+["Brondby",78,81],
+["Nordsjaelland",76,79],
+["AGF",72,75],
+["Silkeborg",70,73]
+]
+},
+
+{
+name:"Norway",
+league:"Eliteserien",
+tier1:[
+["Bodo/Glimt",82,85],
+["Molde",79,82],
+["Rosenborg",75,78],
+["Viking",76,79],
+["Brann",74,77],
+["Lillestrom",68,71]
+]
+},
+
+{
+name:"Sweden",
+league:"Allsvenskan",
+tier1:[
+["Malmo",81,84],
+["Hammarby",76,79],
+["Djurgarden",78,81],
+["AIK",75,78],
+["Elfsborg",74,77],
+["Goteborg",72,75]
+]
+},
+
+{
+name:"Poland",
+league:"Ekstraklasa",
+tier1:[
+["Legia Warsaw",78,81],
+["Lech Poznan",80,83],
+["Rakow",79,82],
+["Jagiellonia",77,80],
+["Pogon Szczecin",73,76],
+["Gornik Zabrze",69,72]
+]
+},
+
+{
+name:"Czech Republic",
+league:"Czech First League",
+tier1:[
+["Slavia Prague",84,87],
+["Sparta Prague",83,86],
+["Viktoria Plzen",80,83],
+["Baník Ostrava",72,75],
+["Sigma Olomouc",69,72],
+["Slovan Liberec",68,71]
+]
+},
+
+{
+name:"Croatia",
+league:"HNL",
+tier1:[
+["Dinamo Zagreb",84,87],
+["Hajduk Split",78,81],
+["Rijeka",77,80],
+["Osijek",72,75],
+["Lokomotiva Zagreb",67,70],
+["Gorica",64,67]
+]
+},
+
+{
+name:"Serbia",
+league:"Serbian SuperLiga",
+tier1:[
+["Red Star Belgrade",86,89],
+["Partizan",81,84],
+["Vojvodina",71,74],
+["Cukaricki",69,72],
+["TSC Backa Topola",72,75],
+["Radnicki Nis",65,68]
+]
+}
+
+];
+
+
+/* =========================================================
+   LEAGUE LEVEL RATINGS
+========================================================= */
+
+const leagueRatings = {
+
+1:90,
+2:75,
+3:62,
+4:52,
+5:43,
+6:35
+
+};
+
+
+/* =========================================================
+   LEAGUE NAMES
+========================================================= */
+
+const tierNames = {
+
+1:"Top Division",
+
+2:"Second Division",
+
+3:"Third Division",
+
+4:"Fourth Division",
+
+5:"Fifth Division",
+
+6:"Sixth Division"
+
+};
+
+
+/* =========================================================
+   COUNTRY LEVEL ADJUSTMENTS
+========================================================= */
+
+const countryAdjustment = {
+
+"England":100,
+"Spain":98,
+"Italy":96,
+"Germany":96,
+"France":94,
+"Portugal":90,
+"Netherlands":88,
+"Belgium":85,
+"Turkey":83,
+"Scotland":80,
+"Austria":78,
+"Switzerland":78,
+"Greece":76,
+"Denmark":76,
+"Norway":74,
+"Sweden":73,
+"Poland":72,
+"Czech Republic":72,
+"Croatia":70,
+"Serbia":68
+
+};
+
+
+/* =========================================================
+   DATA ARRAY
+========================================================= */
+
+let database = [];
+
+
+/* =========================================================
+   BUILD DATABASE
+========================================================= */
+
+countries.forEach(country=>{
+
+    for(let tier=1;tier<=6;tier++){
+
+        let leagueName;
+
+        if(tier===1){
+
+            leagueName=country.league;
+
+        }else{
+
+            leagueName=
+            country.name+
+            " "+
+            tierNames[tier];
+
+        }
+
+
+        /*
+        Top-tier real clubs.
+        Lower tiers use generated club labels
+        so the structure remains editable.
+        */
+
+        let clubs=[];
+
+        if(tier===1){
+
+            clubs=country.tier1;
+
+        }else{
+
+            clubs=[
+
+                [
+                    country.name+
+                    " Club A",
+                    leagueRatings[tier]+8,
+                    leagueRatings[tier]+10
+                ],
+
+                [
+                    country.name+
+                    " Club B",
+                    leagueRatings[tier]+5,
+                    leagueRatings[tier]+7
+                ],
+
+                [
+                    country.name+
+                    " Club C",
+                    leagueRatings[tier]+2,
+                    leagueRatings[tier]+4
+                ],
+
+                [
+                    country.name+
+                    " Club D",
+                    leagueRatings[tier]-2,
+                    leagueRatings[tier]
+                ]
+
+            ];
+
+        }
+
+
+        clubs.forEach(club=>{
+
+            const clubRating=club[1];
+
+            const quality=club[2];
+
+            const leagueBase=
+            leagueRatings[tier];
+
+
+            /*
+            League strength is influenced by:
+
+            - Country football level
+            - Domestic tier
+            */
+
+            const leagueLevel=Math.round(
+
+                (
+                    leagueBase+
+                    countryAdjustment[country.name]
+                )/2
+
+            );
+
+
+            /*
+            Overall strength combines:
+
+            Club rating
+            Team quality
+            League level
+            */
+
+            const overall=Math.round(
+
+                clubRating*0.40+
+                quality*0.35+
+                leagueLevel*0.25
+
+            );
+
+
+            database.push({
+
+                country:country.name,
+
+                league:leagueName,
+
+                tier:tier,
+
+                club:club[0],
+
+                clubRating:clubRating,
+
+                quality:quality,
+
+                leagueLevel:leagueLevel,
+
+                overall:overall
+
+            });
+
+        });
+
+    }
+
+});
+
+
+/* =========================================================
+   CLASSIFICATION
+========================================================= */
+
+function classification(value){
+
+    if(value>=90)
+        return "ELITE";
+
+    if(value>=80)
+        return "VERY STRONG";
+
+    if(value>=70)
+        return "STRONG";
+
+    if(value>=60)
+        return "GOOD";
+
+    if(value>=50)
+        return "AVERAGE";
+
+    if(value>=40)
+        return "BELOW AVERAGE";
+
+    if(value>=30)
+        return "WEAK";
+
+    return "VERY WEAK";
+
+}
+
+
+/* =========================================================
+   CLASS COLOR
+========================================================= */
+
+function className(value){
+
+    if(value>=80)
+        return "elite";
+
+    if(value>=60)
+        return "strong";
+
+    if(value>=50)
+        return "average";
+
+    return "weak";
+
+}
+
+
+/* =========================================================
+   POPULATE COUNTRY FILTER
+========================================================= */
+
+const countryFilter=
+document.getElementById("countryFilter");
+
+
+countries.forEach(country=>{
+
+    const option=
+    document.createElement("option");
+
+    option.value=
+    country.name;
+
+    option.textContent=
+    country.name;
+
+    countryFilter.appendChild(option);
+
+});
+
+
+/* =========================================================
+   CLUB COUNT
+========================================================= */
+
+document.getElementById("clubCount")
+.textContent=
+database.length;
+
+
+/* =========================================================
+   HIGHEST RATING
+========================================================= */
+
+const highest=
+Math.max(
+    ...database.map(x=>x.clubRating)
+);
+
+document.getElementById("highestRating")
+.textContent=
+highest;
+
+
+/* =========================================================
+   RENDER TABLE
+========================================================= */
+
+function renderTable(){
+
+    const tbody=
+    document.getElementById("clubTable");
+
+    tbody.innerHTML="";
+
+
+    const country=
+    document.getElementById("countryFilter")
+    .value;
+
+    const tier=
+    document.getElementById("tierFilter")
+    .value;
+
+    const search=
+    document.getElementById("clubSearch")
+    .value
+    .toLowerCase();
+
+
+    const filtered=
+    database.filter(item=>{
+
+        const countryMatch=
+        !country ||
+        item.country===country;
+
+        const tierMatch=
+        !tier ||
+        item.tier===Number(tier);
+
+        const searchMatch=
+        !search ||
+        item.club.toLowerCase()
+        .includes(search);
+
+
+        return(
+            countryMatch &&
+            tierMatch &&
+            searchMatch
+        );
+
+    });
+
+
+    filtered.forEach(item=>{
+
+        const row=
+        document.createElement("tr");
+
+
+        row.innerHTML=`
+
+        <td class="country">
+            ${item.country}
+        </td>
+
+        <td class="league">
+            ${item.league}
+        </td>
+
+        <td>
+            Tier ${item.tier}
+        </td>
+
+        <td class="club">
+            ${item.club}
+        </td>
+
+        <td>
+
+            <span class="${className(item.clubRating)}">
+
+                ${item.clubRating}/100
+
+            </span>
+
+            <div class="bar">
+
+                <div
+                class="bar-fill"
+                style="width:${item.clubRating}%">
+                </div>
+
+            </div>
+
+        </td>
+
+        <td>
+
+            <span class="${className(item.quality)}">
+
+                ${item.quality}/100
+
+            </span>
+
+        </td>
+
+        <td>
+
+            <span class="${className(item.leagueLevel)}">
+
+                ${item.leagueLevel}/100
+
+            </span>
+
+        </td>
+
+        <td>
+
+            <strong>
+                ${item.overall}/100
+            </strong>
+
+        </td>
+
+        <td class="${className(item.overall)}">
+
+            ${classification(item.overall)}
+
+        </td>
+
+        `;
+
+
+        row.addEventListener(
+            "click",
+            ()=>showClub(item)
+        );
+
+
+        tbody.appendChild(row);
+
+    });
+
+}
+
+
+/* =========================================================
+   SHOW CLUB
+========================================================= */
+
+function showClub(item){
+
+    document.getElementById(
+        "detailClubRating"
+    ).textContent=
+    item.clubRating+"/100";
+
+
+    document.getElementById(
+        "detailQuality"
+    ).textContent=
+    item.quality+"/100";
+
+
+    document.getElementById(
+        "detailLeague"
+    ).textContent=
+    item.leagueLevel+"/100";
+
+
+    document.getElementById(
+        "detailOverall"
+    ).textContent=
+    item.overall+"/100";
+
+
+    document.getElementById(
+        "selectedClub"
+    ).innerHTML=
+
+    `🏆 ${item.club}
+    — ${item.league},
+    ${item.country}
+    — ${classification(item.overall)}`;
+
+}
+
+
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
+
+countryFilter
+.addEventListener(
+    "change",
+    renderTable
+);
+
+
+document.getElementById(
+    "tierFilter"
+)
+.addEventListener(
+    "change",
+    renderTable
+);
+
+
+document.getElementById(
+    "clubSearch"
+)
+.addEventListener(
+    "input",
+    renderTable
+);
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+document.getElementById(
+    "clearFilters"
+)
+.onclick=function(){
+
+    countryFilter.value="";
+
+    document.getElementById(
+        "tierFilter"
+    ).value="";
+
+    document.getElementById(
+        "clubSearch"
+    ).value="";
+
+    renderTable();
+
+};
+
+
+/* =========================================================
+   COMPARISON DROPDOWNS
+========================================================= */
+
+const clubA=
+document.getElementById("clubA");
+
+const clubB=
+document.getElementById("clubB");
+
+
+database.forEach((item,index)=>{
+
+    const optionA=
+    document.createElement("option");
+
+    optionA.value=index;
+
+    optionA.textContent=
+    item.club+
+    " — "+
+    item.country+
+    " — "+
+    item.overall;
+
+    clubA.appendChild(optionA);
+
+
+    const optionB=
+    document.createElement("option");
+
+    optionB.value=index;
+
+    optionB.textContent=
+    item.club+
+    " — "+
+    item.country+
+    " — "+
+    item.overall;
+
+    clubB.appendChild(optionB);
+
+});
+
+
+/* =========================================================
+   COMPARISON
+========================================================= */
+
+document.getElementById(
+    "compareBtn"
+)
+.onclick=function(){
+
+    if(
+        clubA.value==="" ||
+        clubB.value===""
+    ){
+
+        alert(
+            "Please select two clubs."
+        );
+
+        return;
+
+    }
+
+
+    const A=
+    database[
+        Number(clubA.value)
+    ];
+
+    const B=
+    database[
+        Number(clubB.value)
+    ];
+
+
+    document.getElementById(
+        "scoreA"
+    ).textContent=
+    A.overall;
+
+
+    document.getElementById(
+        "scoreB"
+    ).textContent=
+    B.overall;
+
+
+    document.getElementById(
+        "infoA"
+    ).innerHTML=
+
+    `${A.club}<br>
+    Club Rating: ${A.clubRating}<br>
+    Team Quality: ${A.quality}<br>
+    League Level: ${A.leagueLevel}`;
+
+
+    document.getElementById(
+        "infoB"
+    ).innerHTML=
+
+    `${B.club}<br>
+    Club Rating: ${B.clubRating}<br>
+    Team Quality: ${B.quality}<br>
+    League Level: ${B.leagueLevel}`;
+
+
+    document.getElementById(
+        "compareHome"
+    ).classList.remove("winner");
+
+    document.getElementById(
+        "compareAway"
+    ).classList.remove("winner");
+
+
+    let result;
+
+
+    if(A.overall>B.overall){
+
+        document.getElementById(
+            "compareHome"
+        ).classList.add("winner");
+
+
+        result=
+        `🏆 ${A.club} has the stronger overall model profile:
+        ${A.overall}/100 vs ${B.overall}/100.`;
+
+    }
+
+
+    else if(B.overall>A.overall){
+
+        document.getElementById(
+            "compareAway"
+        ).classList.add("winner");
+
+
+        result=
+        `🏆 ${B.club} has the stronger overall model profile:
+        ${B.overall}/100 vs ${A.overall}/100.`;
+
+    }
+
+
+    else{
+
+        result=
+        `⚖️ The clubs are rated equally at
+        ${A.overall}/100.`;
+
+    }
+
+
+    document.getElementById(
+        "comparisonResult"
+    ).innerHTML=
+    result;
+
+};
+
+
+/* =========================================================
+   INITIAL TABLE
+========================================================= */
+
+renderTable();
+
+</script>
+
+</body>
+</html>
