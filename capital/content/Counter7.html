@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - Prediction Counter</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:20px;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+}
+
+/* MAIN SHEET */
+
+.counter-container{
+    width:100%;
+    max-width:1250px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+/* HEADER */
+
+.header{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.header h1{
+    color:#1565c0;
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.header p{
+    color:#666;
+    font-size:14px;
+}
+
+/* SECTION TITLE */
+
+.section-title{
+    background:#1565c0;
+    color:white;
+    padding:13px 18px;
+    border-radius:9px;
+    margin-bottom:15px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* TABLE */
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1100px;
+}
+
+thead th{
+    background:#203a43;
+    color:white;
+    padding:13px 8px;
+    font-size:13px;
+    text-align:center;
+}
+
+tbody td{
+    padding:9px 7px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+tbody tr:nth-child(even){
+    background:#f7f9fa;
+}
+
+tbody tr:hover{
+    background:#eef6ff;
+}
+
+/* RANK */
+
+.rank{
+    font-weight:bold;
+    color:#1565c0;
+    font-size:17px;
+}
+
+/* PREDICTION INPUT */
+
+.prediction-input{
+    width:100%;
+    min-width:160px;
+    padding:9px;
+    border:2px solid #ddd;
+    border-radius:7px;
+    font-weight:bold;
+}
+
+.prediction-input:focus{
+    outline:none;
+    border-color:#1565c0;
+}
+
+/* NUMBER INPUTS */
+
+.number-input{
+    width:80px;
+    padding:9px 5px;
+    border:2px solid #ddd;
+    border-radius:7px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.number-input:focus{
+    outline:none;
+    border-color:#1565c0;
+}
+
+/* SELECT */
+
+select{
+    padding:9px 5px;
+    border:2px solid #ddd;
+    border-radius:7px;
+    font-weight:bold;
+    background:white;
+    cursor:pointer;
+}
+
+select:focus{
+    outline:none;
+    border-color:#1565c0;
+}
+
+/* COUNTER RATE */
+
+.rate-box{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+}
+
+.rate-box input{
+    width:75px;
+}
+
+.rate-symbol{
+    font-weight:bold;
+    color:#1565c0;
+}
+
+/* BUTTONS */
+
+.buttons{
+    text-align:center;
+    margin-top:25px;
+}
+
+button{
+    border:none;
+    padding:12px 25px;
+    margin:5px;
+    border-radius:9px;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.calculate{
+    background:#1565c0;
+}
+
+.calculate:hover{
+    background:#0d47a1;
+}
+
+.reset{
+    background:#ff9800;
+}
+
+.reset:hover{
+    background:#e68900;
+}
+
+/* SUMMARY */
+
+.summary{
+    margin-top:25px;
+    padding:20px;
+    background:#f4f8fb;
+    border:2px solid #dce5eb;
+    border-radius:12px;
+}
+
+.summary h2{
+    color:#1565c0;
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.summary-card{
+    background:white;
+    border:2px solid #ddd;
+    border-radius:10px;
+    padding:15px;
+    text-align:center;
+}
+
+.summary-card h3{
+    font-size:12px;
+    color:#666;
+    margin-bottom:8px;
+}
+
+.summary-number{
+    font-size:24px;
+    font-weight:bold;
+    color:#1565c0;
+}
+
+/* NOTES */
+
+.note{
+    margin-top:20px;
+    padding:14px;
+    background:#fff8e1;
+    border:2px solid #ffca28;
+    border-radius:9px;
+    color:#6d5200;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    body{
+        padding:7px;
+    }
+
+    .counter-container{
+        padding:12px;
+        border-radius:10px;
+    }
+
+    .header h1{
+        font-size:23px;
+    }
+
+    .summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="counter-container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<h1>⚽ Football Value Capital</h1>
+
+<p>
+📊 Prediction Ranking Counter Sheet
+</p>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="section-title">
+
+📊 PREDICTION RANKING & COUNTER TABLE
+
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>RANK</th>
+
+<th>PREDICTION NAME</th>
+
+<th>SCORE</th>
+
+<th>STRENGTH</th>
+
+<th>RISK</th>
+
+<th>OCCURRENCE COUNT</th>
+
+<th>COUNTER RATE</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<!-- 1 -->
+
+<tr>
+
+<td class="rank">1</td>
+
+<td>
+
+<input
+type="text"
+class="prediction-input"
+value="Home Team To Score">
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input score"
+value="87"
+min="0"
+max="100">
+
+%</td>
+
+<td>
+
+<select class="strength">
+
+<option>VERY STRONG</option>
+<option>STRONG</option>
+<option>MODERATE</option>
+<option>WEAK</option>
+<option>VERY WEAK</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select class="risk">
+
+<option>LOW</option>
+<option>MODERATE</option>
+<option>MEDIUM</option>
+<option>HIGH</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input occurrence"
+value="0"
+min="0">
+
+</td>
+
+<td>
+
+<div class="rate-box">
+
+<input
+type="number"
+class="number-input rate"
+value="0"
+min="0"
+max="100">
+
+<span class="rate-symbol">%</span>
+
+</div>
+
+</td>
+
+</tr>
+
+<!-- 2 -->
+
+<tr>
+
+<td class="rank">2</td>
+
+<td>
+
+<input
+type="text"
+class="prediction-input"
+value="BTTS">
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input score"
+value="81"
+min="0"
+max="100">
+
+%</td>
+
+<td>
+
+<select class="strength">
+
+<option>VERY STRONG</option>
+<option>STRONG</option>
+<option>MODERATE</option>
+<option>WEAK</option>
+<option>VERY WEAK</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select class="risk">
+
+<option>LOW</option>
+<option>MODERATE</option>
+<option>MEDIUM</option>
+<option>HIGH</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input occurrence"
+value="0"
+min="0">
+
+</td>
+
+<td>
+
+<div class="rate-box">
+
+<input
+type="number"
+class="number-input rate"
+value="0"
+min="0"
+max="100">
+
+<span class="rate-symbol">%</span>
+
+</div>
+
+</td>
+
+</tr>
+
+<!-- 3 -->
+
+<tr>
+
+<td class="rank">3</td>
+
+<td>
+
+<input
+type="text"
+class="prediction-input"
+value="Over 1.5 Goals">
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input score"
+value="77"
+min="0"
+max="100">
+
+%</td>
+
+<td>
+
+<select class="strength">
+
+<option>STRONG</option>
+<option>VERY STRONG</option>
+<option>MODERATE</option>
+<option>WEAK</option>
+<option>VERY WEAK</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select class="risk">
+
+<option>MODERATE</option>
+<option>LOW</option>
+<option>MEDIUM</option>
+<option>HIGH</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input occurrence"
+value="0"
+min="0">
+
+</td>
+
+<td>
+
+<div class="rate-box">
+
+<input
+type="number"
+class="number-input rate"
+value="0"
+min="0"
+max="100">
+
+<span class="rate-symbol">%</span>
+
+</div>
+
+</td>
+
+</tr>
+
+<!-- 4 -->
+
+<tr>
+
+<td class="rank">4</td>
+
+<td>
+
+<input
+type="text"
+class="prediction-input"
+value="Home Win">
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input score"
+value="73"
+min="0"
+max="100">
+
+%</td>
+
+<td>
+
+<select class="strength">
+
+<option>STRONG</option>
+<option>VERY STRONG</option>
+<option>MODERATE</option>
+<option>WEAK</option>
+<option>VERY WEAK</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select class="risk">
+
+<option>MODERATE</option>
+<option>LOW</option>
+<option>MEDIUM</option>
+<option>HIGH</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input occurrence"
+value="0"
+min="0">
+
+</td>
+
+<td>
+
+<div class="rate-box">
+
+<input
+type="number"
+class="number-input rate"
+value="0"
+min="0"
+max="100">
+
+<span class="rate-symbol">%</span>
+
+</div>
+
+</td>
+
+</tr>
+
+<!-- 5 -->
+
+<tr>
+
+<td class="rank">5</td>
+
+<td>
+
+<input
+type="text"
+class="prediction-input"
+value="Goal Environment">
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input score"
+value="73"
+min="0"
+max="100">
+
+%</td>
+
+<td>
+
+<select class="strength">
+
+<option>STRONG</option>
+<option>VERY STRONG</option>
+<option>MODERATE</option>
+<option>WEAK</option>
+<option>VERY WEAK</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select class="risk">
+
+<option>MODERATE</option>
+<option>LOW</option>
+<option>MEDIUM</option>
+<option>HIGH</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input occurrence"
+value="0"
+min="0">
+
+</td>
+
+<td>
+
+<div class="rate-box">
+
+<input
+type="number"
+class="number-input rate"
+value="0"
+min="0"
+max="100">
+
+<span class="rate-symbol">%</span>
+
+</div>
+
+</td>
+
+</tr>
+
+<!-- 6 -->
+
+<tr>
+
+<td class="rank">6</td>
+
+<td>
+
+<input
+type="text"
+class="prediction-input"
+value="1–4 Goals">
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input score"
+value="72"
+min="0"
+max="100">
+
+%</td>
+
+<td>
+
+<select class="strength">
+
+<option>STRONG</option>
+<option>VERY STRONG</option>
+<option>MODERATE</option>
+<option>WEAK</option>
+<option>VERY WEAK</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select class="risk">
+
+<option>MODERATE</option>
+<option>LOW</option>
+<option>MEDIUM</option>
+<option>HIGH</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input occurrence"
+value="0"
+min="0">
+
+</td>
+
+<td>
+
+<div class="rate-box">
+
+<input
+type="number"
+class="number-input rate"
+value="0"
+min="0"
+max="100">
+
+<span class="rate-symbol">%</span>
+
+</div>
+
+</td>
+
+</tr>
+
+<!-- 7 -->
+
+<tr>
+
+<td class="rank">7</td>
+
+<td>
+
+<input
+type="text"
+class="prediction-input"
+value="Double Chance 1X">
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input score"
+value="57"
+min="0"
+max="100">
+
+%</td>
+
+<td>
+
+<select class="strength">
+
+<option>MODERATE</option>
+<option>VERY STRONG</option>
+<option>STRONG</option>
+<option>WEAK</option>
+<option>VERY WEAK</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select class="risk">
+
+<option>MEDIUM</option>
+<option>LOW</option>
+<option>MODERATE</option>
+<option>HIGH</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input occurrence"
+value="0"
+min="0">
+
+</td>
+
+<td>
+
+<div class="rate-box">
+
+<input
+type="number"
+class="number-input rate"
+value="0"
+min="0"
+max="100">
+
+<span class="rate-symbol">%</span>
+
+</div>
+
+</td>
+
+</tr>
+
+<!-- 8 -->
+
+<tr>
+
+<td class="rank">8</td>
+
+<td>
+
+<input
+type="text"
+class="prediction-input"
+value="Home Clean Sheet">
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input score"
+value="45"
+min="0"
+max="100">
+
+%</td>
+
+<td>
+
+<select class="strength">
+
+<option>WEAK</option>
+<option>VERY STRONG</option>
+<option>STRONG</option>
+<option>MODERATE</option>
+<option>VERY WEAK</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select class="risk">
+
+<option>HIGH</option>
+<option>LOW</option>
+<option>MODERATE</option>
+<option>MEDIUM</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input occurrence"
+value="0"
+min="0">
+
+</td>
+
+<td>
+
+<div class="rate-box">
+
+<input
+type="number"
+class="number-input rate"
+value="0"
+min="0"
+max="100">
+
+<span class="rate-symbol">%</span>
+
+</div>
+
+</td>
+
+</tr>
+
+<!-- 9 -->
+
+<tr>
+
+<td class="rank">9</td>
+
+<td>
+
+<input
+type="text"
+class="prediction-input"
+value="Draw">
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input score"
+value="37"
+min="0"
+max="100">
+
+%</td>
+
+<td>
+
+<select class="strength">
+
+<option>WEAK</option>
+<option>VERY STRONG</option>
+<option>STRONG</option>
+<option>MODERATE</option>
+<option>VERY WEAK</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select class="risk">
+
+<option>HIGH</option>
+<option>LOW</option>
+<option>MODERATE</option>
+<option>MEDIUM</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input occurrence"
+value="0"
+min="0">
+
+</td>
+
+<td>
+
+<div class="rate-box">
+
+<input
+type="number"
+class="number-input rate"
+value="0"
+min="0"
+max="100">
+
+<span class="rate-symbol">%</span>
+
+</div>
+
+</td>
+
+</tr>
+
+<!-- 10 -->
+
+<tr>
+
+<td class="rank">10</td>
+
+<td>
+
+<input
+type="text"
+class="prediction-input"
+value="Home Loss">
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input score"
+value="23"
+min="0"
+max="100">
+
+%</td>
+
+<td>
+
+<select class="strength">
+
+<option>VERY WEAK</option>
+<option>VERY STRONG</option>
+<option>STRONG</option>
+<option>MODERATE</option>
+<option>WEAK</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select class="risk">
+
+<option>HIGH</option>
+<option>LOW</option>
+<option>MODERATE</option>
+<option>MEDIUM</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+type="number"
+class="number-input occurrence"
+value="0"
+min="0">
+
+</td>
+
+<td>
+
+<div class="rate-box">
+
+<input
+type="number"
+class="number-input rate"
+value="0"
+min="0"
+max="100">
+
+<span class="rate-symbol">%</span>
+
+</div>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- BUTTONS -->
+
+<div class="buttons">
+
+<button
+type="button"
+class="calculate"
+onclick="calculateRates()">
+
+📊 CALCULATE COUNTER RATES
+
+</button>
+
+<button
+type="button"
+class="reset"
+onclick="resetCounter()">
+
+🔄 RESET COUNTERS
+
+</button>
+
+</div>
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+<h2>📈 COUNTER SUMMARY</h2>
+
+<div class="summary-grid">
+
+<div class="summary-card">
+
+<h3>TOTAL PREDICTIONS</h3>
+
+<div
+class="summary-number"
+id="totalPredictions">
+
+10
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<h3>TOTAL OCCURRENCES</h3>
+
+<div
+class="summary-number"
+id="totalOccurrences">
+
+0
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<h3>HIGHEST COUNTER RATE</h3>
+
+<div
+class="summary-number"
+id="highestRate">
+
+0%
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<h3>TOP COUNTER</h3>
+
+<div
+class="summary-number"
+id="topCounter">
+
+—
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- NOTE -->
+
+<div class="note">
+
+<strong>How this sheet works:</strong>
+
+Enter how many times each prediction actually occurred
+in the matches you are tracking.
+
+The counter rate is calculated as:
+
+<strong>
+Prediction Occurrences ÷ Total Occurrences × 100
+</strong>
+
+This sheet is independent from your existing Home and Away
+prediction models. It does not modify their calculations.
+
+</div>
+
+</div>
+
+<script>
+
+/* =====================================================
+   CALCULATE COUNTER RATES
+===================================================== */
+
+function calculateRates(){
+
+    const rows =
+        document.querySelectorAll("tbody tr");
+
+    let totalOccurrences = 0;
+
+    /* TOTAL OCCURRENCES */
+
+    rows.forEach(function(row){
+
+        const occurrence =
+            Number(
+                row.querySelector(".occurrence").value
+            ) || 0;
+
+        totalOccurrences += occurrence;
+
+    });
+
+
+    let highestRate = 0;
+
+    let topPrediction = "—";
+
+
+    /* CALCULATE EACH RATE */
+
+    rows.forEach(function(row){
+
+        const occurrence =
+            Number(
+                row.querySelector(".occurrence").value
+            ) || 0;
+
+        let rate = 0;
+
+        if(totalOccurrences > 0){
+
+            rate =
+                Math.round(
+                    (occurrence / totalOccurrences) * 100
+                );
+
+        }
+
+        const rateInput =
+            row.querySelector(".rate");
+
+        rateInput.value = rate;
+
+
+        /* FIND TOP COUNTER */
+
+        if(rate > highestRate){
+
+            highestRate = rate;
+
+            topPrediction =
+                row.querySelector(
+                    ".prediction-input"
+                ).value;
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "totalOccurrences"
+    ).textContent =
+        totalOccurrences;
+
+
+    document.getElementById(
+        "highestRate"
+    ).textContent =
+        highestRate + "%";
+
+
+    document.getElementById(
+        "topCounter"
+    ).textContent =
+        topPrediction;
+
+}
+
+
+/* =====================================================
+   RESET COUNTERS ONLY
+===================================================== */
+
+function resetCounter(){
+
+    const rows =
+        document.querySelectorAll("tbody tr");
+
+
+    rows.forEach(function(row){
+
+        row.querySelector(
+            ".occurrence"
+        ).value = 0;
+
+
+        row.querySelector(
+            ".rate"
+        ).value = 0;
+
+    });
+
+
+    document.getElementById(
+        "totalOccurrences"
+    ).textContent = 0;
+
+
+    document.getElementById(
+        "highestRate"
+    ).textContent = "0%";
+
+
+    document.getElementById(
+        "topCounter"
+    ).textContent = "—";
+
+}
+
+</script>
+
+</body>
+
+</html>

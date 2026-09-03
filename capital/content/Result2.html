@@ -1,0 +1,1356 @@
+<!-- =========================================================
+     PREDICTION COUNTER SYSTEM
+========================================================= -->
+
+<div class="prediction-system">
+
+    <div class="prediction-system-header">
+
+        <div>
+            <h2>📊 Prediction Counter</h2>
+            <p>Create and compare multiple independent prediction counters.</p>
+        </div>
+
+        <button
+            type="button"
+            class="add-counter-btn"
+            onclick="addPredictionCounter()"
+        >
+            ➕ Add Prediction Counter
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         COUNTERS WILL BE CREATED HERE
+    ====================================================== -->
+
+    <div id="predictionCounters"></div>
+
+
+    <!-- =====================================================
+         TABLE DISPLAY
+    ====================================================== -->
+
+    <div class="prediction-table-container">
+
+        <div class="table-title">
+            📋 Prediction Counter Results
+        </div>
+
+        <div class="table-scroll">
+
+            <table class="prediction-results-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Prediction Name</th>
+
+                        <th>Score</th>
+
+                        <th colspan="4">
+                            ⚡ Advantage Picks
+                        </th>
+
+                        <th colspan="4">
+                            ⚠️ Disadvantage Picks
+                        </th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                    <tr class="sub-header">
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+                        <th>1st</th>
+                        <th>2nd</th>
+                        <th>3rd</th>
+                        <th>4th</th>
+
+                        <th>1st</th>
+                        <th>2nd</th>
+                        <th>3rd</th>
+                        <th>4th</th>
+
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="predictionResultsBody">
+
+                    <tr>
+
+                        <td colspan="12" class="empty-table">
+
+                            No prediction counters created yet.
+
+                            <br>
+
+                            Click
+                            <strong>
+                                ➕ Add Prediction Counter
+                            </strong>
+                            to begin.
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     STYLES
+========================================================= -->
+
+<style>
+
+/* =========================================================
+   MAIN SYSTEM
+========================================================= */
+
+.prediction-system {
+
+    width:100%;
+
+    margin:25px 0;
+
+    padding:20px;
+
+    background:#f5f9fd;
+
+    border:2px solid #1565c0;
+
+    border-radius:18px;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.prediction-system-header {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin-bottom:20px;
+
+}
+
+
+.prediction-system-header h2 {
+
+    margin:0;
+
+    color:#1565c0;
+
+    font-size:24px;
+
+}
+
+
+.prediction-system-header p {
+
+    margin:6px 0 0;
+
+    color:#666;
+
+    font-size:14px;
+
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.add-counter-btn {
+
+    border:none;
+
+    padding:13px 20px;
+
+    border-radius:10px;
+
+    background:#1565c0;
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    white-space:nowrap;
+
+}
+
+
+.add-counter-btn:hover {
+
+    background:#0d47a1;
+
+    transform:translateY(-1px);
+
+}
+
+
+/* =========================================================
+   INDIVIDUAL COUNTER
+========================================================= */
+
+.prediction-counter {
+
+    background:white;
+
+    border:1px solid #d9e2ec;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+
+}
+
+
+/* COUNTER HEADER */
+
+.counter-header {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+
+}
+
+
+.counter-number {
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:#1565c0;
+
+}
+
+
+.counter-actions {
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.delete-counter-btn {
+
+    border:none;
+
+    background:#ffebee;
+
+    color:#c62828;
+
+    padding:8px 12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+.delete-counter-btn:hover {
+
+    background:#ffcdd2;
+
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+
+.save-counter-btn {
+
+    border:none;
+
+    background:#e8f5e9;
+
+    color:#2e7d32;
+
+    padding:8px 12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+.save-counter-btn:hover {
+
+    background:#c8e6c9;
+
+}
+
+
+/* =========================================================
+   TOP INPUTS
+========================================================= */
+
+.counter-top-row {
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:15px;
+
+    margin-bottom:20px;
+
+}
+
+
+.counter-field label {
+
+    display:block;
+
+    margin-bottom:7px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    color:#333;
+
+}
+
+
+.counter-field input {
+
+    width:100%;
+
+    padding:12px;
+
+    border:2px solid #ddd;
+
+    border-radius:9px;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    background:white;
+
+}
+
+
+.counter-field input:focus {
+
+    outline:none;
+
+    border-color:#1565c0;
+
+    box-shadow:0 0 0 3px rgba(21,101,192,.10);
+
+}
+
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.counter-section-title {
+
+    width:100%;
+
+    padding:10px;
+
+    margin:12px 0;
+
+    border-radius:8px;
+
+    text-align:center;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+}
+
+
+.advantage-section-title {
+
+    background:#e3f2fd;
+
+    color:#1565c0;
+
+}
+
+
+.disadvantage-section-title {
+
+    background:#ffebee;
+
+    color:#c62828;
+
+}
+
+
+/* =========================================================
+   PICKS
+========================================================= */
+
+.counter-picks-row {
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:12px;
+
+}
+
+
+.counter-pick label {
+
+    display:block;
+
+    margin-bottom:6px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    color:#555;
+
+}
+
+
+.counter-pick select {
+
+    width:100%;
+
+    padding:11px;
+
+    border:2px solid #ddd;
+
+    border-radius:8px;
+
+    background:#fff;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+.counter-pick select:focus {
+
+    outline:none;
+
+    border-color:#1565c0;
+
+}
+
+
+/* =========================================================
+   TABLE CONTAINER
+========================================================= */
+
+.prediction-table-container {
+
+    margin-top:30px;
+
+    background:white;
+
+    border:2px solid #1565c0;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+}
+
+
+.table-title {
+
+    padding:15px;
+
+    background:#1565c0;
+
+    color:white;
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+
+/* =========================================================
+   TABLE SCROLL
+========================================================= */
+
+.table-scroll {
+
+    width:100%;
+
+    overflow-x:auto;
+
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.prediction-results-table {
+
+    width:100%;
+
+    min-width:1250px;
+
+    border-collapse:collapse;
+
+}
+
+
+.prediction-results-table th {
+
+    padding:11px 8px;
+
+    background:#eef5fb;
+
+    color:#333;
+
+    border:1px solid #d8e0e8;
+
+    font-size:12px;
+
+    white-space:nowrap;
+
+}
+
+
+.prediction-results-table thead tr:first-child th {
+
+    background:#1565c0;
+
+    color:white;
+
+}
+
+
+.prediction-results-table td {
+
+    padding:10px 8px;
+
+    border:1px solid #e0e0e0;
+
+    text-align:center;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    vertical-align:middle;
+
+}
+
+
+/* ADVANTAGE CELLS */
+
+.advantage-cell {
+
+    background:#f1f8ff;
+
+    color:#1565c0;
+
+}
+
+
+/* DISADVANTAGE CELLS */
+
+.disadvantage-cell {
+
+    background:#fff5f5;
+
+    color:#c62828;
+
+}
+
+
+/* SCORE */
+
+.score-cell {
+
+    font-size:15px !important;
+
+    color:#1565c0;
+
+}
+
+
+/* PREDICTION NAME */
+
+.prediction-name-cell {
+
+    text-align:left !important;
+
+    min-width:180px;
+
+}
+
+
+/* TABLE ACTION */
+
+.table-delete-btn {
+
+    border:none;
+
+    padding:6px 9px;
+
+    border-radius:6px;
+
+    background:#ffebee;
+
+    color:#c62828;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+/* EMPTY */
+
+.empty-table {
+
+    padding:30px !important;
+
+    color:#777;
+
+    line-height:1.7;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:800px) {
+
+    .prediction-system-header {
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+
+    .add-counter-btn {
+
+        width:100%;
+
+    }
+
+
+    .counter-top-row {
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .counter-picks-row {
+
+        grid-template-columns:1fr 1fr;
+
+    }
+
+}
+
+
+@media(max-width:500px) {
+
+    .prediction-system {
+
+        padding:12px;
+
+    }
+
+
+    .counter-picks-row {
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .counter-actions {
+
+        flex-direction:column;
+
+    }
+
+}
+
+</style>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+let predictionCounterNumber = 0;
+
+
+/* =========================================================
+   PREDICTION OPTIONS
+========================================================= */
+
+const predictionOptions = [
+
+    "Home Team To Score",
+
+    "BTTS",
+
+    "Over 1.5 Goals",
+
+    "Home Win",
+
+    "Goal Environment",
+
+    "1–4 Goals",
+
+    "Double Chance 1X",
+
+    "Home Clean Sheet",
+
+    "Draw",
+
+    "Home Loss"
+
+];
+
+
+/* =========================================================
+   CREATE OPTIONS
+========================================================= */
+
+function createPredictionOptions() {
+
+    let html = `
+        <option value="">
+            Select Prediction
+        </option>
+    `;
+
+    predictionOptions.forEach(function(prediction) {
+
+        html += `
+            <option value="${prediction}">
+                ${prediction}
+            </option>
+        `;
+
+    });
+
+    return html;
+
+}
+
+
+/* =========================================================
+   ADD NEW PREDICTION COUNTER
+========================================================= */
+
+function addPredictionCounter() {
+
+    predictionCounterNumber++;
+
+    const counterId =
+        "predictionCounter_" +
+        predictionCounterNumber;
+
+
+    const container =
+        document.getElementById(
+            "predictionCounters"
+        );
+
+
+    const counter =
+        document.createElement("div");
+
+
+    counter.className =
+        "prediction-counter";
+
+
+    counter.id =
+        counterId;
+
+
+    counter.innerHTML = `
+
+        <!-- COUNTER HEADER -->
+
+        <div class="counter-header">
+
+            <div class="counter-number">
+
+                📊 Prediction Counter
+                #${predictionCounterNumber}
+
+            </div>
+
+
+            <div class="counter-actions">
+
+                <button
+                    type="button"
+                    class="save-counter-btn"
+                    onclick="savePredictionCounter('${counterId}')"
+                >
+                    💾 Save
+                </button>
+
+
+                <button
+                    type="button"
+                    class="delete-counter-btn"
+                    onclick="deletePredictionCounter('${counterId}')"
+                >
+                    🗑 Delete
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOP ROW -->
+
+        <div class="counter-top-row">
+
+            <div class="counter-field">
+
+                <label>
+                    Prediction Name
+                </label>
+
+                <input
+                    type="text"
+                    class="prediction-name"
+                    placeholder="e.g. Match Analysis 1"
+                    oninput="updatePredictionTable()"
+                >
+
+            </div>
+
+
+            <div class="counter-field">
+
+                <label>
+                    Score (%)
+                </label>
+
+                <input
+                    type="number"
+                    class="prediction-score"
+                    min="0"
+                    max="100"
+                    value="0"
+                    oninput="updatePredictionTable()"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- ADVANTAGE -->
+
+        <div class="counter-section-title advantage-section-title">
+
+            ⚡ ADVANTAGE PICKS
+
+        </div>
+
+
+        <div class="counter-picks-row">
+
+            ${createPickField(
+                "Advantage 1st Pick"
+            )}
+
+            ${createPickField(
+                "Advantage 2nd Pick"
+            )}
+
+            ${createPickField(
+                "Advantage 3rd Pick"
+            )}
+
+            ${createPickField(
+                "Advantage 4th Pick"
+            )}
+
+        </div>
+
+
+        <!-- DISADVANTAGE -->
+
+        <div class="counter-section-title disadvantage-section-title">
+
+            ⚠️ DISADVANTAGE PICKS
+
+        </div>
+
+
+        <div class="counter-picks-row">
+
+            ${createPickField(
+                "Disadvantage 1st Pick"
+            )}
+
+            ${createPickField(
+                "Disadvantage 2nd Pick"
+            )}
+
+            ${createPickField(
+                "Disadvantage 3rd Pick"
+            )}
+
+            ${createPickField(
+                "Disadvantage 4th Pick"
+            )}
+
+        </div>
+
+    `;
+
+
+    container.appendChild(counter);
+
+
+    updatePredictionTable();
+
+}
+
+
+/* =========================================================
+   CREATE PICK FIELD
+========================================================= */
+
+function createPickField(label) {
+
+    return `
+
+        <div class="counter-pick">
+
+            <label>
+                ${label}
+            </label>
+
+            <select
+                class="prediction-pick"
+                onchange="updatePredictionTable()"
+            >
+
+                ${createPredictionOptions()}
+
+            </select>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   DELETE COUNTER
+========================================================= */
+
+function deletePredictionCounter(counterId) {
+
+    const counter =
+        document.getElementById(counterId);
+
+
+    if (!counter) {
+
+        return;
+
+    }
+
+
+    counter.remove();
+
+
+    updatePredictionTable();
+
+}
+
+
+/* =========================================================
+   UPDATE TABLE
+========================================================= */
+
+function updatePredictionTable() {
+
+    const body =
+        document.getElementById(
+            "predictionResultsBody"
+        );
+
+
+    const counters =
+        document.querySelectorAll(
+            ".prediction-counter"
+        );
+
+
+    if (counters.length === 0) {
+
+        body.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="12"
+                    class="empty-table"
+                >
+
+                    No prediction counters
+                    created yet.
+
+                    <br>
+
+                    Click
+                    <strong>
+                        ➕ Add Prediction Counter
+                    </strong>
+                    to begin.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    body.innerHTML = "";
+
+
+    counters.forEach(function(counter, index) {
+
+
+        const name =
+            counter.querySelector(
+                ".prediction-name"
+            ).value.trim();
+
+
+        const score =
+            counter.querySelector(
+                ".prediction-score"
+            ).value;
+
+
+        const picks =
+            counter.querySelectorAll(
+                ".prediction-pick"
+            );
+
+
+        let advantage = [];
+
+        let disadvantage = [];
+
+
+        picks.forEach(function(
+            pick,
+            pickIndex
+        ) {
+
+            if (pickIndex < 4) {
+
+                advantage.push(
+                    pick.value || "—"
+                );
+
+            } else {
+
+                disadvantage.push(
+                    pick.value || "—"
+                );
+
+            }
+
+        });
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                ${index + 1}
+            </td>
+
+
+            <td
+                class="prediction-name-cell"
+            >
+                ${
+                    name ||
+                    "Unnamed Prediction"
+                }
+            </td>
+
+
+            <td class="score-cell">
+
+                ${score || 0}%
+
+            </td>
+
+
+            <td class="advantage-cell">
+
+                ${advantage[0]}
+
+            </td>
+
+
+            <td class="advantage-cell">
+
+                ${advantage[1]}
+
+            </td>
+
+
+            <td class="advantage-cell">
+
+                ${advantage[2]}
+
+            </td>
+
+
+            <td class="advantage-cell">
+
+                ${advantage[3]}
+
+            </td>
+
+
+            <td class="disadvantage-cell">
+
+                ${disadvantage[0]}
+
+            </td>
+
+
+            <td class="disadvantage-cell">
+
+                ${disadvantage[1]}
+
+            </td>
+
+
+            <td class="disadvantage-cell">
+
+                ${disadvantage[2]}
+
+            </td>
+
+
+            <td class="disadvantage-cell">
+
+                ${disadvantage[3]}
+
+            </td>
+
+
+            <td>
+
+                <button
+                    type="button"
+                    class="table-delete-btn"
+                    onclick="deletePredictionCounter('${counter.id}')"
+                >
+                    🗑
+                </button>
+
+            </td>
+
+        `;
+
+
+        body.appendChild(row);
+
+    });
+
+}
+
+
+/* =========================================================
+   SAVE COUNTER
+========================================================= */
+
+function savePredictionCounter(counterId) {
+
+    const counter =
+        document.getElementById(counterId);
+
+
+    if (!counter) {
+
+        return;
+
+    }
+
+
+    const name =
+        counter.querySelector(
+            ".prediction-name"
+        ).value.trim();
+
+
+    const score =
+        counter.querySelector(
+            ".prediction-score"
+        ).value;
+
+
+    const picks =
+        counter.querySelectorAll(
+            ".prediction-pick"
+        );
+
+
+    const data = {
+
+        name:name,
+
+        score:score,
+
+        advantage: [
+
+            picks[0].value,
+            picks[1].value,
+            picks[2].value,
+            picks[3].value
+
+        ],
+
+        disadvantage: [
+
+            picks[4].value,
+            picks[5].value,
+            picks[6].value,
+            picks[7].value
+
+        ]
+
+    };
+
+
+    localStorage.setItem(
+
+        counterId,
+
+        JSON.stringify(data)
+
+    );
+
+
+    alert(
+        "Prediction Counter saved successfully."
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE TABLE WHEN PAGE LOADS
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        updatePredictionTable();
+
+    }
+);
+
+</script>

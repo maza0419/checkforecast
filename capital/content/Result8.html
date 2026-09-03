@@ -1,0 +1,4968 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - Advanced Prediction Analyzer</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:20px;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:#222;
+}
+
+.container{
+    max-width:1200px;
+    margin:20px auto;
+    background:#fff;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 15px 45px rgba(0,0,0,.35);
+}
+
+h1{
+    text-align:center;
+    color:#1565c0;
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#666;
+    line-height:1.6;
+    margin-bottom:30px;
+}
+
+.team-box{
+    background:#e8f5e9;
+    border:3px solid #28a745;
+    border-radius:15px;
+    padding:22px;
+    margin-bottom:30px;
+    text-align:center;
+}
+
+.team-box h2{
+    color:#28a745;
+    margin-bottom:15px;
+}
+
+.team-box input{
+    width:100%;
+    max-width:600px;
+    padding:14px;
+    border:2px solid #ccc;
+    border-radius:10px;
+    font-size:17px;
+    text-align:center;
+}
+
+.team-box input:focus{
+    outline:none;
+    border-color:#1565c0;
+}
+
+.section-title{
+    margin:30px 0 15px;
+    padding:12px 15px;
+    background:#1565c0;
+    color:white;
+    border-radius:8px;
+    font-size:20px;
+}
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:750px;
+}
+
+thead th{
+    background:#1565c0;
+    color:white;
+    padding:15px;
+    font-size:15px;
+}
+
+tbody td{
+    padding:13px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+tbody tr:nth-child(even){
+    background:#f7f9fa;
+}
+
+tbody tr:hover{
+    background:#eef6ff;
+}
+
+.stat-name{
+    font-weight:bold;
+    color:#333;
+    text-align:left;
+}
+
+select,
+input[type="number"]{
+    padding:10px;
+    border:2px solid #ddd;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:bold;
+    text-align:center;
+}
+
+select{
+    width:220px;
+    background:white;
+    cursor:pointer;
+}
+
+input[type="number"]{
+    width:120px;
+}
+
+select:focus,
+input[type="number"]:focus{
+    outline:none;
+    border-color:#1565c0;
+}
+
+.help{
+    display:block;
+    margin-top:5px;
+    color:#777;
+    font-size:11px;
+}
+
+.buttons{
+    text-align:center;
+    margin:30px 0;
+}
+
+button{
+    border:none;
+    padding:14px 30px;
+    margin:5px;
+    border-radius:10px;
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.25s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.analyze{
+    background:#1565c0;
+}
+
+.analyze:hover{
+    background:#0d47a1;
+}
+
+.reset{
+    background:#ff9800;
+}
+
+.reset:hover{
+    background:#e68900;
+}
+
+#resultArea{
+    display:none;
+    margin-top:35px;
+}
+
+.result-header{
+    background:#1565c0;
+    color:white;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.result-header h2{
+    margin-bottom:8px;
+}
+
+.score-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.score-card{
+    padding:20px;
+    border-radius:12px;
+    background:#f4f8fb;
+    border:2px solid #ddd;
+    text-align:center;
+}
+
+.score-card h3{
+    font-size:14px;
+    color:#666;
+    margin-bottom:10px;
+}
+
+.score-number{
+    font-size:30px;
+    font-weight:bold;
+    color:#1565c0;
+}
+
+.result-table{
+    min-width:800px;
+}
+
+.result-table th{
+    background:#203a43;
+    color:white;
+    padding:13px;
+}
+
+.result-table td{
+    padding:13px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+.result-table tr:nth-child(even){
+    background:#f7f9fa;
+}
+
+.high{
+    color:#16843c;
+    font-weight:bold;
+}
+
+.medium{
+    color:#d88a00;
+    font-weight:bold;
+}
+
+.low{
+    color:#d32f2f;
+    font-weight:bold;
+}
+
+.top-options-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.top-pick{
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    min-height:220px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.first-pick{
+    background:linear-gradient(135deg,#e8f5e9,#f4fff6);
+    border:3px solid #28a745;
+}
+
+.second-pick{
+    background:linear-gradient(135deg,#e3f2fd,#f7fbff);
+    border:3px solid #1565c0;
+}
+
+.pick-label{
+    font-size:14px;
+    font-weight:bold;
+    color:#666;
+    margin-bottom:8px;
+    letter-spacing:1px;
+}
+
+.top-pick h2{
+    margin-bottom:10px;
+}
+
+.first-pick h2{
+    color:#28a745;
+}
+
+.second-pick h2{
+    color:#1565c0;
+}
+
+.top-pick-name{
+    font-size:27px;
+    font-weight:bold;
+    color:#1565c0;
+    margin:10px 0;
+}
+
+.top-pick-confidence{
+    font-size:19px;
+    font-weight:bold;
+    color:#333;
+}
+
+.prediction-box{
+    padding:25px;
+    background:#f8fbff;
+    border:3px solid #1565c0;
+    border-radius:15px;
+    margin-bottom:25px;
+}
+
+.prediction-box h2{
+    color:#1565c0;
+    margin-bottom:15px;
+    text-align:center;
+}
+
+.prediction-main{
+    text-align:center;
+    padding:20px;
+    background:white;
+    border-radius:12px;
+    border:2px solid #ddd;
+}
+
+.prediction-main .label{
+    color:#777;
+    font-weight:bold;
+}
+
+.prediction-main .prediction-name{
+    font-size:32px;
+    font-weight:bold;
+    color:#1565c0;
+    margin:10px 0;
+}
+
+.prediction-main .prediction-confidence{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.possibility-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:15px;
+}
+
+.possibility-card{
+    padding:18px;
+    border-radius:12px;
+    border:2px solid #ddd;
+    background:#fafafa;
+}
+
+.possibility-card h3{
+    margin-bottom:10px;
+    color:#1565c0;
+    font-size:16px;
+}
+
+.probability{
+    font-size:27px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.progress{
+    width:100%;
+    height:10px;
+    background:#ddd;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:8px;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:#1565c0;
+    transition:width .6s;
+}
+
+.option-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.option{
+    padding:18px;
+    border-radius:12px;
+    background:#f4f8fb;
+    border-left:6px solid #1565c0;
+}
+
+.option strong{
+    display:block;
+    font-size:18px;
+    margin-bottom:7px;
+}
+
+.option small{
+    color:#666;
+    line-height:1.5;
+}
+
+.suggestion-box{
+    background:#fff8e1;
+    border:2px solid #ffca28;
+    padding:20px;
+    border-radius:12px;
+    margin-top:15px;
+}
+
+.suggestion-box h3{
+    color:#b06d00;
+    margin-bottom:12px;
+}
+
+.suggestion-box ul{
+    padding-left:22px;
+    line-height:1.8;
+}
+
+.warning{
+    background:#ffebee;
+    border:2px solid #ef5350;
+    color:#b71c1c;
+    padding:18px;
+    border-radius:12px;
+    margin-top:20px;
+}
+
+.note{
+    margin-top:30px;
+    padding:15px;
+    background:#f5f5f5;
+    border-radius:10px;
+    color:#666;
+    font-size:13px;
+    line-height:1.6;
+    text-align:center;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:20px;
+    background:#e3f2fd;
+    color:#1565c0;
+    font-weight:bold;
+}
+
+@media(max-width:900px){
+
+    .score-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .possibility-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:700px){
+
+    body{
+        padding:8px;
+    }
+
+    .container{
+        padding:15px;
+        margin:5px auto;
+    }
+
+    h1{
+        font-size:25px;
+    }
+
+    .top-options-grid,
+    .option-list,
+    .possibility-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+
+/* =====================================================
+   PREDICTION COUNTER - ADDITIONAL UI ONLY
+   This section is completely independent of the analyzer model.
+===================================================== */
+.prediction-counter-section{margin-top:35px;padding-top:25px;border-top:4px solid #1565c0}
+.pc-input-box{background:#f8fbff;border:2px solid #d6e8ff;border-radius:14px;padding:18px}
+.pc-title{text-align:center;color:#1565c0;margin-bottom:8px;font-size:22px}
+.pc-subtitle{text-align:center;color:#666;font-size:13px;margin-bottom:18px;line-height:1.5}
+.pc-main-row{display:grid;grid-template-columns:minmax(0,1fr) 110px;gap:10px;margin-bottom:15px}
+.pc-main-row input{width:100%;padding:11px;border:2px solid #ddd;border-radius:8px;font-size:14px}
+.pc-picks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.pc-pick label{display:block;font-size:10px;font-weight:bold;color:#555;margin-bottom:5px;text-align:center}
+.pc-pick select{width:100%;padding:8px 4px;font-size:11px;border:2px solid #ddd;border-radius:7px;background:#fff}
+.pc-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:15px}
+.pc-actions button{margin:0;padding:11px 18px;font-size:13px}
+.pc-add{background:#28a745}.pc-add:hover{background:#218838}
+.pc-clear{background:#d32f2f}.pc-clear:hover{background:#b71c1c}
+.pc-result{margin-top:18px;overflow:hidden}
+.pc-result-total{background:#e8f5e9;border:2px solid #28a745;border-radius:10px;padding:10px;text-align:center;font-weight:bold;color:#16843c;margin-bottom:10px}
+.pc-result-table{width:100%;min-width:700px;border-collapse:collapse}
+.pc-result-table th{background:#203a43;color:#fff;padding:9px;font-size:11px}
+.pc-result-table td{padding:9px;border-bottom:1px solid #ddd;text-align:center;font-size:11px}
+.pc-result-table tr:nth-child(even){background:#f7f9fa}
+.pc-delete{background:#d32f2f!important;padding:6px 9px!important;font-size:11px!important;margin:0!important}
+.pc-delete:hover{background:#b71c1c!important}
+.pc-score{font-weight:bold;color:#1565c0}
+.pc-empty{text-align:center;padding:15px;color:#777}
+@media(max-width:600px){
+ body{padding:6px!important;overflow-x:hidden}
+ .container{width:100%;max-width:100%;padding:14px!important;margin:4px auto!important;overflow:hidden}
+ h1{font-size:24px!important;line-height:1.2}
+ .subtitle{font-size:12px;line-height:1.45;margin-bottom:18px}
+ .team-box{padding:14px!important;margin-bottom:18px!important}
+ .team-box h2{font-size:18px}
+ .team-box input{font-size:14px!important;padding:11px!important}
+ .section-title{font-size:16px!important;padding:10px 9px!important;margin:20px 0 10px!important}
+ .table-wrapper{overflow-x:hidden}
+ .table-wrapper>table:not(.result-table){min-width:0!important;width:100%!important}
+ .table-wrapper>table:not(.result-table) thead{display:none}
+ .table-wrapper>table:not(.result-table) tbody,
+ .table-wrapper>table:not(.result-table) tr,
+ .table-wrapper>table:not(.result-table) td{display:block;width:100%}
+ .table-wrapper>table:not(.result-table) tr{margin-bottom:9px;border:1px solid #ddd;border-radius:9px;background:#fff!important;overflow:hidden}
+ .table-wrapper>table:not(.result-table) td{border:0;border-bottom:1px solid #eee;padding:8px 9px;text-align:left}
+ .table-wrapper>table:not(.result-table) td.stat-name{background:#f1f7ff;color:#1565c0;text-align:left}
+ .table-wrapper>table:not(.result-table) td:last-child{border-bottom:0;text-align:center}
+ .table-wrapper>table:not(.result-table) select,
+ .table-wrapper>table:not(.result-table) input[type=number]{width:100%!important;max-width:100%;font-size:13px;padding:9px}
+ .buttons{margin:18px 0!important;display:grid;grid-template-columns:1fr 1fr;gap:5px}
+ .buttons button{width:100%;margin:0;padding:11px 5px;font-size:13px}
+ .score-grid{grid-template-columns:1fr 1fr!important;gap:7px!important}
+ .score-card{padding:12px 6px!important}
+ .score-card h3{font-size:10px!important}
+ .score-number{font-size:22px!important}
+ .prediction-main .prediction-name{font-size:22px!important;word-break:break-word}
+ .top-options-grid,.option-list,.possibility-grid{grid-template-columns:1fr!important}
+ .top-pick{padding:16px!important;min-height:0}
+ .top-pick-name{font-size:21px!important;word-break:break-word}
+ .result-table{min-width:0!important;width:100%!important}
+ .result-table thead{display:none}
+ .result-table tbody,.result-table tr,.result-table td{display:block;width:100%}
+ .result-table tr{margin-bottom:8px;border:1px solid #ddd;border-radius:8px;padding:5px;background:#fff!important}
+ .result-table td{border:0!important;padding:5px!important;text-align:left!important;font-size:11px}
+ .result-table td:before{font-weight:bold;color:#1565c0;display:inline-block;min-width:85px;margin-right:5px}
+ .result-table td:nth-child(1):before{content:'RANK';}
+ .result-table td:nth-child(2):before{content:'PREDICTION';}
+ .result-table td:nth-child(3):before{content:'SCORE';}
+ .result-table td:nth-child(4):before{content:'STRENGTH';}
+ .result-table td:nth-child(5):before{content:'RISK';}
+ .pc-main-row{grid-template-columns:minmax(0,1fr) 72px;gap:6px}
+ .pc-main-row input{font-size:12px;padding:9px 6px}
+ .pc-picks{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+ .pc-pick label{font-size:7px;white-space:nowrap}
+ .pc-pick select{font-size:8px;padding:6px 1px}
+ .pc-actions{display:grid;grid-template-columns:1fr 1fr}
+ .pc-actions button{width:100%;padding:10px 4px;font-size:11px}
+ .pc-result-table{min-width:0;width:100%}
+ .pc-result-table thead{display:none}
+ .pc-result-table tbody,.pc-result-table tr,.pc-result-table td{display:block;width:100%}
+ .pc-result-table tr{position:relative;margin-bottom:7px;border:1px solid #ddd;border-radius:8px;padding:7px;background:#fff!important}
+ .pc-result-table td{border:0!important;padding:3px 2px;text-align:left;font-size:9px}
+ .pc-result-table td:nth-child(1){font-weight:bold;color:#1565c0}
+ .pc-result-table td:nth-child(1):before{content:'PREDICTION';font-weight:bold;color:#666;margin-right:5px}
+ .pc-result-table td:nth-child(2):before{content:'SCORE';font-weight:bold;color:#666;margin-right:5px}
+ .pc-result-table td:nth-child(3):before{content:'ADVANTAGES';font-weight:bold;color:#666;margin-right:5px}
+ .pc-result-table td:nth-child(4):before{content:'DISADVANTAGES';font-weight:bold;color:#666;margin-right:5px}
+ .pc-result-table td:nth-child(5):before{content:'ACTION';font-weight:bold;color:#666;margin-right:5px}
+}
+@media(max-width:360px){
+ body{padding:2px!important}
+ .container{padding:9px!important;border-radius:9px}
+ h1{font-size:21px!important}
+ .subtitle{font-size:10px!important}
+ .section-title{font-size:14px!important}
+ .pc-title{font-size:18px}
+ .pc-subtitle{font-size:10px}
+ .pc-main-row{grid-template-columns:minmax(0,1fr) 62px}
+ .pc-pick select{font-size:7px}
+ .pc-pick label{font-size:6px}
+}
+
+
+/* =====================================================
+   RESTORED PREDICTION COUNTER — MOBILE/INTEGRATED UI
+   Scoped so it cannot change the analyzer model.
+===================================================== */
+.prediction-counter-section .counter-container{
+    width:100%;
+    max-width:1250px;
+    margin:20px auto;
+    background:#fff;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 15px 45px rgba(0,0,0,.35);
+}
+.prediction-counter-section .counter-header{
+    text-align:center;
+    margin-bottom:25px;
+}
+.prediction-counter-section .counter-header h1{
+    color:#1565c0;
+    font-size:30px;
+    margin-bottom:8px;
+}
+.prediction-counter-section .counter-header p{
+    color:#777;
+    font-size:14px;
+}
+.prediction-counter-section .summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:25px;
+}
+.prediction-counter-section .summary-card{
+    background:#f4f8fb;
+    border:2px solid #dce5eb;
+    border-radius:12px;
+    padding:15px;
+    text-align:center;
+}
+.prediction-counter-section .summary-card h3{
+    color:#666;
+    font-size:12px;
+    margin-bottom:8px;
+}
+.prediction-counter-section .summary-number{
+    font-size:25px;
+    font-weight:bold;
+    color:#1565c0;
+}
+.prediction-counter-section .table-wrapper{
+    width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+}
+.prediction-counter-section table{
+    width:100%;
+    min-width:900px;
+    border-collapse:collapse;
+}
+.prediction-counter-section thead th{
+    background:#1565c0;
+    color:#fff;
+    padding:14px 10px;
+    font-size:14px;
+    text-align:center;
+}
+.prediction-counter-section tbody td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+.prediction-counter-section tbody tr:nth-child(even){background:#f8fafb}
+.prediction-counter-section .rank{
+    font-weight:bold;
+    color:#1565c0;
+    width:60px;
+}
+.prediction-counter-section input{
+    width:100%;
+    padding:10px;
+    border:2px solid #ddd;
+    border-radius:7px;
+    font-size:14px;
+    font-weight:bold;
+    text-align:center;
+    max-width:100%;
+}
+.prediction-counter-section .prediction-name{
+    text-align:left;
+    min-width:210px;
+}
+.prediction-counter-section .counter-input{width:110px}
+.prediction-counter-section .rate{
+    font-size:18px;
+    font-weight:bold;
+    color:#1565c0;
+}
+.prediction-counter-section .strength,
+.prediction-counter-section .risk{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+.prediction-counter-section .very-strong{background:#d9f5df;color:#16843c}
+.prediction-counter-section .strong{background:#e5f4e9;color:#218838}
+.prediction-counter-section .moderate{background:#fff3cd;color:#9a6a00}
+.prediction-counter-section .weak{background:#ffe5d9;color:#c85b00}
+.prediction-counter-section .very-weak{background:#ffebee;color:#c62828}
+.prediction-counter-section .low-risk{background:#d9f5df;color:#16843c}
+.prediction-counter-section .moderate-risk{background:#e8f1ff;color:#1565c0}
+.prediction-counter-section .medium-risk{background:#fff3cd;color:#9a6a00}
+.prediction-counter-section .high-risk{background:#ffebee;color:#c62828}
+.prediction-counter-section .controls{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:25px;
+    flex-wrap:wrap;
+}
+.prediction-counter-section .controls button{
+    border:none;
+    padding:12px 24px;
+    border-radius:9px;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+.prediction-counter-section .add-btn{background:#28a745}
+.prediction-counter-section .counter-reset{background:#ff9800}
+.prediction-counter-section .clear-btn{background:#d32f2f}
+.prediction-counter-section .info-box{
+    margin-top:25px;
+    padding:18px;
+    background:#f5f9ff;
+    border:2px solid #d6e8ff;
+    border-radius:12px;
+    line-height:1.7;
+    font-size:13px;
+    color:#555;
+}
+.prediction-counter-section .info-box strong{color:#1565c0}
+
+@media(max-width:800px){
+    .prediction-counter-section .counter-container{
+        padding:15px;
+        margin:8px auto;
+    }
+    .prediction-counter-section .counter-header h1{font-size:23px}
+    .prediction-counter-section .summary{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:450px){
+    .prediction-counter-section .counter-container{padding:10px}
+    .prediction-counter-section .summary{
+        grid-template-columns:1fr 1fr;
+        gap:7px;
+    }
+    .prediction-counter-section .summary-card{padding:10px 5px}
+    .prediction-counter-section .summary-number{font-size:20px}
+    .prediction-counter-section .counter-header p{font-size:12px}
+    .prediction-counter-section .counter-header{margin-bottom:15px}
+    .prediction-counter-section .counter-header h1{font-size:21px}
+    .prediction-counter-section .table-wrapper{
+        overflow-x:hidden;
+    }
+    .prediction-counter-section table,
+    .prediction-counter-section tbody,
+    .prediction-counter-section tr,
+    .prediction-counter-section td{
+        display:block;
+        width:100%;
+    }
+    .prediction-counter-section table{min-width:0}
+    .prediction-counter-section thead{display:none}
+    .prediction-counter-section tbody tr{
+        margin-bottom:10px;
+        padding:8px;
+        border:1px solid #dce5eb;
+        border-radius:10px;
+        background:#fff;
+    }
+    .prediction-counter-section tbody td{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:8px;
+        padding:6px 2px;
+        border-bottom:1px solid #eef1f3;
+        text-align:right;
+    }
+    .prediction-counter-section tbody td:last-child{border-bottom:0}
+    .prediction-counter-section tbody td::before{
+        font-weight:bold;
+        color:#555;
+        font-size:11px;
+        text-align:left;
+        flex:0 0 42%;
+    }
+    .prediction-counter-section tbody td:nth-child(1)::before{content:"RANK"}
+    .prediction-counter-section tbody td:nth-child(2)::before{content:"PREDICTION"}
+    .prediction-counter-section tbody td:nth-child(3)::before{content:"COUNTER RATE"}
+    .prediction-counter-section tbody td:nth-child(4)::before{content:"TOTAL MATCHES"}
+    .prediction-counter-section tbody td:nth-child(5)::before{content:"RATE %"}
+    .prediction-counter-section tbody td:nth-child(6)::before{content:"STRENGTH"}
+    .prediction-counter-section tbody td:nth-child(7)::before{content:"RISK"}
+    .prediction-counter-section .rank{width:auto}
+    .prediction-counter-section .prediction-name{
+        min-width:0;
+        width:58%;
+        padding:8px;
+        font-size:12px;
+    }
+    .prediction-counter-section .counter-input{
+        width:58%;
+        padding:8px;
+        font-size:12px;
+    }
+    .prediction-counter-section .rate{font-size:16px}
+    .prediction-counter-section .controls{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:8px;
+        margin-top:15px;
+    }
+    .prediction-counter-section .controls button{width:100%;padding:11px 8px;font-size:13px}
+    .prediction-counter-section .info-box{
+        padding:12px;
+        font-size:11px;
+        line-height:1.6;
+    }
+}
+@media(max-width:360px){
+    .prediction-counter-section .counter-container{padding:8px}
+    .prediction-counter-section .summary-number{font-size:18px}
+    .prediction-counter-section .summary-card h3{font-size:10px}
+    .prediction-counter-section .counter-header h1{font-size:19px}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>⚽ Football Value Capital</h1>
+
+<p class="subtitle">
+
+<strong>Advanced Home Team Prediction Analyzer</strong><br>
+
+Attack and Defence are calculated from the number of
+matches in which the team scored and successfully defended,
+rather than from the number of goals scored or conceded.
+
+</p>
+
+
+<!-- HOME TEAM -->
+
+<div class="team-box">
+
+<h2>🏠 HOME TEAM</h2>
+
+<input
+    type="text"
+    id="homeTeam"
+    placeholder="Enter home team name">
+
+</div>
+
+
+<form id="analysisForm">
+
+
+<!-- TEAM RATINGS -->
+
+<div class="section-title">
+
+📊 TEAM RATING FACTORS
+
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>FACTOR</th>
+<th>HOME TEAM INPUT</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td class="stat-name">
+📈 Form
+</td>
+
+<td>
+
+<select id="form">
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+
+⚔️ Attack
+
+<span class="help">
+Matches scored in ÷ matches analyzed × 100
+</span>
+
+</td>
+
+<td>
+
+<input
+    type="number"
+    id="attackScored"
+    min="0"
+    value="0"
+    placeholder="Scored matches">
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+
+🛡️ Defence
+
+<span class="help">
+Matches successfully defended/clean sheet ÷ matches × 100
+</span>
+
+</td>
+
+<td>
+
+<input
+    type="number"
+    id="defenceSuccess"
+    min="0"
+    value="0"
+    placeholder="Defended matches">
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+
+⭐ Team Quality
+
+</td>
+
+<td>
+
+<select id="quality">
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+
+🏆 League Level
+
+</td>
+
+<td>
+
+<select id="league">
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Elite — 100%</option>
+<option value="90">Very Strong — 90%</option>
+<option value="80">Strong — 80%</option>
+<option value="70">Good — 70%</option>
+<option value="60">Above Average — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Below Average — 40%</option>
+<option value="30">Weak — 30%</option>
+<option value="20">Very Weak — 20%</option>
+<option value="10">Poor — 10%</option>
+<option value="0">Very Poor — 0%</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+
+⚽ Goal Environment
+
+</td>
+
+<td>
+
+<select id="goalEnvironment">
+
+<option value="" selected disabled>Rate</option>
+
+<option value="100">Very High Goals — 100%</option>
+<option value="90">High Goals — 90%</option>
+<option value="80">Good Goals — 80%</option>
+<option value="70">Above Average — 70%</option>
+<option value="60">Slightly High — 60%</option>
+<option value="50">Average — 50%</option>
+<option value="40">Slightly Low — 40%</option>
+<option value="30">Low Goals — 30%</option>
+<option value="20">Very Low Goals — 20%</option>
+<option value="10">Extremely Low — 10%</option>
+<option value="0">No Goal Environment — 0%</option>
+
+</select>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- HISTORICAL DATA -->
+
+<div class="section-title">
+
+📚 HISTORICAL MATCH DATA
+
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>STATISTIC</th>
+<th>VALUE</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+
+<tr>
+
+<td class="stat-name">
+🏆 Wins
+</td>
+
+<td>
+
+<input
+    type="number"
+    id="wins"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+🤝 Draws
+</td>
+
+<td>
+
+<input
+    type="number"
+    id="draws"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+❌ Losses
+</td>
+
+<td>
+
+<input
+    type="number"
+    id="losses"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+⚽ Matches Scored In
+</td>
+
+<td>
+
+<input
+    type="number"
+    id="scoredMatches"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+🛡️ Matches Defended Successfully
+</td>
+
+<td>
+
+<input
+    type="number"
+    id="cleanSheetMatches"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+⚽ Over 1.5 Matches
+</td>
+
+<td>
+
+<input
+    type="number"
+    id="over15"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+🎯 1–4 Goals Matches
+</td>
+
+<td>
+
+<input
+    type="number"
+    id="goals14"
+    min="0"
+    value="0">
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td class="stat-name">
+🔥 Matches Analyzed
+</td>
+
+<td>
+
+<input
+    type="number"
+    id="matches"
+    min="1"
+    value="10">
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- BUTTONS -->
+
+<div class="buttons">
+
+<button
+    type="button"
+    class="analyze"
+    id="analyzeBtn">
+
+📊 ANALYZE & PREDICT
+
+</button>
+
+<button
+    type="reset"
+    class="reset"
+    id="resetBtn">
+
+🔄 RESET
+
+</button>
+
+</div>
+
+</form>
+
+
+<!-- RESULTS -->
+
+<div id="resultArea">
+
+
+<div class="result-header">
+
+<h2>
+📊 COMPUTED ANALYSIS
+</h2>
+
+<p id="resultTeam">
+Home Team
+</p>
+
+</div>
+
+
+<!-- SCORE CARDS -->
+
+<div class="score-grid">
+
+<div class="score-card">
+
+<h3>
+OVERALL STRENGTH
+</h3>
+
+<div
+    class="score-number"
+    id="overallScore">
+
+0%
+
+</div>
+
+</div>
+
+
+<div class="score-card">
+
+<h3>
+ATTACK SCORE
+</h3>
+
+<div
+    class="score-number"
+    id="attackScore">
+
+0%
+
+</div>
+
+</div>
+
+
+<div class="score-card">
+
+<h3>
+DEFENCE SCORE
+</h3>
+
+<div
+    class="score-number"
+    id="defenceScore">
+
+0%
+
+</div>
+
+</div>
+
+
+<div class="score-card">
+
+<h3>
+MODEL CONFIDENCE
+</h3>
+
+<div
+    class="score-number"
+    id="confidence">
+
+0%
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MAIN PREDICTION -->
+
+<div class="section-title">
+
+🏆 MAIN PREDICTION
+
+</div>
+
+<div class="prediction-box">
+
+<h2>
+COMPUTED PREDICTION
+</h2>
+
+<div class="prediction-main">
+
+<div class="label">
+STRONGEST PREDICTION
+</div>
+
+<div
+    class="prediction-name"
+    id="mainPrediction">
+
+Waiting...
+
+</div>
+
+<div
+    class="prediction-confidence"
+    id="mainPredictionConfidence">
+
+Confidence: 0%
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TOP TWO -->
+
+<div class="section-title">
+
+🏆 TOP TWO PREDICTIONS
+
+</div>
+
+<div class="top-options-grid">
+
+<div class="top-pick first-pick">
+
+<div class="pick-label">
+🥇 FIRST PREDICTION
+</div>
+
+<h2>
+TOP PICK
+</h2>
+
+<div
+    class="top-pick-name"
+    id="topPick">
+
+Waiting...
+
+</div>
+
+<div
+    class="top-pick-confidence"
+    id="topPickConfidence">
+
+Strength: 0%
+
+</div>
+
+</div>
+
+
+<div class="top-pick second-pick">
+
+<div class="pick-label">
+🥈 SECOND PREDICTION
+</div>
+
+<h2>
+SECOND PICK
+</h2>
+
+<div
+    class="top-pick-name"
+    id="secondPick">
+
+Waiting...
+
+</div>
+
+<div
+    class="top-pick-confidence"
+    id="secondPickConfidence">
+
+Strength: 0%
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- COMPUTED FACTOR TABLE -->
+
+<div class="section-title">
+
+📋 COMPUTED FACTOR TABLE
+
+</div>
+
+<div class="table-wrapper">
+
+<table class="result-table">
+
+<thead>
+
+<tr>
+
+<th>FACTOR</th>
+<th>INPUT</th>
+<th>WEIGHT</th>
+<th>CONTRIBUTION</th>
+<th>ASSESSMENT</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>📈 Form</td>
+<td id="rForm">0%</td>
+<td>20%</td>
+<td id="cForm">0</td>
+<td id="aForm">—</td>
+
+</tr>
+
+<tr>
+
+<td>⚔️ Attack</td>
+<td id="rAttack">0%</td>
+<td>20%</td>
+<td id="cAttack">0</td>
+<td id="aAttack">—</td>
+
+</tr>
+
+<tr>
+
+<td>🛡️ Defence</td>
+<td id="rDefence">0%</td>
+<td>20%</td>
+<td id="cDefence">0</td>
+<td id="aDefence">—</td>
+
+</tr>
+
+<tr>
+
+<td>⭐ Team Quality</td>
+<td id="rQuality">0%</td>
+<td>15%</td>
+<td id="cQuality">0</td>
+<td id="aQuality">—</td>
+
+</tr>
+
+<tr>
+
+<td>🏆 League Level</td>
+<td id="rLeague">0%</td>
+<td>10%</td>
+<td id="cLeague">0</td>
+<td id="aLeague">—</td>
+
+</tr>
+
+<tr>
+
+<td>⚽ Goal Environment</td>
+<td id="rGoal">0%</td>
+<td>15%</td>
+<td id="cGoal">0</td>
+<td id="aGoal">—</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- EVENT POSSIBILITIES -->
+
+<div class="section-title">
+
+📈 EVENT OCCURRENCE POSSIBILITIES
+
+</div>
+
+<div class="possibility-grid">
+
+
+<div class="possibility-card">
+
+<h3>🏠 Home Win</h3>
+
+<div
+    class="probability"
+    id="homeWinProb">
+
+0%
+
+</div>
+
+<div class="progress">
+
+<div
+    class="progress-fill"
+    id="homeWinBar">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="possibility-card">
+
+<h3>🤝 Draw</h3>
+
+<div
+    class="probability"
+    id="drawProb">
+
+0%
+
+</div>
+
+<div class="progress">
+
+<div
+    class="progress-fill"
+    id="drawBar">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="possibility-card">
+
+<h3>❌ Home Loss</h3>
+
+<div
+    class="probability"
+    id="lossProb">
+
+0%
+
+</div>
+
+<div class="progress">
+
+<div
+    class="progress-fill"
+    id="lossBar">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="possibility-card">
+
+<h3>⚽ Over 1.5 Goals</h3>
+
+<div
+    class="probability"
+    id="over15Prob">
+
+0%
+
+</div>
+
+<div class="progress">
+
+<div
+    class="progress-fill"
+    id="over15Bar">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="possibility-card">
+
+<h3>🎯 1–4 Goals</h3>
+
+<div
+    class="probability"
+    id="goals14Prob">
+
+0%
+
+</div>
+
+<div class="progress">
+
+<div
+    class="progress-fill"
+    id="goals14Bar">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="possibility-card">
+
+<h3>🔥 BTTS</h3>
+
+<div
+    class="probability"
+    id="bttsProb">
+
+0%
+
+</div>
+
+<div class="progress">
+
+<div
+    class="progress-fill"
+    id="bttsBar">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="possibility-card">
+
+<h3>🏠 Home To Score</h3>
+
+<div
+    class="probability"
+    id="homeScoreProb">
+
+0%
+
+</div>
+
+<div class="progress">
+
+<div
+    class="progress-fill"
+    id="homeScoreBar">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="possibility-card">
+
+<h3>🛡️ Home Clean Sheet</h3>
+
+<div
+    class="probability"
+    id="cleanSheetProb">
+
+0%
+
+</div>
+
+<div class="progress">
+
+<div
+    class="progress-fill"
+    id="cleanSheetBar">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="possibility-card">
+
+<h3>⚽ Goal Environment</h3>
+
+<div
+    class="probability"
+    id="goalEnvironmentResult">
+
+0%
+
+</div>
+
+<div class="progress">
+
+<div
+    class="progress-fill"
+    id="goalEnvironmentBar">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- STRONGEST OPTIONS -->
+
+<div class="section-title">
+
+💎 STRONGEST OPTIONS
+
+</div>
+
+<div
+    class="option-list"
+    id="strongestOptions">
+
+</div>
+
+
+<!-- VALUE OPTIONS -->
+
+<div class="section-title">
+
+💰 POTENTIAL VALUE OPTIONS
+
+</div>
+
+<div
+    class="option-list"
+    id="valueOptions">
+
+</div>
+
+
+<!-- EVENT RANKING -->
+
+<div class="section-title">
+
+📊 PREDICTION RANKING TABLE
+
+</div>
+
+<div class="table-wrapper">
+
+<table class="result-table">
+
+<thead>
+
+<tr>
+
+<th>RANK</th>
+<th>PREDICTION</th>
+<th>SCORE</th>
+<th>STRENGTH</th>
+<th>RISK</th>
+
+</tr>
+
+</thead>
+
+<tbody id="eventTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- SUGGESTIONS -->
+
+<div class="section-title">
+
+💡 ANALYZER SUGGESTIONS
+
+</div>
+
+<div class="suggestion-box">
+
+<h3>
+Recommended Interpretation
+</h3>
+
+<ul id="suggestions">
+
+</ul>
+
+</div>
+
+
+<div class="warning">
+
+⚠️ This system generates model-based statistical signals
+from the information entered. The scores are not guaranteed
+probabilities and cannot guarantee a match result.
+
+</div>
+
+
+<div class="note">
+
+<strong>Attack calculation:</strong>
+Matches the team scored in ÷ total matches × 100.
+
+<br><br>
+
+<strong>Defence calculation:</strong>
+Matches successfully defended / clean-sheet matches ÷
+total matches × 100.
+
+<br><br>
+
+Therefore, Attack and Defence are based on
+<strong>match occurrence</strong>, not the number of goals.
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+<!-- =====================================================
+     PREDICTION COUNTER
+     RESTORED ORIGINAL COUNTER INFORMATION
+     COMPLETELY SEPARATE FROM THE FOOTBALL VALUE CAPITAL MODEL
+===================================================== -->
+<section class="prediction-counter-section" id="predictionCounterSection">
+<div class="counter-container">
+
+<!-- ==================================================
+     HEADER
+================================================== -->
+
+<div class="counter-header">
+
+<h1>📊 Prediction Counter</h1>
+
+<p>
+Track how often each prediction occurs and calculate
+its historical rate, strength and risk.
+</p>
+
+</div>
+
+<!-- ==================================================
+     SUMMARY
+================================================== -->
+
+<div class="summary">
+
+<div class="summary-card">
+
+<h3>
+TOTAL PREDICTIONS
+</h3>
+
+<div
+    class="summary-number"
+    id="totalPredictions">
+
+0
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+TOTAL OCCURRENCES
+</h3>
+
+<div
+    class="summary-number"
+    id="totalOccurrences">
+
+0
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+BEST RATE
+</h3>
+
+<div
+    class="summary-number"
+    id="bestRate">
+
+0%
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+AVERAGE RATE
+</h3>
+
+<div
+    class="summary-number"
+    id="averageRate">
+
+0%
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ==================================================
+     TABLE
+================================================== -->
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+RANK
+</th>
+
+<th>
+PREDICTION NAME
+</th>
+
+<th>
+COUNTER RATE
+</th>
+
+<th>
+TOTAL MATCHES
+</th>
+
+<th>
+RATE %
+</th>
+
+<th>
+STRENGTH
+</th>
+
+<th>
+RISK
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="predictionTable">
+
+<!-- ROW 1 -->
+
+<tr>
+
+<td class="rank">
+1
+</td>
+
+<td>
+
+<input
+ type="text"
+ class="prediction-name"
+ placeholder="Home Team To Score"
+ value="Home Team To Score">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input occurrence"
+ min="0"
+ value="0">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input total"
+ min="1"
+ value="10">
+
+</td>
+
+<td>
+
+<span class="rate">
+0%
+</span>
+
+</td>
+
+<td>
+
+<span class="strength very-weak">
+VERY WEAK
+</span>
+
+</td>
+
+<td>
+
+<span class="risk high-risk">
+HIGH
+</span>
+
+</td>
+
+</tr>
+
+<!-- ROW 2 -->
+
+<tr>
+
+<td class="rank">
+2
+</td>
+
+<td>
+
+<input
+ type="text"
+ class="prediction-name"
+ placeholder="BTTS"
+ value="BTTS">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input occurrence"
+ min="0"
+ value="0">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input total"
+ min="1"
+ value="10">
+
+</td>
+
+<td>
+
+<span class="rate">
+0%
+</span>
+
+</td>
+
+<td>
+
+<span class="strength very-weak">
+VERY WEAK
+</span>
+
+</td>
+
+<td>
+
+<span class="risk high-risk">
+HIGH
+</span>
+
+</td>
+
+</tr>
+
+<!-- ROW 3 -->
+
+<tr>
+
+<td class="rank">
+3
+</td>
+
+<td>
+
+<input
+ type="text"
+ class="prediction-name"
+ placeholder="Over 1.5 Goals"
+ value="Over 1.5 Goals">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input occurrence"
+ min="0"
+ value="0">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input total"
+ min="1"
+ value="10">
+
+</td>
+
+<td>
+
+<span class="rate">
+0%
+</span>
+
+</td>
+
+<td>
+
+<span class="strength very-weak">
+VERY WEAK
+</span>
+
+</td>
+
+<td>
+
+<span class="risk high-risk">
+HIGH
+</span>
+
+</td>
+
+</tr>
+
+<!-- ROW 4 -->
+
+<tr>
+
+<td class="rank">
+4
+</td>
+
+<td>
+
+<input
+ type="text"
+ class="prediction-name"
+ placeholder="1–4 Goals"
+ value="1–4 Goals">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input occurrence"
+ min="0"
+ value="0">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input total"
+ min="1"
+ value="10">
+
+</td>
+
+<td>
+
+<span class="rate">
+0%
+</span>
+
+</td>
+
+<td>
+
+<span class="strength very-weak">
+VERY WEAK
+</span>
+
+</td>
+
+<td>
+
+<span class="risk high-risk">
+HIGH
+</span>
+
+</td>
+
+</tr>
+
+<!-- ROW 5 -->
+
+<tr>
+
+<td class="rank">
+5
+</td>
+
+<td>
+
+<input
+ type="text"
+ class="prediction-name"
+ placeholder="Goal Environment"
+ value="Goal Environment">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input occurrence"
+ min="0"
+ value="0">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input total"
+ min="1"
+ value="10">
+
+</td>
+
+<td>
+
+<span class="rate">
+0%
+</span>
+
+</td>
+
+<td>
+
+<span class="strength very-weak">
+VERY WEAK
+</span>
+
+</td>
+
+<td>
+
+<span class="risk high-risk">
+HIGH
+</span>
+
+</td>
+
+</tr>
+
+<!-- ROW 6 -->
+
+<tr>
+
+<td class="rank">
+6
+</td>
+
+<td>
+
+<input
+ type="text"
+ class="prediction-name"
+ placeholder="Home Win"
+ value="Home Win">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input occurrence"
+ min="0"
+ value="0">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input total"
+ min="1"
+ value="10">
+
+</td>
+
+<td>
+
+<span class="rate">
+0%
+</span>
+
+</td>
+
+<td>
+
+<span class="strength very-weak">
+VERY WEAK
+</span>
+
+</td>
+
+<td>
+
+<span class="risk high-risk">
+HIGH
+</span>
+
+</td>
+
+</tr>
+
+<!-- ROW 7 -->
+
+<tr>
+
+<td class="rank">
+7
+</td>
+
+<td>
+
+<input
+ type="text"
+ class="prediction-name"
+ placeholder="Double Chance 1X"
+ value="Double Chance 1X">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input occurrence"
+ min="0"
+ value="0">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input total"
+ min="1"
+ value="10">
+
+</td>
+
+<td>
+
+<span class="rate">
+0%
+</span>
+
+</td>
+
+<td>
+
+<span class="strength very-weak">
+VERY WEAK
+</span>
+
+</td>
+
+<td>
+
+<span class="risk high-risk">
+HIGH
+</span>
+
+</td>
+
+</tr>
+
+<!-- ROW 8 -->
+
+<tr>
+
+<td class="rank">
+8
+</td>
+
+<td>
+
+<input
+ type="text"
+ class="prediction-name"
+ placeholder="Draw"
+ value="Draw">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input occurrence"
+ min="0"
+ value="0">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input total"
+ min="1"
+ value="10">
+
+</td>
+
+<td>
+
+<span class="rate">
+0%
+</span>
+
+</td>
+
+<td>
+
+<span class="strength very-weak">
+VERY WEAK
+</span>
+
+</td>
+
+<td>
+
+<span class="risk high-risk">
+HIGH
+</span>
+
+</td>
+
+</tr>
+
+<!-- ROW 9 -->
+
+<tr>
+
+<td class="rank">
+9
+</td>
+
+<td>
+
+<input
+ type="text"
+ class="prediction-name"
+ placeholder="Home Loss"
+ value="Home Loss">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input occurrence"
+ min="0"
+ value="0">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input total"
+ min="1"
+ value="10">
+
+</td>
+
+<td>
+
+<span class="rate">
+0%
+</span>
+
+</td>
+
+<td>
+
+<span class="strength very-weak">
+VERY WEAK
+</span>
+
+</td>
+
+<td>
+
+<span class="risk high-risk">
+HIGH
+</span>
+
+</td>
+
+</tr>
+
+<!-- ROW 10 -->
+
+<tr>
+
+<td class="rank">
+10
+</td>
+
+<td>
+
+<input
+ type="text"
+ class="prediction-name"
+ placeholder="Home Clean Sheet"
+ value="Home Clean Sheet">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input occurrence"
+ min="0"
+ value="0">
+
+</td>
+
+<td>
+
+<input
+ type="number"
+ class="counter-input total"
+ min="1"
+ value="10">
+
+</td>
+
+<td>
+
+<span class="rate">
+0%
+</span>
+
+</td>
+
+<td>
+
+<span class="strength very-weak">
+VERY WEAK
+</span>
+
+</td>
+
+<td>
+
+<span class="risk high-risk">
+HIGH
+</span>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ==================================================
+     CONTROLS
+================================================== -->
+
+<div class="controls">
+
+<button
+ type="button"
+ class="add-btn"
+ id="addPrediction">
+
+➕ ADD PREDICTION
+
+</button>
+
+<button
+ type="button"
+ class="counter-reset"
+ id="resetCounter">
+
+🔄 RESET COUNTER
+
+</button>
+
+<button
+ type="button"
+ class="clear-btn"
+ id="clearRows">
+
+🗑️ CLEAR ADDED ROWS
+
+</button>
+
+</div>
+
+<!-- ==================================================
+     INFORMATION
+================================================== -->
+
+<div class="info-box">
+
+<strong>How this sheet works:</strong>
+
+<br>
+
+<strong>Rate %</strong> =
+Counter Rate ÷ Total Matches × 100.
+
+<br>
+
+<strong>Strength:</strong>
+
+90–100% = VERY STRONG
+
+ | 
+
+75–89% = STRONG
+
+ | 
+
+55–74% = MODERATE
+
+ | 
+
+35–54% = WEAK
+
+ | 
+
+0–34% = VERY WEAK.
+
+<br>
+
+<strong>Risk:</strong>
+
+80–100% = LOW
+
+ | 
+
+65–79% = MODERATE
+
+ | 
+
+50–64% = MEDIUM
+
+ | 
+
+0–49% = HIGH.
+
+<br><br>
+
+This is a <strong>separate counting sheet</strong>.
+It does not change the Home or Away prediction models.
+
+</div>
+
+</div>
+
+<script>
+
+/* =====================================================
+   CALCULATE ONE ROW
+===================================================== */
+
+function calculateRow(row){
+
+    const occurrence =
+        Number(
+            row.querySelector(".occurrence").value
+        ) || 0;
+
+
+    const total =
+        Number(
+            row.querySelector(".total").value
+        ) || 0;
+
+
+    /* ---------------------------------------------
+       RATE
+    --------------------------------------------- */
+
+    let rate = 0;
+
+
+    if(total > 0){
+
+        rate =
+            Math.round(
+                (occurrence / total) * 100
+            );
+
+    }
+
+
+    rate =
+        Math.max(
+            0,
+            Math.min(100,rate)
+        );
+
+
+    /* ---------------------------------------------
+       RATE DISPLAY
+    --------------------------------------------- */
+
+    row.querySelector(".rate").textContent =
+        rate + "%";
+
+
+    /* ---------------------------------------------
+       STRENGTH
+    --------------------------------------------- */
+
+    const strength =
+        row.querySelector(".strength");
+
+
+    strength.className =
+        "strength";
+
+
+    if(rate >= 90){
+
+        strength.classList.add(
+            "very-strong"
+        );
+
+        strength.textContent =
+            "VERY STRONG";
+
+    }
+
+    else if(rate >= 75){
+
+        strength.classList.add(
+            "strong"
+        );
+
+        strength.textContent =
+            "STRONG";
+
+    }
+
+    else if(rate >= 55){
+
+        strength.classList.add(
+            "moderate"
+        );
+
+        strength.textContent =
+            "MODERATE";
+
+    }
+
+    else if(rate >= 35){
+
+        strength.classList.add(
+            "weak"
+        );
+
+        strength.textContent =
+            "WEAK";
+
+    }
+
+    else{
+
+        strength.classList.add(
+            "very-weak"
+        );
+
+        strength.textContent =
+            "VERY WEAK";
+
+    }
+
+
+    /* ---------------------------------------------
+       RISK
+    --------------------------------------------- */
+
+    const risk =
+        row.querySelector(".risk");
+
+
+    risk.className =
+        "risk";
+
+
+    if(rate >= 80){
+
+        risk.classList.add(
+            "low-risk"
+        );
+
+        risk.textContent =
+            "LOW";
+
+    }
+
+    else if(rate >= 65){
+
+        risk.classList.add(
+            "moderate-risk"
+        );
+
+        risk.textContent =
+            "MODERATE";
+
+    }
+
+    else if(rate >= 50){
+
+        risk.classList.add(
+            "medium-risk"
+        );
+
+        risk.textContent =
+            "MEDIUM";
+
+    }
+
+    else{
+
+        risk.classList.add(
+            "high-risk"
+        );
+
+        risk.textContent =
+            "HIGH";
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE SUMMARY
+===================================================== */
+
+function updateSummary(){
+
+    const rows =
+        document.querySelectorAll(
+            "#predictionTable tr"
+        );
+
+
+    let totalOccurrences = 0;
+
+    let totalRate = 0;
+
+    let best = 0;
+
+    let count = 0;
+
+
+    rows.forEach(
+        function(row){
+
+            const occurrence =
+                Number(
+                    row.querySelector(".occurrence").value
+                ) || 0;
+
+
+            const total =
+                Number(
+                    row.querySelector(".total").value
+                ) || 0;
+
+
+            let rate = 0;
+
+
+            if(total > 0){
+
+                rate =
+                    Math.round(
+                        (occurrence / total) * 100
+                    );
+
+            }
+
+
+            totalOccurrences +=
+                occurrence;
+
+
+            totalRate +=
+                rate;
+
+
+            if(rate > best){
+
+                best = rate;
+
+            }
+
+
+            count++;
+
+        }
+    );
+
+
+    const average =
+        count > 0
+        ? Math.round(totalRate / count)
+        : 0;
+
+
+    document.getElementById(
+        "totalPredictions"
+    ).textContent = count;
+
+
+    document.getElementById(
+        "totalOccurrences"
+    ).textContent =
+        totalOccurrences;
+
+
+    document.getElementById(
+        "bestRate"
+    ).textContent =
+        best + "%";
+
+
+    document.getElementById(
+        "averageRate"
+    ).textContent =
+        average + "%";
+
+}
+
+
+/* =====================================================
+   UPDATE EVERYTHING
+===================================================== */
+
+function updateAll(){
+
+    const rows =
+        document.querySelectorAll(
+            "#predictionTable tr"
+        );
+
+
+    rows.forEach(
+        function(row){
+
+            calculateRow(row);
+
+        }
+    );
+
+
+    updateSummary();
+
+}
+
+
+/* =====================================================
+   INPUT LISTENER
+===================================================== */
+
+document
+.getElementById("predictionTable")
+.addEventListener(
+    "input",
+    function(event){
+
+        if(
+            event.target.classList.contains(
+                "occurrence"
+            ) ||
+            event.target.classList.contains(
+                "total"
+            )
+        ){
+
+            const row =
+                event.target.closest("tr");
+
+            calculateRow(row);
+
+            updateSummary();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ADD PREDICTION
+===================================================== */
+
+document
+.getElementById("addPrediction")
+.addEventListener(
+    "click",
+    function(){
+
+        const table =
+            document.getElementById(
+                "predictionTable"
+            );
+
+
+        const rowNumber =
+            table.rows.length + 1;
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+        <td class="rank">
+            ${rowNumber}
+        </td>
+
+        <td>
+
+            <input
+                type="text"
+                class="prediction-name"
+                placeholder="Enter prediction">
+
+        </td>
+
+        <td>
+
+            <input
+                type="number"
+                class="counter-input occurrence"
+                min="0"
+                value="0">
+
+        </td>
+
+        <td>
+
+            <input
+                type="number"
+                class="counter-input total"
+                min="1"
+                value="10">
+
+        </td>
+
+        <td>
+
+            <span class="rate">
+                0%
+            </span>
+
+        </td>
+
+        <td>
+
+            <span class="strength very-weak">
+                VERY WEAK
+            </span>
+
+        </td>
+
+        <td>
+
+            <span class="risk high-risk">
+                HIGH
+            </span>
+
+        </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+
+        updateAll();
+
+    }
+);
+
+
+/* =====================================================
+   RESET COUNTER
+===================================================== */
+
+document
+.getElementById("resetCounter")
+.addEventListener(
+    "click",
+    function(){
+
+        const rows =
+            document.querySelectorAll(
+                "#predictionTable tr"
+            );
+
+
+        rows.forEach(
+            function(row){
+
+                row.querySelector(
+                    ".occurrence"
+                ).value = 0;
+
+                row.querySelector(
+                    ".total"
+                ).value = 10;
+
+            }
+        );
+
+
+        updateAll();
+
+    }
+);
+
+
+/* =====================================================
+   CLEAR ADDED ROWS
+===================================================== */
+
+document
+.getElementById("clearRows")
+.addEventListener(
+    "click",
+    function(){
+
+        const table =
+            document.getElementById(
+                "predictionTable"
+            );
+
+
+        while(table.rows.length > 10){
+
+            table.deleteRow(
+                table.rows.length - 1
+            );
+
+        }
+
+
+        updateAll();
+
+    }
+);
+
+
+/* =====================================================
+   INITIAL CALCULATION
+===================================================== */
+
+updateAll();
+
+</script>
+</section>
+
+<script>
+
+/* =====================================================
+   BASIC HELPERS
+===================================================== */
+
+function getValue(id){
+
+    const element = document.getElementById(id);
+
+    if(!element){
+        return 0;
+    }
+
+    return Number(element.value) || 0;
+}
+
+
+function setText(id,value){
+
+    const element = document.getElementById(id);
+
+    if(element){
+        element.textContent = value;
+    }
+}
+
+
+function clamp(value,min=0,max=100){
+
+    return Math.max(
+        min,
+        Math.min(max,value)
+    );
+
+}
+
+
+function percentage(value,total){
+
+    if(total <= 0){
+        return 0;
+    }
+
+    return clamp(
+        Math.round(
+            (value / total) * 100
+        )
+    );
+
+}
+
+
+function assessment(value){
+
+    if(value >= 80)
+        return "VERY STRONG";
+
+    if(value >= 65)
+        return "STRONG";
+
+    if(value >= 50)
+        return "MODERATE";
+
+    if(value >= 35)
+        return "WEAK";
+
+    return "VERY WEAK";
+}
+
+
+function risk(value){
+
+    if(value >= 80)
+        return "LOW";
+
+    if(value >= 65)
+        return "MODERATE";
+
+    if(value >= 50)
+        return "MEDIUM";
+
+    return "HIGH";
+}
+
+
+function probabilityClass(value){
+
+    if(value >= 75)
+        return "high";
+
+    if(value >= 55)
+        return "medium";
+
+    return "low";
+}
+
+
+function setBar(id,value){
+
+    const bar =
+        document.getElementById(id);
+
+    if(bar){
+
+        bar.style.width =
+            clamp(value) + "%";
+
+    }
+
+}
+
+
+/* =====================================================
+   ANALYZE
+===================================================== */
+
+document
+.getElementById("analyzeBtn")
+.addEventListener("click",function(){
+
+
+/* =====================================================
+   TEAM
+===================================================== */
+
+const team =
+    document
+    .getElementById("homeTeam")
+    .value
+    .trim();
+
+
+if(!team){
+
+    alert(
+        "Please enter the home team name."
+    );
+
+    return;
+}
+
+
+/* =====================================================
+   RATING VALUES
+===================================================== */
+
+const form =
+    getValue("form");
+
+const quality =
+    getValue("quality");
+
+const league =
+    getValue("league");
+
+const goal =
+    getValue("goalEnvironment");
+
+
+/* =====================================================
+   HISTORICAL RESULTS
+===================================================== */
+
+const wins =
+    getValue("wins");
+
+const draws =
+    getValue("draws");
+
+const losses =
+    getValue("losses");
+
+const matches =
+    Math.max(
+        getValue("matches"),
+        1
+    );
+
+
+/* =====================================================
+   ATTACK
+
+   IMPORTANT:
+
+   Attack is NOT goals scored.
+
+   Attack =
+   number of matches where team scored
+   / total matches × 100
+===================================================== */
+
+const scoredMatches =
+    Math.min(
+        getValue("scoredMatches"),
+        matches
+    );
+
+
+const attack =
+    percentage(
+        scoredMatches,
+        matches
+    );
+
+
+/* =====================================================
+   DEFENCE
+
+   Defence is NOT goals conceded.
+
+   Defence =
+   successfully defended / clean-sheet matches
+   / total matches × 100
+===================================================== */
+
+const cleanSheetMatches =
+    Math.min(
+        getValue("cleanSheetMatches"),
+        matches
+    );
+
+
+const defence =
+    percentage(
+        cleanSheetMatches,
+        matches
+    );
+
+
+/* =====================================================
+   OTHER HISTORICAL EVENTS
+===================================================== */
+
+const over15 =
+    Math.min(
+        getValue("over15"),
+        matches
+    );
+
+
+const goals14 =
+    Math.min(
+        getValue("goals14"),
+        matches
+    );
+
+
+/* =====================================================
+   HISTORICAL RESULT RATES
+===================================================== */
+
+const winRate =
+    percentage(
+        wins,
+        matches
+    );
+
+
+const drawRate =
+    percentage(
+        draws,
+        matches
+    );
+
+
+const lossRate =
+    percentage(
+        losses,
+        matches
+    );
+
+
+const over15Rate =
+    percentage(
+        over15,
+        matches
+    );
+
+
+const goals14Rate =
+    percentage(
+        goals14,
+        matches
+    );
+
+
+const scoredRate =
+    percentage(
+        scoredMatches,
+        matches
+    );
+
+
+const cleanSheetRate =
+    percentage(
+        cleanSheetMatches,
+        matches
+    );
+
+
+/* =====================================================
+   RESULT FORM SCORE
+===================================================== */
+
+let resultForm = 0;
+
+const resultTotal =
+    wins +
+    draws +
+    losses;
+
+
+if(resultTotal > 0){
+
+    resultForm =
+        (
+            wins * 100 +
+            draws * 50
+        )
+        /
+        resultTotal;
+
+}
+
+else{
+
+    resultForm = form;
+
+}
+
+
+/* =====================================================
+   FINAL FORM SCORE
+
+   We combine the user's manual Form rating
+   with actual historical result form.
+===================================================== */
+
+const finalForm =
+    Math.round(
+        form * 0.60 +
+        resultForm * 0.40
+    );
+
+
+/* =====================================================
+   OVERALL TEAM STRENGTH
+
+   FORM       20%
+   ATTACK     20%
+   DEFENCE    20%
+   QUALITY    15%
+   LEAGUE     10%
+   GOALS      15%
+===================================================== */
+
+const cForm =
+    finalForm * 0.20;
+
+
+const cAttack =
+    attack * 0.20;
+
+
+const cDefence =
+    defence * 0.20;
+
+
+const cQuality =
+    quality * 0.15;
+
+
+const cLeague =
+    league * 0.10;
+
+
+const cGoal =
+    goal * 0.15;
+
+
+const overall =
+    Math.round(
+        cForm +
+        cAttack +
+        cDefence +
+        cQuality +
+        cLeague +
+        cGoal
+    );
+
+
+/* =====================================================
+   PREDICTION ENGINE
+===================================================== */
+
+
+/* -----------------------------------------------------
+   HOME WIN
+----------------------------------------------------- */
+
+let homeWin =
+    Math.round(
+        overall * 0.35 +
+        finalForm * 0.20 +
+        winRate * 0.15 +
+        attack * 0.15 +
+        defence * 0.10 +
+        league * 0.05
+    );
+
+
+/* -----------------------------------------------------
+   DRAW
+----------------------------------------------------- */
+
+let drawSignal =
+    Math.round(
+        drawRate * 0.50 +
+        (100 - Math.abs(overall - 50)) * 0.25 +
+        (100 - Math.abs(attack - defence)) * 0.15 +
+        50 * 0.10
+    );
+
+
+/* -----------------------------------------------------
+   HOME LOSS
+----------------------------------------------------- */
+
+let lossSignal =
+    Math.round(
+        lossRate * 0.50 +
+        (100 - overall) * 0.30 +
+        (100 - finalForm) * 0.20
+    );
+
+
+/* -----------------------------------------------------
+   OVER 1.5
+----------------------------------------------------- */
+
+let over15Signal =
+    Math.round(
+        over15Rate * 0.55 +
+        goal * 0.25 +
+        attack * 0.10 +
+        (100 - defence) * 0.10
+    );
+
+
+/* -----------------------------------------------------
+   1–4 GOALS
+----------------------------------------------------- */
+
+let goals14Signal =
+    Math.round(
+        goals14Rate * 0.60 +
+        goal * 0.25 +
+        over15Rate * 0.15
+    );
+
+
+/* -----------------------------------------------------
+   HOME TO SCORE
+-----------------------------------------------------
+
+Because Attack is now based on whether the team
+scored in a match, this prediction directly uses
+the scoring-match rate.
+----------------------------------------------------- */
+
+let homeScoreSignal =
+    Math.round(
+        scoredRate * 0.55 +
+        attack * 0.25 +
+        goal * 0.10 +
+        finalForm * 0.10
+    );
+
+
+/* -----------------------------------------------------
+   CLEAN SHEET
+----------------------------------------------------- */
+
+let cleanSheetSignal =
+    Math.round(
+        cleanSheetRate * 0.60 +
+        defence * 0.25 +
+        overall * 0.15
+    );
+
+
+/* -----------------------------------------------------
+   BTTS
+-----------------------------------------------------
+
+A team that scores frequently increases BTTS,
+while a very strong clean-sheet signal can reduce it.
+----------------------------------------------------- */
+
+let bttsSignal =
+    Math.round(
+        scoredRate * 0.45 +
+        goal * 0.30 +
+        over15Rate * 0.20 +
+        (100 - cleanSheetRate) * 0.05
+    );
+
+
+/* -----------------------------------------------------
+   DOUBLE CHANCE 1X
+----------------------------------------------------- */
+
+let doubleChanceSignal =
+    Math.round(
+        homeWin * 0.55 +
+        drawSignal * 0.45
+    );
+
+
+/* -----------------------------------------------------
+   GOAL ENVIRONMENT
+----------------------------------------------------- */
+
+let goalEnvironmentSignal =
+    Math.round(
+        goal * 0.60 +
+        over15Rate * 0.25 +
+        goals14Rate * 0.15
+    );
+
+
+/* =====================================================
+   LIMIT ALL VALUES
+===================================================== */
+
+homeWin =
+    clamp(homeWin);
+
+drawSignal =
+    clamp(drawSignal);
+
+lossSignal =
+    clamp(lossSignal);
+
+over15Signal =
+    clamp(over15Signal);
+
+goals14Signal =
+    clamp(goals14Signal);
+
+homeScoreSignal =
+    clamp(homeScoreSignal);
+
+cleanSheetSignal =
+    clamp(cleanSheetSignal);
+
+bttsSignal =
+    clamp(bttsSignal);
+
+doubleChanceSignal =
+    clamp(doubleChanceSignal);
+
+goalEnvironmentSignal =
+    clamp(goalEnvironmentSignal);
+
+
+/* =====================================================
+   CONFIDENCE
+
+   Confidence considers:
+
+   - Overall strength
+   - Historical form
+   - Attack
+   - Defence
+   - Data completeness
+===================================================== */
+
+let dataCompleteness =
+    0;
+
+let fieldsAvailable = 0;
+
+let fieldsStrong = 0;
+
+
+if(form > 0){
+    fieldsAvailable++;
+}
+
+if(quality > 0){
+    fieldsAvailable++;
+}
+
+if(league > 0){
+    fieldsAvailable++;
+}
+
+if(goal > 0){
+    fieldsAvailable++;
+}
+
+if(matches > 0){
+    fieldsAvailable++;
+}
+
+if(scoredMatches > 0){
+    fieldsAvailable++;
+}
+
+if(cleanSheetMatches > 0){
+    fieldsAvailable++;
+}
+
+if(
+    resultTotal > 0
+){
+    fieldsAvailable++;
+}
+
+
+dataCompleteness =
+    Math.round(
+        (fieldsAvailable / 8) * 100
+    );
+
+
+let confidence =
+    Math.round(
+        overall * 0.40 +
+        finalForm * 0.20 +
+        attack * 0.10 +
+        defence * 0.10 +
+        dataCompleteness * 0.20
+    );
+
+
+confidence =
+    clamp(
+        confidence,
+        40,
+        94
+    );
+
+
+/* =====================================================
+   RESULT HEADER
+===================================================== */
+
+setText(
+    "resultTeam",
+    team
+);
+
+
+/* =====================================================
+   SCORE CARDS
+===================================================== */
+
+setText(
+    "overallScore",
+    overall + "%"
+);
+
+setText(
+    "attackScore",
+    attack + "%"
+);
+
+setText(
+    "defenceScore",
+    defence + "%"
+);
+
+setText(
+    "confidence",
+    confidence + "%"
+);
+
+
+/* =====================================================
+   COMPUTED FACTOR TABLE
+===================================================== */
+
+setText(
+    "rForm",
+    finalForm + "%"
+);
+
+setText(
+    "rAttack",
+    attack + "%"
+);
+
+setText(
+    "rDefence",
+    defence + "%"
+);
+
+setText(
+    "rQuality",
+    quality + "%"
+);
+
+setText(
+    "rLeague",
+    league + "%"
+);
+
+setText(
+    "rGoal",
+    goal + "%"
+);
+
+
+setText(
+    "cForm",
+    cForm.toFixed(1)
+);
+
+setText(
+    "cAttack",
+    cAttack.toFixed(1)
+);
+
+setText(
+    "cDefence",
+    cDefence.toFixed(1)
+);
+
+setText(
+    "cQuality",
+    cQuality.toFixed(1)
+);
+
+setText(
+    "cLeague",
+    cLeague.toFixed(1)
+);
+
+setText(
+    "cGoal",
+    cGoal.toFixed(1)
+);
+
+
+setText(
+    "aForm",
+    assessment(finalForm)
+);
+
+setText(
+    "aAttack",
+    assessment(attack)
+);
+
+setText(
+    "aDefence",
+    assessment(defence)
+);
+
+setText(
+    "aQuality",
+    assessment(quality)
+);
+
+setText(
+    "aLeague",
+    assessment(league)
+);
+
+setText(
+    "aGoal",
+    assessment(goal)
+);
+
+
+/* =====================================================
+   EVENT DISPLAY
+===================================================== */
+
+setText(
+    "homeWinProb",
+    homeWin + "%"
+);
+
+setText(
+    "drawProb",
+    drawSignal + "%"
+);
+
+setText(
+    "lossProb",
+    lossSignal + "%"
+);
+
+setText(
+    "over15Prob",
+    over15Signal + "%"
+);
+
+setText(
+    "goals14Prob",
+    goals14Signal + "%"
+);
+
+setText(
+    "bttsProb",
+    bttsSignal + "%"
+);
+
+setText(
+    "homeScoreProb",
+    homeScoreSignal + "%"
+);
+
+setText(
+    "cleanSheetProb",
+    cleanSheetSignal + "%"
+);
+
+setText(
+    "goalEnvironmentResult",
+    goalEnvironmentSignal + "%"
+);
+
+
+/* =====================================================
+   PROGRESS BARS
+===================================================== */
+
+setBar(
+    "homeWinBar",
+    homeWin
+);
+
+setBar(
+    "drawBar",
+    drawSignal
+);
+
+setBar(
+    "lossBar",
+    lossSignal
+);
+
+setBar(
+    "over15Bar",
+    over15Signal
+);
+
+setBar(
+    "goals14Bar",
+    goals14Signal
+);
+
+setBar(
+    "bttsBar",
+    bttsSignal
+);
+
+setBar(
+    "homeScoreBar",
+    homeScoreSignal
+);
+
+setBar(
+    "cleanSheetBar",
+    cleanSheetSignal
+);
+
+setBar(
+    "goalEnvironmentBar",
+    goalEnvironmentSignal
+);
+
+
+/* =====================================================
+   PREDICTION EVENTS
+===================================================== */
+
+let events = [
+
+    {
+        name:"Home Win",
+        score:homeWin
+    },
+
+    {
+        name:"Draw",
+        score:drawSignal
+    },
+
+    {
+        name:"Home Loss",
+        score:lossSignal
+    },
+
+    {
+        name:"Over 1.5 Goals",
+        score:over15Signal
+    },
+
+    {
+        name:"1–4 Goals",
+        score:goals14Signal
+    },
+
+    {
+        name:"BTTS",
+        score:bttsSignal
+    },
+
+    {
+        name:"Home Team To Score",
+        score:homeScoreSignal
+    },
+
+    {
+        name:"Home Clean Sheet",
+        score:cleanSheetSignal
+    },
+
+    {
+        name:"Double Chance 1X",
+        score:doubleChanceSignal
+    },
+
+    {
+        name:"Goal Environment",
+        score:goalEnvironmentSignal
+    }
+
+];
+
+
+/* =====================================================
+   SORT EVENTS
+===================================================== */
+
+events.sort(
+    function(a,b){
+
+        return b.score - a.score;
+
+    }
+);
+
+
+/* =====================================================
+   TOP PREDICTION
+===================================================== */
+
+const best =
+    events[0];
+
+
+setText(
+    "mainPrediction",
+    best.name
+);
+
+setText(
+    "mainPredictionConfidence",
+    "Confidence: " +
+    best.score +
+    "%"
+);
+
+
+setText(
+    "topPick",
+    best.name
+);
+
+setText(
+    "topPickConfidence",
+    "Strength: " +
+    best.score +
+    "%"
+);
+
+
+/* =====================================================
+   SECOND PREDICTION
+===================================================== */
+
+const secondBest =
+    events[1];
+
+
+if(secondBest){
+
+    setText(
+        "secondPick",
+        secondBest.name
+    );
+
+    setText(
+        "secondPickConfidence",
+        "Strength: " +
+        secondBest.score +
+        "%"
+    );
+
+}
+
+else{
+
+    setText(
+        "secondPick",
+        "No second prediction"
+    );
+
+    setText(
+        "secondPickConfidence",
+        "Strength: 0%"
+    );
+
+}
+
+
+/* =====================================================
+   STRONGEST OPTIONS
+===================================================== */
+
+const strongest =
+    document.getElementById(
+        "strongestOptions"
+    );
+
+
+strongest.innerHTML = "";
+
+
+events
+.slice(0,6)
+.forEach(
+    function(event,index){
+
+        strongest.innerHTML += `
+
+        <div class="option">
+
+            <strong>
+                #${index + 1}
+                ${event.name}
+            </strong>
+
+            <div>
+
+                Computed Strength:
+                <b>${event.score}%</b>
+
+            </div>
+
+            <small>
+
+                Assessment:
+                ${assessment(event.score)}
+
+                <br>
+
+                Risk:
+                ${risk(event.score)}
+
+            </small>
+
+        </div>
+
+        `;
+
+    }
+);
+
+
+/* =====================================================
+   VALUE OPTIONS
+===================================================== */
+
+const valueOptions =
+    document.getElementById(
+        "valueOptions"
+    );
+
+
+valueOptions.innerHTML = "";
+
+
+const valueCandidates =
+    events
+    .filter(
+        function(event){
+
+            return event.score >= 65;
+
+        }
+    )
+    .slice(0,6);
+
+
+if(
+    valueCandidates.length === 0
+){
+
+    valueOptions.innerHTML = `
+
+    <div class="option">
+
+        <strong>
+            ⚠️ No strong computed option
+        </strong>
+
+        <small>
+
+            The current data does not produce
+            a sufficiently strong prediction signal.
+
+        </small>
+
+    </div>
+
+    `;
+
+}
+
+else{
+
+    valueCandidates
+    .forEach(
+        function(event){
+
+            const valueScore =
+                Math.round(
+                    event.score * 0.75 +
+                    confidence * 0.25
+                );
+
+
+            valueOptions.innerHTML += `
+
+            <div class="option">
+
+                <strong>
+                    💎 ${event.name}
+                </strong>
+
+                <div>
+
+                    Value Signal:
+                    <b>${valueScore}%</b>
+
+                </div>
+
+                <small>
+
+                    Computed from event strength
+                    and model confidence.
+
+                </small>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   EVENT RANKING TABLE
+===================================================== */
+
+const eventTable =
+    document.getElementById(
+        "eventTable"
+    );
+
+
+eventTable.innerHTML = "";
+
+
+events.forEach(
+    function(event,index){
+
+        const strength =
+            assessment(event.score);
+
+        const eventRisk =
+            risk(event.score);
+
+        const className =
+            probabilityClass(
+                event.score
+            );
+
+
+        eventTable.innerHTML += `
+
+        <tr>
+
+            <td>
+                ${index + 1}
+            </td>
+
+            <td>
+
+                <strong>
+                    ${event.name}
+                </strong>
+
+            </td>
+
+            <td class="${className}">
+
+                ${event.score}%
+
+            </td>
+
+            <td class="${className}">
+
+                ${strength}
+
+            </td>
+
+            <td>
+
+                ${eventRisk}
+
+            </td>
+
+        </tr>
+
+        `;
+
+    }
+);
+
+
+/* =====================================================
+   SUGGESTIONS
+===================================================== */
+
+const suggestions =
+    document.getElementById(
+        "suggestions"
+    );
+
+
+suggestions.innerHTML = "";
+
+
+/* OVERALL */
+
+if(overall >= 80){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        <strong>${team}</strong> has a
+        very strong overall computed strength
+        of ${overall}%.
+
+    </li>
+
+    `;
+
+}
+
+else if(overall >= 65){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        <strong>${team}</strong> has a strong
+        overall computed strength of ${overall}%.
+
+    </li>
+
+    `;
+
+}
+
+else if(overall >= 50){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        <strong>${team}</strong> has a moderate
+        overall computed strength of ${overall}%.
+
+    </li>
+
+    `;
+
+}
+
+else{
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        <strong>${team}</strong> has a weak
+        overall computed strength based on
+        the supplied data.
+
+    </li>
+
+    `;
+
+}
+
+
+/* ATTACK */
+
+suggestions.innerHTML += `
+
+<li>
+
+    The team scored in
+    <strong>${scoredMatches}</strong>
+    of ${matches} analyzed matches,
+    producing an attack occurrence rate of
+    <strong>${attack}%</strong>.
+
+</li>
+
+`;
+
+
+/* DEFENCE */
+
+suggestions.innerHTML += `
+
+<li>
+
+    The team successfully defended/kept a clean sheet
+    in <strong>${cleanSheetMatches}</strong>
+    of ${matches} matches,
+    producing a defence occurrence rate of
+    <strong>${defence}%</strong>.
+
+</li>
+
+`;
+
+
+/* HOME WIN */
+
+if(homeWin >= 75){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        The Home Win signal is strong at
+        <strong>${homeWin}%</strong>.
+
+    </li>
+
+    `;
+
+}
+
+
+/* OVER 1.5 */
+
+if(over15Signal >= 75){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        Over 1.5 Goals has a strong computed
+        occurrence signal of
+        <strong>${over15Signal}%</strong>.
+
+    </li>
+
+    `;
+
+}
+
+
+/* BTTS */
+
+if(bttsSignal >= 75){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        BTTS has a strong computed signal of
+        <strong>${bttsSignal}%</strong>.
+
+    </li>
+
+    `;
+
+}
+
+
+/* CLEAN SHEET */
+
+if(cleanSheetSignal >= 75){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        The Home Clean Sheet signal is strong at
+        <strong>${cleanSheetSignal}%</strong>.
+
+    </li>
+
+    `;
+
+}
+
+
+/* GOAL ENVIRONMENT */
+
+if(goalEnvironmentSignal >= 75){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        The goal environment strongly supports
+        goal-related events.
+
+    </li>
+
+    `;
+
+}
+
+else if(goalEnvironmentSignal <= 35){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        The goal environment is relatively low,
+        so aggressive goal selections should
+        be treated cautiously.
+
+    </li>
+
+    `;
+
+}
+
+
+/* CONFIDENCE */
+
+if(confidence >= 80){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        Model confidence is high at
+        <strong>${confidence}%</strong>.
+
+    </li>
+
+    `;
+
+}
+
+else if(confidence >= 65){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        Model confidence is moderate-to-strong at
+        <strong>${confidence}%</strong>.
+
+    </li>
+
+    `;
+
+}
+
+else{
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        Model confidence is limited at
+        <strong>${confidence}%</strong>.
+        More complete historical data would
+        improve the model.
+
+    </li>
+
+    `;
+
+}
+
+
+/* FINAL TOP TWO */
+
+suggestions.innerHTML += `
+
+<li>
+
+    <strong>Top prediction:</strong>
+    ${best.name}
+    (${best.score}%)
+
+</li>
+
+`;
+
+
+if(secondBest){
+
+    suggestions.innerHTML += `
+
+    <li>
+
+        <strong>Second prediction:</strong>
+        ${secondBest.name}
+        (${secondBest.score}%)
+
+    </li>
+
+    `;
+
+}
+
+
+/* =====================================================
+   SHOW RESULTS
+===================================================== */
+
+document
+.getElementById("resultArea")
+.style.display = "block";
+
+
+document
+.getElementById("resultArea")
+.scrollIntoView({
+    behavior:"smooth"
+});
+
+
+});
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+document
+.getElementById("resetBtn")
+.addEventListener(
+    "click",
+    function(){
+
+        setTimeout(
+            function(){
+
+                document
+                .getElementById("resultArea")
+                .style.display = "none";
+
+            },
+            50
+        );
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

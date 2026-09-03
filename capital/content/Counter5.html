@@ -1,0 +1,1604 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Value Capital - Prediction Ranking Counter</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body{
+
+    min-height:100vh;
+
+    padding:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f2027,
+            #203a43,
+            #2c5364
+        );
+
+    color:#222;
+
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.ranking-counter-container{
+
+    width:100%;
+
+    max-width:1250px;
+
+    margin:0 auto;
+
+    background:#fff;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.35);
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.ranking-header{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+
+.ranking-header h1{
+
+    color:#1565c0;
+
+    font-size:30px;
+
+    margin-bottom:8px;
+
+}
+
+
+.ranking-header p{
+
+    color:#666;
+
+    font-size:14px;
+
+}
+
+
+/* =====================================================
+   COUNTER SUMMARY
+===================================================== */
+
+.summary-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+
+.summary-card{
+
+    background:#f4f8fb;
+
+    border:2px solid #dbe3e8;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    text-align:center;
+
+}
+
+
+.summary-card h3{
+
+    font-size:13px;
+
+    color:#666;
+
+    margin-bottom:8px;
+
+}
+
+
+.summary-number{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#1565c0;
+
+}
+
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.section-title{
+
+    background:#1565c0;
+
+    color:#fff;
+
+    padding:13px 16px;
+
+    border-radius:9px;
+
+    margin:20px 0 12px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-wrapper{
+
+    width:100%;
+
+    overflow-x:auto;
+
+}
+
+
+table{
+
+    width:100%;
+
+    min-width:900px;
+
+    border-collapse:collapse;
+
+}
+
+
+thead th{
+
+    background:#203a43;
+
+    color:#fff;
+
+    padding:13px 10px;
+
+    font-size:13px;
+
+}
+
+
+tbody td{
+
+    padding:11px 8px;
+
+    border-bottom:1px solid #ddd;
+
+    text-align:center;
+
+    font-size:13px;
+
+}
+
+
+tbody tr:nth-child(even){
+
+    background:#f7f9fa;
+
+}
+
+
+tbody tr:hover{
+
+    background:#eef6ff;
+
+}
+
+
+/* =====================================================
+   RANK
+===================================================== */
+
+.rank-number{
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    color:#1565c0;
+
+}
+
+
+/* =====================================================
+   PREDICTION
+===================================================== */
+
+.prediction-name{
+
+    text-align:left;
+
+    font-weight:bold;
+
+    color:#333;
+
+}
+
+
+/* =====================================================
+   ORIGINAL SCORE
+===================================================== */
+
+.original-score{
+
+    font-weight:bold;
+
+    color:#1565c0;
+
+}
+
+
+/* =====================================================
+   ORIGINAL STRENGTH
+===================================================== */
+
+.original-strength{
+
+    font-weight:bold;
+
+}
+
+
+/* =====================================================
+   ORIGINAL RISK
+===================================================== */
+
+.original-risk{
+
+    font-weight:bold;
+
+}
+
+
+/* =====================================================
+   OCCURRENCE INPUT
+===================================================== */
+
+.occurrence-input{
+
+    width:90px;
+
+    padding:9px;
+
+    border:2px solid #ddd;
+
+    border-radius:7px;
+
+    text-align:center;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+}
+
+
+.occurrence-input:focus{
+
+    outline:none;
+
+    border-color:#1565c0;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(21,101,192,.10);
+
+}
+
+
+/* =====================================================
+   CALCULATED OCCURRENCE
+===================================================== */
+
+.calculated-rate{
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    color:#16843c;
+
+}
+
+
+/* =====================================================
+   NEW RANK
+===================================================== */
+
+.new-rank{
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    color:#b06d00;
+
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.buttons{
+
+    text-align:center;
+
+    margin-top:25px;
+
+}
+
+
+button{
+
+    border:none;
+
+    padding:13px 25px;
+
+    margin:5px;
+
+    border-radius:9px;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+
+button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+.calculate-btn{
+
+    background:#1565c0;
+
+}
+
+
+.calculate-btn:hover{
+
+    background:#0d47a1;
+
+}
+
+
+.reset-btn{
+
+    background:#ff9800;
+
+}
+
+
+.reset-btn:hover{
+
+    background:#e68900;
+
+}
+
+
+/* =====================================================
+   RESULT BOX
+===================================================== */
+
+.result-box{
+
+    display:none;
+
+    margin-top:25px;
+
+    background:#f8fbff;
+
+    border:2px solid #1565c0;
+
+    border-radius:13px;
+
+    padding:20px;
+
+}
+
+
+.result-box h2{
+
+    text-align:center;
+
+    color:#1565c0;
+
+    margin-bottom:15px;
+
+}
+
+
+.result-message{
+
+    text-align:center;
+
+    line-height:1.7;
+
+    color:#444;
+
+}
+
+
+/* =====================================================
+   FOOTNOTE
+===================================================== */
+
+.note{
+
+    margin-top:20px;
+
+    padding:15px;
+
+    background:#f5f5f5;
+
+    border-radius:9px;
+
+    color:#666;
+
+    font-size:12px;
+
+    line-height:1.6;
+
+    text-align:center;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+    body{
+
+        padding:7px;
+
+    }
+
+
+    .ranking-counter-container{
+
+        padding:12px;
+
+        border-radius:11px;
+
+    }
+
+
+    .ranking-header h1{
+
+        font-size:22px;
+
+    }
+
+
+    .summary-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .section-title{
+
+        font-size:15px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="ranking-counter-container">
+
+
+<!-- =================================================
+     HEADER
+================================================= -->
+
+<div class="ranking-header">
+
+<h1>
+📊 Prediction Ranking Counter
+</h1>
+
+<p>
+Separate statistical counter for tracking prediction occurrences
+</p>
+
+</div>
+
+
+
+<!-- =================================================
+     SUMMARY
+================================================= -->
+
+<div class="summary-grid">
+
+
+<div class="summary-card">
+
+<h3>
+TOTAL PREDICTIONS COUNTED
+</h3>
+
+<div
+    class="summary-number"
+    id="totalCount">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="summary-card">
+
+<h3>
+NUMBER OF MARKETS
+</h3>
+
+<div
+    class="summary-number"
+    id="marketCount">
+
+10
+
+</div>
+
+</div>
+
+
+<div class="summary-card">
+
+<h3>
+TOP OCCURRING MARKET
+</h3>
+
+<div
+    class="summary-number"
+    id="topMarket"
+    style="font-size:18px;">
+
+Waiting...
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =================================================
+     INPUT TABLE
+================================================= -->
+
+<div class="section-title">
+
+📋 ENTER PREDICTION OCCURRENCES
+
+</div>
+
+
+<div class="table-wrapper">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+ORIGINAL RANK
+</th>
+
+<th>
+PREDICTION
+</th>
+
+<th>
+MODEL SCORE
+</th>
+
+<th>
+STRENGTH
+</th>
+
+<th>
+RISK
+</th>
+
+<th>
+TIMES OCCURRED
+</th>
+
+<th>
+OCCURRENCE %
+</th>
+
+<th>
+NEW RANK
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+
+<!-- 1 -->
+
+<tr data-market="1–4 Goals">
+
+<td class="rank-number">
+1
+</td>
+
+<td class="prediction-name">
+🎯 1–4 Goals
+</td>
+
+<td class="original-score">
+81%
+</td>
+
+<td class="original-strength">
+VERY STRONG
+</td>
+
+<td class="original-risk">
+LOW
+</td>
+
+<td>
+
+<input
+    class="occurrence-input"
+    type="number"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="calculated-rate">
+0%
+</td>
+
+<td class="new-rank">
+-
+</td>
+
+</tr>
+
+
+
+<!-- 2 -->
+
+<tr data-market="Home Team To Score">
+
+<td class="rank-number">
+2
+</td>
+
+<td class="prediction-name">
+⚽ Home Team To Score
+</td>
+
+<td class="original-score">
+77%
+</td>
+
+<td class="original-strength">
+STRONG
+</td>
+
+<td class="original-risk">
+MODERATE
+</td>
+
+<td>
+
+<input
+    class="occurrence-input"
+    type="number"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="calculated-rate">
+0%
+</td>
+
+<td class="new-rank">
+-
+</td>
+
+</tr>
+
+
+
+<!-- 3 -->
+
+<tr data-market="Over 1.5 Goals">
+
+<td class="rank-number">
+3
+</td>
+
+<td class="prediction-name">
+⚽ Over 1.5 Goals
+</td>
+
+<td class="original-score">
+75%
+</td>
+
+<td class="original-strength">
+STRONG
+</td>
+
+<td class="original-risk">
+MODERATE
+</td>
+
+<td>
+
+<input
+    class="occurrence-input"
+    type="number"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="calculated-rate">
+0%
+</td>
+
+<td class="new-rank">
+-
+</td>
+
+</tr>
+
+
+
+<!-- 4 -->
+
+<tr data-market="BTTS">
+
+<td class="rank-number">
+4
+</td>
+
+<td class="prediction-name">
+🔥 BTTS
+</td>
+
+<td class="original-score">
+74%
+</td>
+
+<td class="original-strength">
+STRONG
+</td>
+
+<td class="original-risk">
+MODERATE
+</td>
+
+<td>
+
+<input
+    class="occurrence-input"
+    type="number"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="calculated-rate">
+0%
+</td>
+
+<td class="new-rank">
+-
+</td>
+
+</tr>
+
+
+
+<!-- 5 -->
+
+<tr data-market="Goal Environment">
+
+<td class="rank-number">
+5
+</td>
+
+<td class="prediction-name">
+⚽ Goal Environment
+</td>
+
+<td class="original-score">
+70%
+</td>
+
+<td class="original-strength">
+STRONG
+</td>
+
+<td class="original-risk">
+MODERATE
+</td>
+
+<td>
+
+<input
+    class="occurrence-input"
+    type="number"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="calculated-rate">
+0%
+</td>
+
+<td class="new-rank">
+-
+</td>
+
+</tr>
+
+
+
+<!-- 6 -->
+
+<tr data-market="Home Win">
+
+<td class="rank-number">
+6
+</td>
+
+<td class="prediction-name">
+🏠 Home Win
+</td>
+
+<td class="original-score">
+63%
+</td>
+
+<td class="original-strength">
+MODERATE
+</td>
+
+<td class="original-risk">
+MEDIUM
+</td>
+
+<td>
+
+<input
+    class="occurrence-input"
+    type="number"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="calculated-rate">
+0%
+</td>
+
+<td class="new-rank">
+-
+</td>
+
+</tr>
+
+
+
+<!-- 7 -->
+
+<tr data-market="Double Chance 1X">
+
+<td class="rank-number">
+7
+</td>
+
+<td class="prediction-name">
+🛡️ Double Chance 1X
+</td>
+
+<td class="original-score">
+54%
+</td>
+
+<td class="original-strength">
+MODERATE
+</td>
+
+<td class="original-risk">
+MEDIUM
+</td>
+
+<td>
+
+<input
+    class="occurrence-input"
+    type="number"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="calculated-rate">
+0%
+</td>
+
+<td class="new-rank">
+-
+</td>
+
+</tr>
+
+
+
+<!-- 8 -->
+
+<tr data-market="Draw">
+
+<td class="rank-number">
+8
+</td>
+
+<td class="prediction-name">
+🤝 Draw
+</td>
+
+<td class="original-score">
+43%
+</td>
+
+<td class="original-strength">
+WEAK
+</td>
+
+<td class="original-risk">
+HIGH
+</td>
+
+<td>
+
+<input
+    class="occurrence-input"
+    type="number"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="calculated-rate">
+0%
+</td>
+
+<td class="new-rank">
+-
+</td>
+
+</tr>
+
+
+
+<!-- 9 -->
+
+<tr data-market="Home Loss">
+
+<td class="rank-number">
+9
+</td>
+
+<td class="prediction-name">
+❌ Home Loss
+</td>
+
+<td class="original-score">
+28%
+</td>
+
+<td class="original-strength">
+VERY WEAK
+</td>
+
+<td class="original-risk">
+HIGH
+</td>
+
+<td>
+
+<input
+    class="occurrence-input"
+    type="number"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="calculated-rate">
+0%
+</td>
+
+<td class="new-rank">
+-
+</td>
+
+</tr>
+
+
+
+<!-- 10 -->
+
+<tr data-market="Home Clean Sheet">
+
+<td class="rank-number">
+10
+</td>
+
+<td class="prediction-name">
+🛡️ Home Clean Sheet
+</td>
+
+<td class="original-score">
+26%
+</td>
+
+<td class="original-strength">
+VERY WEAK
+</td>
+
+<td class="original-risk">
+HIGH
+</td>
+
+<td>
+
+<input
+    class="occurrence-input"
+    type="number"
+    min="0"
+    value="0">
+
+</td>
+
+<td class="calculated-rate">
+0%
+</td>
+
+<td class="new-rank">
+-
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+<!-- =================================================
+     BUTTONS
+================================================= -->
+
+<div class="buttons">
+
+<button
+    type="button"
+    class="calculate-btn"
+    id="calculateBtn">
+
+📊 CALCULATE COUNTER
+
+</button>
+
+
+<button
+    type="button"
+    class="reset-btn"
+    id="resetCounterBtn">
+
+🔄 RESET COUNTER
+
+</button>
+
+</div>
+
+
+
+<!-- =================================================
+     RESULT
+================================================= -->
+
+<div
+    class="result-box"
+    id="resultBox">
+
+<h2>
+🏆 OCCURRENCE ANALYSIS
+</h2>
+
+<div
+    class="result-message"
+    id="resultMessage">
+
+</div>
+
+</div>
+
+
+
+<!-- =================================================
+     NOTE
+================================================= -->
+
+<div class="note">
+
+<strong>How this sheet works:</strong>
+
+<br><br>
+
+Enter how many times each prediction actually occurred.
+
+The system totals all entered occurrences and calculates the
+percentage share for every prediction.
+
+<br><br>
+
+The <strong>New Rank</strong> is based on actual occurrence count,
+not the original model score.
+
+<br><br>
+
+<strong>This sheet is completely independent.</strong>
+It does not modify your Home model, Away model,
+prediction engine, confidence calculations,
+or any other part of your Football Value Capital analyzer.
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   CALCULATE OCCURRENCE COUNTER
+===================================================== */
+
+document
+.getElementById("calculateBtn")
+.addEventListener("click",function(){
+
+
+const rows =
+    Array.from(
+        document.querySelectorAll(
+            "tbody tr"
+        )
+    );
+
+
+let total = 0;
+
+
+/* ---------------------------------------------
+   FIRST PASS
+--------------------------------------------- */
+
+const markets =
+    rows.map(function(row){
+
+        const input =
+            row.querySelector(
+                ".occurrence-input"
+            );
+
+        const count =
+            Math.max(
+                Number(input.value) || 0,
+                0
+            );
+
+        total += count;
+
+
+        return {
+
+            row:row,
+
+            count:count,
+
+            name:
+                row.dataset.market
+
+        };
+
+    });
+
+
+/* ---------------------------------------------
+   TOTAL COUNT
+--------------------------------------------- */
+
+document
+.getElementById("totalCount")
+.textContent = total;
+
+
+/* ---------------------------------------------
+   OCCURRENCE %
+--------------------------------------------- */
+
+markets.forEach(function(market){
+
+    let rate = 0;
+
+
+    if(total > 0){
+
+        rate =
+            Math.round(
+                (market.count / total) * 100
+            );
+
+    }
+
+
+    market.rate = rate;
+
+
+    market.row
+    .querySelector(
+        ".calculated-rate"
+    )
+    .textContent =
+        rate + "%";
+
+});
+
+
+/* ---------------------------------------------
+   RANK BY OCCURRENCE
+--------------------------------------------- */
+
+const sorted =
+    [...markets].sort(
+        function(a,b){
+
+            return b.count - a.count;
+
+        }
+    );
+
+
+/* ---------------------------------------------
+   ASSIGN NEW RANK
+--------------------------------------------- */
+
+sorted.forEach(
+    function(market,index){
+
+        market.row
+        .querySelector(
+            ".new-rank"
+        )
+        .textContent =
+            market.count > 0
+            ? index + 1
+            : "-";
+
+    }
+);
+
+
+/* ---------------------------------------------
+   TOP MARKET
+--------------------------------------------- */
+
+if(total > 0){
+
+    const top =
+        sorted.find(
+            function(item){
+
+                return item.count > 0;
+
+            }
+        );
+
+
+    if(top){
+
+        document
+        .getElementById("topMarket")
+        .textContent =
+            top.name;
+
+    }
+
+}
+
+else{
+
+    document
+    .getElementById("topMarket")
+    .textContent =
+        "Waiting...";
+
+}
+
+
+/* ---------------------------------------------
+   RESULT MESSAGE
+--------------------------------------------- */
+
+const resultBox =
+    document.getElementById(
+        "resultBox"
+    );
+
+
+const resultMessage =
+    document.getElementById(
+        "resultMessage"
+    );
+
+
+if(total === 0){
+
+    resultMessage.innerHTML = `
+
+        <strong>
+        No occurrences entered yet.
+        </strong>
+
+        <br>
+
+        Enter actual occurrence counts
+        and calculate again.
+
+    `;
+
+}
+
+else{
+
+    const top =
+        sorted.find(
+            function(item){
+
+                return item.count > 0;
+
+            }
+        );
+
+
+    resultMessage.innerHTML = `
+
+        Total occurrences recorded:
+        <strong>${total}</strong>
+
+        <br>
+
+        Most frequently occurring prediction:
+        <strong>${top.name}</strong>
+
+        <br>
+
+        Occurrences:
+        <strong>${top.count}</strong>
+
+        (${top.rate}% of all recorded occurrences)
+
+    `;
+
+}
+
+
+resultBox.style.display =
+    "block";
+
+
+resultBox.scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+});
+
+
+});
+
+
+
+/* =====================================================
+   RESET COUNTER
+===================================================== */
+
+document
+.getElementById("resetCounterBtn")
+.addEventListener("click",function(){
+
+
+/* ---------------------------------------------
+   RESET INPUTS
+--------------------------------------------- */
+
+document
+.querySelectorAll(
+    ".occurrence-input"
+)
+.forEach(function(input){
+
+    input.value = 0;
+
+});
+
+
+/* ---------------------------------------------
+   RESET RATES
+--------------------------------------------- */
+
+document
+.querySelectorAll(
+    ".calculated-rate"
+)
+.forEach(function(element){
+
+    element.textContent = "0%";
+
+});
+
+
+/* ---------------------------------------------
+   RESET NEW RANKS
+--------------------------------------------- */
+
+document
+.querySelectorAll(
+    ".new-rank"
+)
+.forEach(function(element){
+
+    element.textContent = "-";
+
+});
+
+
+/* ---------------------------------------------
+   RESET SUMMARY
+--------------------------------------------- */
+
+document
+.getElementById("totalCount")
+.textContent = "0";
+
+
+document
+.getElementById("topMarket")
+.textContent = "Waiting...";
+
+
+/* ---------------------------------------------
+   HIDE RESULT
+--------------------------------------------- */
+
+document
+.getElementById("resultBox")
+.style.display = "none";
+
+
+});
+
+</script>
+
+
+</body>
+
+</html>
+```
+
+

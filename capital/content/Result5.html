@@ -1,0 +1,1711 @@
+```html
+<!-- =========================================================
+     PREDICTION COUNTER INPUT
+========================================================= -->
+
+<div class="prediction-input-box">
+
+    <h2>📊 Prediction Counter</h2>
+
+    <!-- PREDICTION NAME + SCORE -->
+    <div class="prediction-input-row top-row">
+
+        <div class="prediction-field">
+            <label for="predictionName">Prediction Name</label>
+            <input
+                type="text"
+                id="predictionName"
+                placeholder="e.g. Home Team To Score"
+            >
+        </div>
+
+        <div class="prediction-field score-field">
+            <label for="predictionScore">Score (%)</label>
+            <input
+                type="number"
+                id="predictionScore"
+                min="0"
+                max="100"
+                value="0"
+                placeholder="87"
+            >
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ADVANTAGE
+    ====================================================== -->
+
+    <div class="counter-section-title advantage-title">
+        ⚡ ADVANTAGE
+    </div>
+
+    <div class="prediction-picks-grid">
+
+        <div class="prediction-field">
+            <label>1st Pick</label>
+            <select id="advantage1">
+                <option value="">Select Prediction</option>
+                <option>Home Team To Score</option>
+                <option>BTTS</option>
+                <option>Over 1.5 Goals</option>
+                <option>Home Win</option>
+                <option>Goal Environment</option>
+                <option>1–4 Goals</option>
+                <option>Double Chance 1X</option>
+                <option>Home Clean Sheet</option>
+                <option>Draw</option>
+                <option>Home Loss</option>
+            </select>
+        </div>
+
+        <div class="prediction-field">
+            <label>2nd Pick</label>
+            <select id="advantage2">
+                <option value="">Select Prediction</option>
+                <option>Home Team To Score</option>
+                <option>BTTS</option>
+                <option>Over 1.5 Goals</option>
+                <option>Home Win</option>
+                <option>Goal Environment</option>
+                <option>1–4 Goals</option>
+                <option>Double Chance 1X</option>
+                <option>Home Clean Sheet</option>
+                <option>Draw</option>
+                <option>Home Loss</option>
+            </select>
+        </div>
+
+        <div class="prediction-field">
+            <label>3rd Pick</label>
+            <select id="advantage3">
+                <option value="">Select Prediction</option>
+                <option>Home Team To Score</option>
+                <option>BTTS</option>
+                <option>Over 1.5 Goals</option>
+                <option>Home Win</option>
+                <option>Goal Environment</option>
+                <option>1–4 Goals</option>
+                <option>Double Chance 1X</option>
+                <option>Home Clean Sheet</option>
+                <option>Draw</option>
+                <option>Home Loss</option>
+            </select>
+        </div>
+
+        <div class="prediction-field">
+            <label>4th Pick</label>
+            <select id="advantage4">
+                <option value="">Select Prediction</option>
+                <option>Home Team To Score</option>
+                <option>BTTS</option>
+                <option>Over 1.5 Goals</option>
+                <option>Home Win</option>
+                <option>Goal Environment</option>
+                <option>1–4 Goals</option>
+                <option>Double Chance 1X</option>
+                <option>Home Clean Sheet</option>
+                <option>Draw</option>
+                <option>Home Loss</option>
+            </select>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         DISADVANTAGE
+    ====================================================== -->
+
+    <div class="counter-section-title disadvantage-title">
+        ⚠️ DISADVANTAGE
+    </div>
+
+    <div class="prediction-picks-grid">
+
+        <div class="prediction-field">
+            <label>1st Pick</label>
+            <select id="disadvantage1">
+                <option value="">Select Prediction</option>
+                <option>Home Team To Score</option>
+                <option>BTTS</option>
+                <option>Over 1.5 Goals</option>
+                <option>Home Win</option>
+                <option>Goal Environment</option>
+                <option>1–4 Goals</option>
+                <option>Double Chance 1X</option>
+                <option>Home Clean Sheet</option>
+                <option>Draw</option>
+                <option>Home Loss</option>
+            </select>
+        </div>
+
+        <div class="prediction-field">
+            <label>2nd Pick</label>
+            <select id="disadvantage2">
+                <option value="">Select Prediction</option>
+                <option>Home Team To Score</option>
+                <option>BTTS</option>
+                <option>Over 1.5 Goals</option>
+                <option>Home Win</option>
+                <option>Goal Environment</option>
+                <option>1–4 Goals</option>
+                <option>Double Chance 1X</option>
+                <option>Home Clean Sheet</option>
+                <option>Draw</option>
+                <option>Home Loss</option>
+            </select>
+        </div>
+
+        <div class="prediction-field">
+            <label>3rd Pick</label>
+            <select id="disadvantage3">
+                <option value="">Select Prediction</option>
+                <option>Home Team To Score</option>
+                <option>BTTS</option>
+                <option>Over 1.5 Goals</option>
+                <option>Home Win</option>
+                <option>Goal Environment</option>
+                <option>1–4 Goals</option>
+                <option>Double Chance 1X</option>
+                <option>Home Clean Sheet</option>
+                <option>Draw</option>
+                <option>Home Loss</option>
+            </select>
+        </div>
+
+        <div class="prediction-field">
+            <label>4th Pick</label>
+            <select id="disadvantage4">
+                <option value="">Select Prediction</option>
+                <option>Home Team To Score</option>
+                <option>BTTS</option>
+                <option>Over 1.5 Goals</option>
+                <option>Home Win</option>
+                <option>Goal Environment</option>
+                <option>1–4 Goals</option>
+                <option>Double Chance 1X</option>
+                <option>Home Clean Sheet</option>
+                <option>Draw</option>
+                <option>Home Loss</option>
+            </select>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BUTTONS
+    ====================================================== -->
+
+    <div class="counter-buttons">
+
+        <button
+            type="button"
+            id="addPredictionCounter"
+            class="counter-btn add-btn"
+        >
+            ➕ Add Counter
+        </button>
+
+        <button
+            type="button"
+            id="clearPredictionCounter"
+            class="counter-btn clear-btn"
+        >
+            🗑 Clear
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     PREDICTION COUNTER RESULT
+========================================================= -->
+
+<div class="prediction-result-box">
+
+    <div class="result-header">
+
+        <h2>📊 Counter Results</h2>
+
+        <span id="counterTotal">
+            0 Counters
+        </span>
+
+    </div>
+
+
+    <!-- DESKTOP TABLE / MOBILE CARDS -->
+    <div class="result-table-wrapper">
+
+        <table class="prediction-result-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Prediction</th>
+
+                    <th>Score</th>
+
+                    <th colspan="4" class="advantage-header">
+                        ⚡ ADVANTAGE
+                    </th>
+
+                    <th colspan="4" class="disadvantage-header">
+                        ⚠️ DISADVANTAGE
+                    </th>
+
+                    <th>Action</th>
+
+                </tr>
+
+                <tr class="sub-header">
+
+                    <th></th>
+                    <th></th>
+                    <th></th>
+
+                    <th>1st</th>
+                    <th>2nd</th>
+                    <th>3rd</th>
+                    <th>4th</th>
+
+                    <th>1st</th>
+                    <th>2nd</th>
+                    <th>3rd</th>
+                    <th>4th</th>
+
+                    <th></th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="predictionResultBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+
+<style>
+
+/* =========================================================
+   IMPORTANT GLOBAL MOBILE FIX
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+.prediction-input-box,
+.prediction-result-box {
+    width: 100%;
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   INPUT BOX
+========================================================= */
+
+.prediction-input-box {
+
+    margin: 14px 0;
+
+    padding: 16px;
+
+    background: #f4f8fb;
+
+    border: 2px solid #1565c0;
+
+    border-radius: 14px;
+
+    box-shadow: 0 4px 14px rgba(0,0,0,.06);
+
+}
+
+
+.prediction-input-box h2 {
+
+    text-align: center;
+
+    color: #1565c0;
+
+    margin: 0 0 16px;
+
+    font-size: 20px;
+
+}
+
+
+/* =========================================================
+   TOP INPUTS
+========================================================= */
+
+.prediction-input-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr 110px;
+
+    gap: 10px;
+
+    width: 100%;
+
+    margin-bottom: 15px;
+
+}
+
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.prediction-field {
+
+    min-width: 0;
+
+    width: 100%;
+
+}
+
+
+.prediction-field label {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    color: #333;
+
+}
+
+
+.prediction-field input,
+.prediction-field select {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    height: 42px;
+
+    padding: 8px 9px;
+
+    border: 1px solid #ccd4dc;
+
+    border-radius: 8px;
+
+    background: #fff;
+
+    color: #222;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.prediction-field select {
+
+    appearance: auto;
+
+}
+
+
+.prediction-field input:focus,
+.prediction-field select:focus {
+
+    outline: none;
+
+    border-color: #1565c0;
+
+    box-shadow: 0 0 0 2px rgba(21,101,192,.10);
+
+}
+
+
+/* =========================================================
+   SECTION TITLES
+========================================================= */
+
+.counter-section-title {
+
+    width: 100%;
+
+    text-align: center;
+
+    margin: 12px 0 10px;
+
+    padding: 9px 7px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: .5px;
+
+}
+
+
+.advantage-title {
+
+    background: #e8f5e9;
+
+    color: #188038;
+
+    border: 1px solid #b7dfb9;
+
+}
+
+
+.disadvantage-title {
+
+    background: #ffebee;
+
+    color: #c62828;
+
+    border: 1px solid #efb5b9;
+
+}
+
+
+/* =========================================================
+   FOUR PICKS
+========================================================= */
+
+.prediction-picks-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 9px;
+
+    width: 100%;
+
+    margin-bottom: 13px;
+
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.counter-buttons {
+
+    display: grid;
+
+    grid-template-columns: 1fr 90px;
+
+    gap: 8px;
+
+    margin-top: 15px;
+
+}
+
+
+.counter-btn {
+
+    min-height: 43px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 8px 10px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+.add-btn {
+
+    background: #1565c0;
+
+    color: white;
+
+}
+
+
+.clear-btn {
+
+    background: #e0e0e0;
+
+    color: #333;
+
+}
+
+
+/* =========================================================
+   RESULT BOX
+========================================================= */
+
+.prediction-result-box {
+
+    margin: 15px 0;
+
+    padding: 14px;
+
+    background: #fff;
+
+    border: 2px solid #1565c0;
+
+    border-radius: 14px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.06);
+
+}
+
+
+.result-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.result-header h2 {
+
+    margin: 0;
+
+    color: #1565c0;
+
+    font-size: 18px;
+
+}
+
+
+#counterTotal {
+
+    padding: 5px 9px;
+
+    background: #e3f2fd;
+
+    color: #1565c0;
+
+    border-radius: 20px;
+
+    font-weight: 700;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+
+}
+
+
+/* =========================================================
+   DESKTOP TABLE
+========================================================= */
+
+.result-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+.prediction-result-table {
+
+    width: 100%;
+
+    min-width: 1050px;
+
+    border-collapse: collapse;
+
+    font-size: 12px;
+
+}
+
+
+.prediction-result-table th,
+.prediction-result-table td {
+
+    border: 1px solid #d9dee3;
+
+    padding: 8px 6px;
+
+    text-align: center;
+
+}
+
+
+.prediction-result-table thead tr:first-child th {
+
+    background: #1565c0;
+
+    color: #fff;
+
+}
+
+
+.prediction-result-table .advantage-header {
+
+    background: #188038;
+
+}
+
+
+.prediction-result-table .disadvantage-header {
+
+    background: #c62828;
+
+}
+
+
+.prediction-result-table .sub-header th {
+
+    background: #eef3f7;
+
+    color: #333;
+
+    font-size: 11px;
+
+}
+
+
+.prediction-result-table tbody td {
+
+    font-weight: 600;
+
+}
+
+
+.result-score {
+
+    color: #1565c0;
+
+    font-size: 14px;
+
+}
+
+
+.advantage-cell {
+
+    color: #188038;
+
+    background: #f3fbf4;
+
+}
+
+
+.disadvantage-cell {
+
+    color: #c62828;
+
+    background: #fff6f6;
+
+}
+
+
+.delete-row-btn {
+
+    border: none;
+
+    background: #e53935;
+
+    color: white;
+
+    padding: 6px 8px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    font-size: 11px;
+
+}
+
+
+/* =========================================================
+   EMPTY RESULT
+========================================================= */
+
+.empty-result {
+
+    padding: 25px 10px !important;
+
+    color: #777;
+
+    font-weight: normal !important;
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .prediction-input-box,
+    .prediction-result-box {
+
+        margin-left: 0;
+
+        margin-right: 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   ANDROID 360–390px
+========================================================= */
+
+@media (max-width: 500px) {
+
+    /* Prevent the page itself from creating horizontal scroll */
+
+    html,
+    body {
+
+        width: 100%;
+
+        max-width: 100%;
+
+        overflow-x: hidden;
+
+    }
+
+
+    /* INPUT CONTAINER */
+
+    .prediction-input-box {
+
+        padding: 11px;
+
+        border-radius: 11px;
+
+        margin: 8px 0;
+
+    }
+
+
+    .prediction-input-box h2 {
+
+        font-size: 17px;
+
+        margin-bottom: 12px;
+
+    }
+
+
+    /* NAME + SCORE */
+
+    .prediction-input-row {
+
+        grid-template-columns: 1fr 78px;
+
+        gap: 7px;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .prediction-field label {
+
+        font-size: 10px;
+
+        margin-bottom: 4px;
+
+    }
+
+
+    .prediction-field input,
+    .prediction-field select {
+
+        height: 38px;
+
+        padding: 6px 7px;
+
+        border-radius: 6px;
+
+        font-size: 11px;
+
+    }
+
+
+    /* SECTION */
+
+    .counter-section-title {
+
+        margin: 9px 0 7px;
+
+        padding: 7px 4px;
+
+        font-size: 12px;
+
+    }
+
+
+    /* FOUR PICKS STAY ON SAME ROW */
+
+    .prediction-picks-grid {
+
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+
+        gap: 5px;
+
+        margin-bottom: 9px;
+
+    }
+
+
+    .prediction-picks-grid .prediction-field label {
+
+        text-align: center;
+
+        font-size: 8px;
+
+        white-space: nowrap;
+
+    }
+
+
+    .prediction-picks-grid select {
+
+        width: 100%;
+
+        min-width: 0;
+
+        padding: 4px 2px;
+
+        height: 36px;
+
+        font-size: 9px;
+
+    }
+
+
+    /* BUTTONS */
+
+    .counter-buttons {
+
+        grid-template-columns: 1fr 75px;
+
+        gap: 6px;
+
+        margin-top: 10px;
+
+    }
+
+
+    .counter-btn {
+
+        min-height: 39px;
+
+        padding: 6px 5px;
+
+        font-size: 11px;
+
+        border-radius: 7px;
+
+    }
+
+
+    /* RESULT */
+
+    .prediction-result-box {
+
+        padding: 10px;
+
+        margin: 10px 0;
+
+        border-radius: 11px;
+
+    }
+
+
+    .result-header {
+
+        margin-bottom: 9px;
+
+    }
+
+
+    .result-header h2 {
+
+        font-size: 15px;
+
+    }
+
+
+    #counterTotal {
+
+        font-size: 9px;
+
+        padding: 4px 7px;
+
+    }
+
+
+    /* =====================================================
+       MOBILE RESULT TABLE → CARD
+    ===================================================== */
+
+    .result-table-wrapper {
+
+        overflow: visible;
+
+    }
+
+
+    .prediction-result-table,
+    .prediction-result-table tbody {
+
+        width: 100%;
+
+        min-width: 0;
+
+    }
+
+
+    .prediction-result-table thead {
+
+        display: none;
+
+    }
+
+
+    .prediction-result-table,
+    .prediction-result-table tbody,
+    .prediction-result-table tr,
+    .prediction-result-table td {
+
+        display: block;
+
+    }
+
+
+    .prediction-result-table tbody tr {
+
+        position: relative;
+
+        margin-bottom: 10px;
+
+        padding: 9px;
+
+        border: 1px solid #d5dce3;
+
+        border-radius: 9px;
+
+        background: #fafcff;
+
+        box-shadow: 0 2px 7px rgba(0,0,0,.05);
+
+    }
+
+
+    .prediction-result-table tbody td {
+
+        border: none;
+
+        padding: 4px 0;
+
+        text-align: left;
+
+        font-size: 11px;
+
+    }
+
+
+    /* NUMBER */
+
+    .prediction-result-table tbody td:nth-child(1) {
+
+        position: absolute;
+
+        top: 8px;
+
+        left: 8px;
+
+        width: 22px;
+
+        height: 22px;
+
+        padding: 3px;
+
+        text-align: center;
+
+        border-radius: 50%;
+
+        background: #1565c0;
+
+        color: white;
+
+        font-size: 10px;
+
+        font-weight: 800;
+
+    }
+
+
+    /* PREDICTION */
+
+    .prediction-result-table tbody td:nth-child(2) {
+
+        padding-left: 30px;
+
+        padding-right: 55px;
+
+        min-height: 25px;
+
+        font-weight: 800;
+
+        color: #222;
+
+        font-size: 12px;
+
+    }
+
+
+    /* SCORE */
+
+    .prediction-result-table tbody td:nth-child(3) {
+
+        position: absolute;
+
+        top: 7px;
+
+        right: 7px;
+
+        width: auto;
+
+        padding: 4px 6px;
+
+        color: #1565c0;
+
+        background: #e3f2fd;
+
+        border-radius: 5px;
+
+        font-size: 11px;
+
+        font-weight: 800;
+
+    }
+
+
+    /* ADVANTAGE */
+
+    .prediction-result-table tbody td:nth-child(4),
+    .prediction-result-table tbody td:nth-child(5),
+    .prediction-result-table tbody td:nth-child(6),
+    .prediction-result-table tbody td:nth-child(7) {
+
+        display: inline-block;
+
+        width: calc(25% - 4px);
+
+        margin-right: 3px;
+
+        margin-top: 4px;
+
+        padding: 5px 2px;
+
+        text-align: center;
+
+        vertical-align: top;
+
+        background: #f3fbf4;
+
+        border: 1px solid #d5ead7;
+
+        border-radius: 5px;
+
+        font-size: 8px;
+
+        line-height: 1.2;
+
+        min-height: 30px;
+
+        overflow-wrap: anywhere;
+
+    }
+
+
+    /* DISADVANTAGE */
+
+    .prediction-result-table tbody td:nth-child(8),
+    .prediction-result-table tbody td:nth-child(9),
+    .prediction-result-table tbody td:nth-child(10),
+    .prediction-result-table tbody td:nth-child(11) {
+
+        display: inline-block;
+
+        width: calc(25% - 4px);
+
+        margin-right: 3px;
+
+        margin-top: 4px;
+
+        padding: 5px 2px;
+
+        text-align: center;
+
+        vertical-align: top;
+
+        background: #fff6f6;
+
+        border: 1px solid #f0d5d5;
+
+        border-radius: 5px;
+
+        font-size: 8px;
+
+        line-height: 1.2;
+
+        min-height: 30px;
+
+        overflow-wrap: anywhere;
+
+    }
+
+
+    /* ACTION */
+
+    .prediction-result-table tbody td:nth-child(12) {
+
+        margin-top: 7px;
+
+        text-align: right;
+
+    }
+
+
+    .delete-row-btn {
+
+        width: 100%;
+
+        min-height: 30px;
+
+        padding: 5px;
+
+        font-size: 10px;
+
+        border-radius: 6px;
+
+    }
+
+
+    .empty-result {
+
+        padding: 18px 5px !important;
+
+        text-align: center !important;
+
+        font-size: 10px !important;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL 360px
+========================================================= */
+
+@media (max-width: 370px) {
+
+    .prediction-input-box {
+
+        padding: 9px;
+
+    }
+
+
+    .prediction-input-row {
+
+        grid-template-columns: 1fr 70px;
+
+        gap: 5px;
+
+    }
+
+
+    .prediction-picks-grid {
+
+        gap: 3px;
+
+    }
+
+
+    .prediction-picks-grid select {
+
+        font-size: 8px;
+
+        padding-left: 1px;
+
+        padding-right: 1px;
+
+    }
+
+
+    .prediction-picks-grid .prediction-field label {
+
+        font-size: 7px;
+
+    }
+
+
+    .counter-btn {
+
+        font-size: 10px;
+
+    }
+
+
+    .result-header h2 {
+
+        font-size: 14px;
+
+    }
+
+}
+
+</style>
+
+
+
+<script>
+
+/* =========================================================
+   PREDICTION COUNTER
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const addButton =
+        document.getElementById("addPredictionCounter");
+
+    const clearButton =
+        document.getElementById("clearPredictionCounter");
+
+    const resultBody =
+        document.getElementById("predictionResultBody");
+
+    const counterTotal =
+        document.getElementById("counterTotal");
+
+
+    let counterNumber = 0;
+
+
+    /* =====================================================
+       EMPTY MESSAGE
+    ===================================================== */
+
+    function showEmptyMessage() {
+
+        resultBody.innerHTML = `
+
+            <tr>
+
+                <td colspan="12" class="empty-result">
+
+                    No prediction counter added yet.
+
+                    <br>
+
+                    Fill the counter above and click
+
+                    <strong>➕ Add Counter</strong>.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+
+    showEmptyMessage();
+
+
+    /* =====================================================
+       GET VALUE
+    ===================================================== */
+
+    function getValue(id) {
+
+        const element =
+            document.getElementById(id);
+
+        return element
+            ? element.value.trim()
+            : "";
+
+    }
+
+
+    /* =====================================================
+       ADD COUNTER
+    ===================================================== */
+
+    addButton.addEventListener("click", function () {
+
+        const predictionName =
+            getValue("predictionName");
+
+        const predictionScore =
+            getValue("predictionScore");
+
+
+        /* NAME VALIDATION */
+
+        if (!predictionName) {
+
+            alert("Please enter the Prediction Name.");
+
+            document
+                .getElementById("predictionName")
+                .focus();
+
+            return;
+
+        }
+
+
+        /* SCORE VALIDATION */
+
+        if (
+            predictionScore === "" ||
+            Number(predictionScore) < 0 ||
+            Number(predictionScore) > 100
+        ) {
+
+            alert(
+                "Please enter a score between 0 and 100."
+            );
+
+            document
+                .getElementById("predictionScore")
+                .focus();
+
+            return;
+
+        }
+
+
+        /* REMOVE EMPTY MESSAGE */
+
+        const emptyRow =
+            resultBody.querySelector(".empty-result");
+
+        if (emptyRow) {
+
+            resultBody.innerHTML = "";
+
+        }
+
+
+        counterNumber++;
+
+
+        /* ADVANTAGE */
+
+        const advantage1 =
+            getValue("advantage1");
+
+        const advantage2 =
+            getValue("advantage2");
+
+        const advantage3 =
+            getValue("advantage3");
+
+        const advantage4 =
+            getValue("advantage4");
+
+
+        /* DISADVANTAGE */
+
+        const disadvantage1 =
+            getValue("disadvantage1");
+
+        const disadvantage2 =
+            getValue("disadvantage2");
+
+        const disadvantage3 =
+            getValue("disadvantage3");
+
+        const disadvantage4 =
+            getValue("disadvantage4");
+
+
+        /* CREATE ROW */
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>${counterNumber}</td>
+
+            <td>
+                ${escapeHTML(predictionName)}
+            </td>
+
+            <td class="result-score">
+                ${escapeHTML(predictionScore)}%
+            </td>
+
+            <td class="advantage-cell">
+                ${displayValue(advantage1)}
+            </td>
+
+            <td class="advantage-cell">
+                ${displayValue(advantage2)}
+            </td>
+
+            <td class="advantage-cell">
+                ${displayValue(advantage3)}
+            </td>
+
+            <td class="advantage-cell">
+                ${displayValue(advantage4)}
+            </td>
+
+            <td class="disadvantage-cell">
+                ${displayValue(disadvantage1)}
+            </td>
+
+            <td class="disadvantage-cell">
+                ${displayValue(disadvantage2)}
+            </td>
+
+            <td class="disadvantage-cell">
+                ${displayValue(disadvantage3)}
+            </td>
+
+            <td class="disadvantage-cell">
+                ${displayValue(disadvantage4)}
+            </td>
+
+            <td>
+
+                <button
+                    type="button"
+                    class="delete-row-btn"
+                >
+                    🗑 Delete
+                </button>
+
+            </td>
+
+        `;
+
+
+        /* DELETE */
+
+        row
+            .querySelector(".delete-row-btn")
+            .addEventListener("click", function () {
+
+                row.remove();
+
+                renumberRows();
+
+                updateCounterTotal();
+
+            });
+
+
+        resultBody.appendChild(row);
+
+
+        updateCounterTotal();
+
+
+        /* SCROLL TO RESULT */
+
+        document
+            .querySelector(".prediction-result-box")
+            .scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+    });
+
+
+    /* =====================================================
+       CLEAR
+    ===================================================== */
+
+    clearButton.addEventListener("click", function () {
+
+        document
+            .getElementById("predictionName")
+            .value = "";
+
+        document
+            .getElementById("predictionScore")
+            .value = "0";
+
+
+        const selects =
+            document.querySelectorAll(
+                ".prediction-input-box select"
+            );
+
+
+        selects.forEach(function (select) {
+
+            select.value = "";
+
+        });
+
+    });
+
+
+    /* =====================================================
+       UPDATE COUNTER TOTAL
+    ===================================================== */
+
+    function updateCounterTotal() {
+
+        const rows =
+            resultBody.querySelectorAll(
+                "tr:not(:has(.empty-result))"
+            );
+
+
+        const total = rows.length;
+
+
+        counterTotal.textContent =
+            total +
+            (total === 1
+                ? " Counter"
+                : " Counters");
+
+    }
+
+
+    /* =====================================================
+       RENUMBER
+    ===================================================== */
+
+    function renumberRows() {
+
+        const rows =
+            resultBody.querySelectorAll("tr");
+
+
+        rows.forEach(function (row, index) {
+
+            const firstCell =
+                row.querySelector("td");
+
+
+            if (firstCell) {
+
+                firstCell.textContent =
+                    index + 1;
+
+            }
+
+        });
+
+
+        counterNumber =
+            rows.length;
+
+
+        if (rows.length === 0) {
+
+            showEmptyMessage();
+
+        }
+
+    }
+
+
+    /* =====================================================
+       DISPLAY VALUE
+    ===================================================== */
+
+    function displayValue(value) {
+
+        if (!value) {
+
+            return '<span style="color:#aaa;">—</span>';
+
+        }
+
+        return escapeHTML(value);
+
+    }
+
+
+    /* =====================================================
+       SECURITY
+    ===================================================== */
+
+    function escapeHTML(value) {
+
+        return String(value)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
+
+});
+
+</script>
+```
