@@ -1,0 +1,344 @@
+```html
+<div class="score-history-section">
+
+    <h2>⚽ Previous Match Scores</h2>
+    <p class="section-note">
+        Enter the scores from the team's previous games. Add 10 games or more for better evidence.
+    </p>
+
+    <div class="score-table-wrapper">
+        <table class="score-table" id="scoreTable">
+
+            <thead>
+                <tr>
+                    <th>GAME</th>
+                    <th>HOME TEAM</th>
+                    <th>HOME SCORE</th>
+                    <th>AWAY SCORE</th>
+                </tr>
+            </thead>
+
+            <tbody id="scoreTableBody">
+
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <input type="text" name="home1" placeholder="Home team">
+                    </td>
+                    <td>
+                        <input type="number" name="homescore1" min="0" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" name="awayscore1" min="0" placeholder="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <input type="text" name="home2" placeholder="Home team">
+                    </td>
+                    <td>
+                        <input type="number" name="homescore2" min="0" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" name="awayscore2" min="0" placeholder="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>
+                        <input type="text" name="home3" placeholder="Home team">
+                    </td>
+                    <td>
+                        <input type="number" name="homescore3" min="0" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" name="awayscore3" min="0" placeholder="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>
+                        <input type="text" name="home4" placeholder="Home team">
+                    </td>
+                    <td>
+                        <input type="number" name="homescore4" min="0" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" name="awayscore4" min="0" placeholder="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>
+                        <input type="text" name="home5" placeholder="Home team">
+                    </td>
+                    <td>
+                        <input type="number" name="homescore5" min="0" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" name="awayscore5" min="0" placeholder="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>
+                        <input type="text" name="home6" placeholder="Home team">
+                    </td>
+                    <td>
+                        <input type="number" name="homescore6" min="0" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" name="awayscore6" min="0" placeholder="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>
+                        <input type="text" name="home7" placeholder="Home team">
+                    </td>
+                    <td>
+                        <input type="number" name="homescore7" min="0" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" name="awayscore7" min="0" placeholder="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>
+                        <input type="text" name="home8" placeholder="Home team">
+                    </td>
+                    <td>
+                        <input type="number" name="homescore8" min="0" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" name="awayscore8" min="0" placeholder="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td>
+                        <input type="text" name="home9" placeholder="Home team">
+                    </td>
+                    <td>
+                        <input type="number" name="homescore9" min="0" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" name="awayscore9" min="0" placeholder="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>10</td>
+                    <td>
+                        <input type="text" name="home10" placeholder="Home team">
+                    </td>
+                    <td>
+                        <input type="number" name="homescore10" min="0" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" name="awayscore10" min="0" placeholder="0">
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="score-buttons">
+        <button type="button" id="addGameBtn">
+            + Add Game
+        </button>
+
+        <button type="button" id="clearScoresBtn">
+            Clear Scores
+        </button>
+    </div>
+
+</div>
+
+
+<style>
+
+.score-history-section{
+    margin-top:25px;
+    padding:20px;
+    background:#ffffff;
+    border-radius:14px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.score-history-section h2{
+    margin-bottom:6px;
+    color:#1565C0;
+    font-size:22px;
+}
+
+.section-note{
+    margin-bottom:18px;
+    color:#666;
+    font-size:14px;
+}
+
+.score-table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+.score-table{
+    width:100%;
+    min-width:650px;
+    border-collapse:collapse;
+}
+
+.score-table th{
+    padding:12px 8px;
+    background:#1565C0;
+    color:white;
+    font-size:13px;
+    text-align:center;
+}
+
+.score-table td{
+    padding:8px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+.score-table td:first-child{
+    font-weight:bold;
+    color:#1565C0;
+    width:60px;
+}
+
+.score-table input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:14px;
+    outline:none;
+}
+
+.score-table input:focus{
+    border-color:#1565C0;
+    box-shadow:0 0 0 2px rgba(21,101,192,0.12);
+}
+
+.score-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.score-buttons button{
+    border:none;
+    padding:11px 18px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+    color:white;
+}
+
+#addGameBtn{
+    background:#1565C0;
+}
+
+#clearScoresBtn{
+    background:#f44336;
+}
+
+.score-buttons button:hover{
+    opacity:0.9;
+}
+
+@media(max-width:600px){
+
+    .score-history-section{
+        padding:12px;
+    }
+
+    .score-history-section h2{
+        font-size:19px;
+    }
+
+    .score-table{
+        min-width:600px;
+    }
+
+}
+
+</style>
+
+
+<script>
+
+let gameNumber = 10;
+
+document.getElementById("addGameBtn").addEventListener("click", function(){
+
+    gameNumber++;
+
+    const tbody = document.getElementById("scoreTableBody");
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>${gameNumber}</td>
+
+        <td>
+            <input 
+                type="text"
+                name="home${gameNumber}"
+                placeholder="Home team"
+            >
+        </td>
+
+        <td>
+            <input
+                type="number"
+                name="homescore${gameNumber}"
+                min="0"
+                placeholder="0"
+            >
+        </td>
+
+        <td>
+            <input
+                type="number"
+                name="awayscore${gameNumber}"
+                min="0"
+                placeholder="0"
+            >
+        </td>
+    `;
+
+    tbody.appendChild(row);
+
+});
+
+
+document.getElementById("clearScoresBtn").addEventListener("click", function(){
+
+    const inputs = document.querySelectorAll(
+        "#scoreTableBody input"
+    );
+
+    inputs.forEach(function(input){
+        input.value = "";
+    });
+
+});
+
+</script>
+```
