@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FVC Overall Form Factors</title>
+<style>
+:root{color-scheme:dark;--bg:#101827;--panel:#182338;--line:#34435b;--text:#edf3ff;--muted:#a9b7ce;--green:#27b36a;--red:#e45b63}
+*{box-sizing:border-box}body{margin:0;padding:24px;background:var(--bg);color:var(--text);font:15px/1.45 Arial,sans-serif}
+.wrap{max-width:1100px;margin:auto}h1{margin:0 0 6px;font-size:clamp(20px,3vw,28px)}.sub{margin:0 0 20px;color:var(--muted)}
+.table{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+.head,.factor{display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,1fr) minmax(0,1fr);align-items:center;gap:12px;padding:14px 16px}
+.head{background:#202e46;font-weight:700}.head div:first-child{text-align:left}.head div:nth-child(2){text-align:center}.factor{border-top:1px solid var(--line)}
+.factor-name{font-weight:600;text-align:center}.value{color:var(--muted);font-size:12px;margin-top:3px;text-align:center}
+.controls{display:flex;flex-direction:column;align-items:stretch;gap:7px}.tick-line{display:flex;align-items:center;gap:5px}.label{width:42px;flex:0 0 42px;font-size:12px;color:var(--muted)}
+button.tick{width:28px;height:30px;border:1px solid var(--line);border-radius:7px;background:#101827;color:#8291a8;cursor:pointer;font-weight:700}
+button.tick.good.selected{background:var(--green);border-color:var(--green);color:#071b10}button.tick.bad.selected{background:var(--red);border-color:var(--red);color:#24080b}
+button:focus-visible{outline:2px solid #5a8dee;outline-offset:2px}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+.action{border:1px solid var(--line);border-radius:8px;padding:9px 13px;background:#202e46;color:var(--text);cursor:pointer}.note{color:var(--muted);font-size:12px;margin-top:12px}
+@media(max-width:680px){body{padding:12px}.head,.factor{grid-template-columns:1fr;gap:8px}.head div:first-child{display:none}.head div:nth-child(2){text-align:left}.factor{padding:12px}.factor-name,.value{text-align:left}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<h1>OVERALL FORM — AUTOMATIC FACTORS + MANUAL QUALITY</h1>
+<p class="sub">Home and Away each have five Good ticks and five Bad ticks per factor. Ticks are independent and remain selected until unticked or cleared.</p>
+<section class="table" aria-label="Home and away factor ratings">
+<div class="head"><div>HOME TEAM</div><div>INTELLIGENCE FACTOR</div><div>AWAY TEAM</div></div>
+<div id="rows"></div>
+</section>
+<div class="actions"><button class="action" id="clear">Clear selections</button><button class="action" id="export">Export ratings (.json)</button></div>
+<p class="note">Team Quality and League Level are manual factor rows. This standalone file does not calculate or alter the FVC prediction model.</p>
+</main>
+<script>
+const factors=["📈 Team Form","⚔️ Attack","🛡️ Defence","⚽ Goal Environment","⚽ Over 1.5 Rate","🎯 1–4 Goals Rate","🛡️ Double Chance","⭐ Team Quality (Manual)","🏆 League Level (Manual)"];
+const storeKey="fvc-overall-form-ticks-v1";
+let ratings={};
+try{ratings=JSON.parse(localStorage.getItem(storeKey)||"{}")}catch{}
+function save(){try{localStorage.setItem(storeKey,JSON.stringify(ratings))}catch{}}
+function render(){
+ const rows=document.getElementById("rows"); rows.replaceChildren();
+ factors.forEach((factor,i)=>{
+  const row=document.createElement("div"); row.className="factor";
+  const sideBoxes={};
+  ["home","away"].forEach(side=>{
+   const box=document.createElement("div"); box.className="controls";
+   ["good","bad"].forEach(kind=>{
+    const line=document.createElement("div"); line.className="tick-line";
+    const label=document.createElement("span"); label.className="label"; label.textContent=kind==="good"?"Good":"Bad"; line.append(label);
+    for(let n=1;n<=5;n++){
+     const key=`${i}:${side}:${kind}:${n}`, selected=Boolean(ratings[key]);
+     const button=document.createElement("button"); button.type="button";
+     button.className=`tick ${kind}${selected?" selected":""}`; button.textContent="✓";
+     button.setAttribute("aria-label",`${side} ${factor} ${kind} tick ${n}`); button.setAttribute("aria-pressed",String(selected));
+     button.addEventListener("click",()=>{ratings[key]=!Boolean(ratings[key]);save();render()});
+     line.append(button);
+    }
+    box.append(line);
+   });
+   sideBoxes[side]=box;
+  });
+  const name=document.createElement("div"); name.innerHTML='<div class="factor-name"></div><div class="value">Good / Bad ratings</div>';
+  name.querySelector(".factor-name").textContent=factor;
+  row.append(sideBoxes.home,name,sideBoxes.away); rows.append(row);
+ });
+}
+document.getElementById("clear").addEventListener("click",()=>{if(confirm("Clear all Good/Bad tick selections?")){ratings={};save();render()}});
+document.getElementById("export").addEventListener("click",()=>{
+ const blob=new Blob([JSON.stringify({factors,ratings},null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="fvc-factor-ratings.json";a.click();URL.revokeObjectURL(url);
+});
+render();
+</script>
+</body></html>

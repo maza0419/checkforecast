@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FVC — Manual Prediction Counter</title>
+<style>
+:root{color-scheme:light;font-family:Arial,Helvetica,sans-serif;background:#edf3f8;color:#17324b}
+*{box-sizing:border-box}
+body{margin:0;padding:clamp(10px,3vw,30px);background:linear-gradient(135deg,#eef5fb,#f7f9fc);min-height:100vh}
+.fvc-standalone-shell{max-width:1400px;margin:0 auto}
+.fvc-standalone-top{padding:22px;margin-bottom:18px;border-radius:16px;background:#123b5a;color:#fff;box-shadow:0 8px 24px rgba(15,45,75,.12)}
+.fvc-standalone-top .eyebrow{font-size:10px;font-weight:900;letter-spacing:1.6px;opacity:.8}
+.fvc-standalone-top h1{margin:8px 0;font-size:clamp(22px,4vw,34px)}
+.fvc-standalone-top p{margin:0;max-width:850px;font-size:13px;line-height:1.6;color:#dbeaf5}
+.fvc-standalone-note{margin:0 0 14px;padding:11px 13px;border:1px solid #cbdced;border-radius:10px;background:#fff;font-size:12px;line-height:1.5;color:#47647b}
+
+#fvcManualCounter{margin:24px 0;padding:clamp(12px,2vw,22px);border:1px solid #cbdced;border-radius:16px;background:#f7fbff;color:#17324b;box-shadow:0 6px 22px rgba(15,45,75,.07);font-family:inherit}
+#fvcManualCounter *{box-sizing:border-box}
+#fvcManualCounter .fvc-manual-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
+#fvcManualCounter .fvc-manual-kicker{font-size:10px;font-weight:900;letter-spacing:1.4px;color:#47749a}
+#fvcManualCounter h2{margin:5px 0 7px;font-size:clamp(18px,2.3vw,25px);color:#163a59}
+#fvcManualCounter p{margin:0;color:#526b80;font-size:13px;line-height:1.5}
+#fvcManualCounter .fvc-manual-count{flex:0 0 auto;min-width:84px;padding:12px;border-radius:12px;background:#e3effa;text-align:center}
+#fvcManualCounter .fvc-manual-count span{display:block;font-size:25px;font-weight:950}
+#fvcManualCounter .fvc-manual-count small{font-size:10px;font-weight:800}
+#fvcManualCounter .fvc-manual-form{padding:14px;border:1px solid #d8e5f0;border-radius:12px;background:#fff}
+#fvcManualCounter .fvc-manual-fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+#fvcManualCounter label{display:flex;flex-direction:column;gap:6px;min-width:0;font-size:12px;font-weight:850;color:#35546e}
+#fvcManualCounter input,#fvcManualCounter select,#fvcManualCounter textarea{width:100%;min-width:0;padding:10px;border:1px solid #cbd8e4;border-radius:8px;background:#fff;color:#1f3446;font:inherit;font-weight:500}
+#fvcManualCounter .fvc-manual-picks-title{margin:17px 0 9px;font-size:11px;font-weight:950;letter-spacing:.8px}
+#fvcManualCounter .fvc-manual-picks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+#fvcManualCounter .fvc-manual-picks label{padding:11px;border:1px solid #d9e5ef;border-radius:10px;background:#f8fbfe}
+#fvcManualCounter .fvc-manual-picks label span{font-size:12px;font-weight:950;color:#1d567f}
+#fvcManualCounter .fvc-manual-notes-label{margin-top:12px}
+#fvcManualCounter .fvc-manual-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+#fvcManualCounter button{border:0;border-radius:8px;padding:10px 13px;font-size:11px;font-weight:900;cursor:pointer}
+#fvcManualCounter .fvc-manual-save{background:#176b47;color:#fff}
+#fvcManualCounter .fvc-manual-secondary{background:#e1edf8;color:#214b6c}
+#fvcManualCounter .fvc-manual-danger{background:#fee2e2;color:#991b1b}
+#fvcManualCounter .fvc-manual-status{margin-top:10px;font-size:11px;color:#49667e}
+#fvcManualCounter .fvc-manual-table-wrap{margin-top:14px;overflow-x:auto;border:1px solid #d4e0eb;border-radius:10px;background:#fff}
+#fvcManualCounter .fvc-manual-table{width:100%;min-width:850px;border-collapse:collapse;font-size:11px}
+#fvcManualCounter .fvc-manual-table th{padding:10px 8px;background:#eaf2fa;text-align:left;color:#254b68}
+#fvcManualCounter .fvc-manual-table td{padding:9px 8px;border-top:1px solid #e5edf4;vertical-align:top}
+#fvcManualCounter .fvc-manual-table select{padding:6px;font-size:10px}
+#fvcManualCounter .fvc-manual-pick-line{display:grid;grid-template-columns:minmax(120px,1fr) 86px;gap:7px;align-items:center;margin:0 0 6px}
+#fvcManualCounter .fvc-manual-pick-line:last-child{margin-bottom:0}
+#fvcManualCounter .fvc-manual-delete{padding:6px 8px!important;background:#fee2e2;color:#991b1b}
+#fvcManualCounter .fvc-manual-empty{text-align:center;color:#6a7d8d;padding:20px!important}
+@media print{
+  @page{size:landscape;margin:12mm}
+  body{padding:0!important;background:#fff!important;color:#111!important}
+  .fvc-standalone-shell{max-width:none!important}
+  .fvc-standalone-top{background:#fff!important;color:#111!important;box-shadow:none!important;border-bottom:2px solid #123b5a;border-radius:0;padding:8px 0!important}
+  .fvc-standalone-top p{color:#333!important}
+  .fvc-standalone-note,#fvcManualForm,.fvc-manual-actions,#fvcManualStatus,#fvcManualCounter .fvc-manual-table th:last-child,#fvcManualCounter .fvc-manual-table td:last-child{display:none!important}
+  #fvcManualCounter{margin:8px 0!important;padding:0!important;border:0!important;box-shadow:none!important;background:#fff!important}
+  #fvcManualCounter .fvc-manual-table-wrap{overflow:visible!important;border:0!important}
+  #fvcManualCounter .fvc-manual-table{min-width:0!important;width:100%!important;font-size:9pt!important;table-layout:auto}
+  #fvcManualCounter .fvc-manual-table th,#fvcManualCounter .fvc-manual-table td{padding:6px 5px!important;overflow-wrap:anywhere}
+  #fvcManualCounter .fvc-manual-table select{appearance:none;border:0!important;background:transparent!important;color:#111!important;padding:0!important;font-size:8pt!important}
+  #fvcManualCounter .fvc-manual-pick-line{display:block!important;margin-bottom:4px!important}
+  #fvcManualCounter .fvc-manual-count{background:#fff!important;border:1px solid #aaa}
+}
+@media(max-width:850px){#fvcManualCounter .fvc-manual-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){#fvcManualCounter .fvc-manual-head{align-items:flex-start}#fvcManualCounter .fvc-manual-fields,#fvcManualCounter .fvc-manual-picks{grid-template-columns:1fr}#fvcManualCounter .fvc-manual-form{padding:10px}#fvcManualCounter .fvc-manual-actions{flex-direction:column}#fvcManualCounter .fvc-manual-actions button{width:100%}}
+
+</style>
+</head>
+<body>
+<div class="fvc-standalone-shell">
+  <header class="fvc-standalone-top">
+    <div class="eyebrow">FOOTBALL VALUE CAPITAL · INDEPENDENT TOOL</div>
+    <h1>Manual Prediction Counter</h1>
+    <p>A standalone manual pick tracker. Enter a tournament and both clubs, choose three picks from the expanded market categories, save the record, and update each pick's result when the match is settled.</p>
+  </header>
+  <p class="fvc-standalone-note"><strong>Separate application:</strong> this page runs on its own. It does not include or change the automatic FVC prediction model or its Prediction Record Counter. Records are saved in this browser's local storage. Use Export Manual Records to create a backup.</p>
+<!-- =========================================================
+     FVC SEPARATE MANUAL PREDICTION COUNTER
+     Independent archive; does not change model or auto counter.
+========================================================= -->
+<section id="fvcManualCounter" class="fvc-manual-counter">
+  <div class="fvc-manual-head">
+    <div>
+      <div class="fvc-manual-kicker">INDEPENDENT PICK ARCHIVE</div>
+      <h2>✍️ MANUAL PREDICTION COUNTER</h2>
+      <p>Manually record a fixture and select three picks from grouped goal bounds, 1st-half, 2nd-half, over/under, goals, and match-winner markets. This counter is separate from the automatic FVC Prediction Record Counter.</p>
+    </div>
+    <div class="fvc-manual-count"><span id="fvcManualCount">0</span><small>Saved records</small></div>
+  </div>
+  <form id="fvcManualForm" class="fvc-manual-form">
+    <div class="fvc-manual-fields">
+      <label>Tournament / Competition
+        <input id="fvcManualTournament" type="text" maxlength="140" placeholder="e.g. UEFA Champions League" required>
+      </label>
+      <label>Home Club
+        <input id="fvcManualHome" type="text" maxlength="100" placeholder="Home team name" required>
+      </label>
+      <label>Away Club
+        <input id="fvcManualAway" type="text" maxlength="100" placeholder="Away team name" required>
+      </label>
+      <label>Match Date
+        <input id="fvcManualDate" type="date">
+      </label>
+    </div>
+    <div class="fvc-manual-picks-title">CHOOSE THREE PICKS</div>
+    <div class="fvc-manual-picks">
+      <label><span>Pick 1</span><select id="fvcManualPick1" required></select></label>
+      <label><span>Pick 2</span><select id="fvcManualPick2" required></select></label>
+      <label><span>Pick 3</span><select id="fvcManualPick3" required></select></label>
+    </div>
+    <label class="fvc-manual-notes-label">Notes (optional)
+      <textarea id="fvcManualNotes" rows="2" maxlength="1000" placeholder="Reason for selections, odds note, or other manual comments"></textarea>
+    </label>
+    <div class="fvc-manual-actions">
+      <button type="submit" class="fvc-manual-save">＋ SAVE MANUAL PREDICTION</button>
+      <button type="button" id="fvcManualExport" class="fvc-manual-secondary">EXPORT JSON BACKUP</button>
+      <button type="button" id="fvcManualPdf" class="fvc-manual-secondary">PRINT / SAVE AS PDF</button>
+      <button type="button" id="fvcManualWord" class="fvc-manual-secondary">EXPORT MICROSOFT WORD</button>
+      <button type="button" id="fvcManualPng" class="fvc-manual-secondary">EXPORT PICTURE (PNG)</button>
+      <button type="button" id="fvcManualClear" class="fvc-manual-danger">CLEAR MANUAL RECORDS</button>
+    </div>
+    <div id="fvcManualStatus" class="fvc-manual-status" role="status">Manual counter ready. Records are saved in this browser.</div>
+  </form>
+  <div class="fvc-manual-table-wrap">
+    <table class="fvc-manual-table">
+      <thead><tr><th>No.</th><th>Date</th><th>Tournament</th><th>Home Club</th><th>Away Club</th><th>Three Picks / Settlement</th><th>Notes</th><th>Action</th></tr></thead>
+      <tbody id="fvcManualBody"><tr><td colspan="8" class="fvc-manual-empty">No manual predictions saved yet.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+
+
+</div>
+<script id="fvc-manual-counter-script">
+(function(){
+  'use strict';
+  const KEY='fvcManualPredictionCounter_v1';
+  const pickGroups={
+    'GOAL BOUNDS / TOTAL GOALS':[
+      'Total Goals: 0–1','Total Goals: 1–2','Total Goals: 1–3','Total Goals: 1–4',
+      'Total Goals: 2–3','Total Goals: 2–4','Total Goals: 2–5','Total Goals: 3–4',
+      'Total Goals: 3–5+','Total Goals: 4–6+','Total Goals: 0–2','Total Goals: 0–3'
+    ],
+    'OVER / UNDER — FULL MATCH GOALS':[
+      'Over 0.5 Total Goals','Over 1.5 Total Goals','Over 2.5 Total Goals','Over 3.5 Total Goals','Over 4.5 Total Goals','Over 5.5 Total Goals',
+      'Under 0.5 Total Goals','Under 1.5 Total Goals','Under 2.5 Total Goals','Under 3.5 Total Goals','Under 4.5 Total Goals','Under 5.5 Total Goals'
+    ],
+    '1ST HALF OPTIONS':[
+      '1st Half: Home Win','1st Half: Draw','1st Half: Away Win',
+      '1st Half: 0 Goals','1st Half: 1 Goal','1st Half: 2+ Goals',
+      '1st Half Goals: 0–1','1st Half Goals: 1–2','1st Half Goals: 1–3','1st Half Goals: 2–3',
+      '1st Half Over 0.5 Goals','1st Half Over 1.5 Goals','1st Half Over 2.5 Goals',
+      '1st Half Under 0.5 Goals','1st Half Under 1.5 Goals','1st Half Under 2.5 Goals',
+      '1st Half: Both Teams To Score — Yes','1st Half: Both Teams To Score — No',
+      '1st Half: Home Team To Score','1st Half: Away Team To Score'
+    ],
+    '2ND HALF OPTIONS':[
+      '2nd Half: Home Win','2nd Half: Draw','2nd Half: Away Win',
+      '2nd Half: 0 Goals','2nd Half: 1 Goal','2nd Half: 2+ Goals',
+      '2nd Half Goals: 0–1','2nd Half Goals: 1–2','2nd Half Goals: 1–3','2nd Half Goals: 2–3',
+      '2nd Half Over 0.5 Goals','2nd Half Over 1.5 Goals','2nd Half Over 2.5 Goals',
+      '2nd Half Under 0.5 Goals','2nd Half Under 1.5 Goals','2nd Half Under 2.5 Goals',
+      '2nd Half: Both Teams To Score — Yes','2nd Half: Both Teams To Score — No',
+      '2nd Half: Home Team To Score','2nd Half: Away Team To Score'
+    ],
+    'MATCH WIN / RESULT OPTIONS':[
+      'Home Win (1)','Draw (X)','Away Win (2)',
+      '1X — Home or Draw','X2 — Away or Draw','12 — Either Team Wins',
+      'Home Draw No Bet','Away Draw No Bet','Home Team Wins Either Half','Away Team Wins Either Half',
+      'Home Team Wins Both Halves','Away Team Wins Both Halves',
+      'Half-Time / Full-Time: Home/Home','Half-Time / Full-Time: Home/Draw','Half-Time / Full-Time: Home/Away',
+      'Half-Time / Full-Time: Draw/Home','Half-Time / Full-Time: Draw/Draw','Half-Time / Full-Time: Draw/Away',
+      'Half-Time / Full-Time: Away/Home','Half-Time / Full-Time: Away/Draw','Half-Time / Full-Time: Away/Away',
+      'Draw at Half-Time'
+    ],
+    'TEAM GOALS / BTTS':[
+      'Both Teams To Score — Yes','Both Teams To Score — No',
+      'Home Team To Score — Yes','Home Team To Score — No','Away Team To Score — Yes','Away Team To Score — No',
+      'Home Team Clean Sheet — Yes','Away Team Clean Sheet — Yes',
+      'Home Team Over 0.5 Goals','Home Team Over 1.5 Goals','Home Team Over 2.5 Goals',
+      'Away Team Over 0.5 Goals','Away Team Over 1.5 Goals','Away Team Over 2.5 Goals',
+      'Home Team Under 0.5 Goals','Home Team Under 1.5 Goals','Home Team Under 2.5 Goals',
+      'Away Team Under 0.5 Goals','Away Team Under 1.5 Goals','Away Team Under 2.5 Goals'
+    ],
+    'EXACT SCORE OPTIONS':[
+      'Exact Score: 0–0','Exact Score: 1–0','Exact Score: 0–1','Exact Score: 1–1',
+      'Exact Score: 2–0','Exact Score: 0–2','Exact Score: 2–1','Exact Score: 1–2',
+      'Exact Score: 2–2','Exact Score: 3–0','Exact Score: 0–3','Exact Score: 3–1','Exact Score: 1–3','Exact Score: Other'
+    ],
+    'OTHER MARKETS':[
+      'Total Corners Over 7.5','Total Corners Over 8.5','Total Corners Over 9.5',
+      'Home Team Most Corners','Away Team Most Corners',
+      'Total Cards Over 2.5','Total Cards Over 3.5','Custom / Other Pick'
+    ]
+  };
+  const $=id=>document.getElementById(id);
+  const esc=value=>String(value==null?'':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function read(){try{const x=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(x)?x:[]}catch(e){return []}}
+  function write(rows){localStorage.setItem(KEY,JSON.stringify(rows))}
+  function status(message,isError){$('fvcManualStatus').textContent=message;$('fvcManualStatus').style.color=isError?'#b42318':'#49667e'}
+  function fillSelect(el){el.innerHTML='<option value="">Choose a pick…</option>'+Object.entries(pickGroups).map(([group,items])=>'<optgroup label="'+esc(group)+'">'+items.map(p=>'<option value="'+esc(p)+'">'+esc(p)+'</option>').join('')+'</optgroup>').join('')}
+  function render(){
+    const rows=read().sort((a,b)=>b.createdAt-a.createdAt);
+    $('fvcManualCount').textContent=rows.length;
+    const body=$('fvcManualBody');body.innerHTML='';
+    if(!rows.length){body.innerHTML='<tr><td colspan="8" class="fvc-manual-empty">No manual predictions saved yet.</td></tr>';return}
+    rows.forEach((r,index)=>{
+      const tr=document.createElement('tr');
+      const pickMarkup=(r.picks||[]).map((p,i)=>'<div class="fvc-manual-pick-line"><span><strong>'+ (i+1)+'.</strong> '+esc(p.name)+'</span><select aria-label="Settlement for pick '+(i+1)+'" data-action="settle" data-id="'+esc(r.id)+'" data-pick="'+i+'">'+['Pending','Won','Lost','Void'].map(v=>'<option'+(p.status===v?' selected':'')+'>'+v+'</option>').join('')+'</select></div>').join('');
+      tr.innerHTML='<td><strong>#'+esc(r.counterNo)+'</strong></td>'+
+        '<td>'+esc(r.matchDate||'—')+'</td><td>'+esc(r.tournament)+'</td>'+
+        '<td>'+esc(r.home)+'</td><td>'+esc(r.away)+'</td>'+
+        '<td>'+pickMarkup+'</td><td>'+esc(r.notes||'—')+'</td>'+
+        '<td><button type="button" class="fvc-manual-delete" data-action="delete" data-id="'+esc(r.id)+'">Delete</button></td>';
+      body.appendChild(tr);
+    });
+  }
+  ['fvcManualPick1','fvcManualPick2','fvcManualPick3'].forEach(id=>fillSelect($(id)));
+  $('fvcManualForm').addEventListener('submit',function(event){
+    event.preventDefault();
+    const tournament=$('fvcManualTournament').value.trim(),home=$('fvcManualHome').value.trim(),away=$('fvcManualAway').value.trim();
+    const chosen=[1,2,3].map(i=>$('fvcManualPick'+i).value);
+    if(!tournament||!home||!away){status('Enter the tournament and both club names.',true);return}
+    if(chosen.some(x=>!x)){status('Please choose all three pick options.',true);return}
+    if(home.toLocaleLowerCase()===away.toLocaleLowerCase()){status('Home and away club names must be different.',true);return}
+    const rows=read();
+    const record={id:'manual-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),counterNo:rows.reduce((m,r)=>Math.max(m,Number(r.counterNo)||0),0)+1,
+      createdAt:Date.now(),matchDate:$('fvcManualDate').value||'',tournament,home,away,
+      picks:chosen.map(name=>({name,status:'Pending'})),notes:$('fvcManualNotes').value.trim()};
+    try{rows.push(record);write(rows);render();this.reset();status('Manual prediction #'+record.counterNo+' saved. Its three picks are pending until you settle them.')}
+    catch(err){status('Could not save. Browser storage may be full or unavailable.',true)}
+  });
+  $('fvcManualBody').addEventListener('change',function(event){
+    const target=event.target;if(!target.matches('[data-action="settle"]'))return;
+    const rows=read(),record=rows.find(r=>r.id===target.dataset.id),index=Number(target.dataset.pick);
+    if(!record||!record.picks||!record.picks[index])return;
+    record.picks[index].status=target.value;
+    try{write(rows);status('Settlement saved for manual prediction #'+record.counterNo+'.')}catch(e){status('Could not save settlement.',true)}
+  });
+  $('fvcManualBody').addEventListener('click',function(event){
+    const btn=event.target.closest('[data-action="delete"]');if(!btn)return;
+    const rows=read(),record=rows.find(r=>r.id===btn.dataset.id);if(!record)return;
+    if(!confirm('Delete manual prediction #'+record.counterNo+'? This will not affect the automatic FVC Prediction Record Counter.'))return;
+    try{write(rows.filter(r=>r.id!==record.id));render();status('Manual prediction deleted.')}catch(e){status('Could not delete the record.',true)}
+  });
+  $('fvcManualClear').addEventListener('click',function(){
+    const rows=read();if(!rows.length){status('The manual counter is already empty.');return}
+    if(!confirm('Clear ALL '+rows.length+' manual records? The automatic FVC Prediction Record Counter will not be changed.'))return;
+    try{localStorage.removeItem(KEY);render();status('All manual records cleared. Automatic prediction records remain untouched.')}catch(e){status('Could not clear manual records.',true)}
+  });
+  $('fvcManualExport').addEventListener('click',function(){
+    const rows=read();if(!rows.length){status('There are no manual records to export.',true);return}
+    const blob=new Blob([JSON.stringify({app:'Football Value Capital',type:'manual-prediction-counter',exportedAt:new Date().toISOString(),records:rows},null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='FVC_Manual_Prediction_Counter.json';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);status('Manual records exported as JSON.');
+  });
+  function downloadBlob(blob,filename){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+  function printableRows(){return read().sort((a,b)=>(Number(a.counterNo)||0)-(Number(b.counterNo)||0))}
+  function reportCell(v){return esc(v==null?'':v).replace(/\n/g,'<br>')}
+  $('fvcManualPdf').addEventListener('click',function(){
+    if(!read().length){status('There are no manual records to print or save as PDF.',true);return}
+    status('In the print window, choose “Save as PDF” as the printer/destination.');
+    window.print();
+  });
+  $('fvcManualWord').addEventListener('click',function(){
+    const rows=printableRows();if(!rows.length){status('There are no manual records to export.',true);return}
+    const body=rows.map(r=>'<tr><td>'+reportCell(r.counterNo)+'</td><td>'+reportCell(r.matchDate||'—')+'</td><td>'+reportCell(r.tournament)+'</td><td>'+reportCell(r.home)+'</td><td>'+reportCell(r.away)+'</td><td>'+((r.picks||[]).map((p,i)=>'<div><b>Pick '+(i+1)+':</b> '+reportCell(p.name)+' — <b>'+reportCell(p.status||'Pending')+'</b></div>').join(''))+'</td><td>'+reportCell(r.notes||'—')+'</td></tr>').join('');
+    const html='<!doctype html><html><head><meta charset="utf-8"><title>FVC Manual Prediction Report</title><style>body{font-family:Arial,sans-serif;color:#17324b}h1{color:#123b5a}p{font-size:10pt}table{border-collapse:collapse;width:100%;font-size:9pt}th{background:#eaf2fa}th,td{border:1px solid #aab9c7;padding:7px;text-align:left;vertical-align:top}td{overflow-wrap:anywhere}</style></head><body><h1>Football Value Capital</h1><h2>Manual Prediction Counter Report</h2><p>Exported: '+reportCell(new Date().toLocaleString())+' · Records: '+rows.length+'</p><table><thead><tr><th>No.</th><th>Date</th><th>Tournament</th><th>Home Club</th><th>Away Club</th><th>Picks and Settlement</th><th>Notes</th></tr></thead><tbody>'+body+'</tbody></table></body></html>';
+    downloadBlob(new Blob(['\ufeff',html],{type:'application/msword;charset=utf-8'}),'FVC_Manual_Prediction_Report.doc');status('Word-compatible report downloaded. Open it in Microsoft Word; you can then Save As .docx if desired.');
+  });
+  $('fvcManualPng').addEventListener('click',function(){
+    const rows=printableRows();if(!rows.length){status('There are no manual records to export as a picture.',true);return}
+    const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');if(!ctx){status('Picture export is not supported by this browser.',true);return}
+    const width=1500,pad=54,lineH=27,recordGap=26;let height=190;
+    const summaries=rows.map(r=>{const lines=['#'+r.counterNo+'  |  '+(r.matchDate||'No date')+'  |  '+(r.tournament||''),String(r.home||'')+' vs '+String(r.away||''),...(r.picks||[]).map((p,i)=>'Pick '+(i+1)+': '+p.name+' ['+(p.status||'Pending')+']'),...(r.notes?[ 'Notes: '+r.notes ]:[])];return lines});
+    summaries.forEach(lines=>{height+=lines.length*lineH+recordGap});height+=pad;
+    canvas.width=width;canvas.height=Math.min(height,16000);ctx.fillStyle='#f3f7fb';ctx.fillRect(0,0,width,canvas.height);
+    ctx.fillStyle='#123b5a';ctx.fillRect(0,0,width,125);ctx.fillStyle='#fff';ctx.font='bold 32px Arial';ctx.fillText('FOOTBALL VALUE CAPITAL',pad,48);ctx.font='bold 25px Arial';ctx.fillText('Manual Prediction Counter Report',pad,88);ctx.font='16px Arial';ctx.fillText('Records: '+rows.length+'  |  Exported: '+new Date().toLocaleString(),pad,112);
+    let y=160;const maxChars=118;
+    summaries.forEach((lines,index)=>{let wrapped=[];lines.forEach(line=>{line=String(line);while(line.length>maxChars){wrapped.push(line.slice(0,maxChars));line=line.slice(maxChars)}wrapped.push(line)});const blockH=wrapped.length*lineH+18;ctx.fillStyle='#fff';ctx.fillRect(pad,y,width-pad*2,blockH);ctx.strokeStyle='#cbd8e4';ctx.strokeRect(pad,y,width-pad*2,blockH);ctx.fillStyle='#1d567f';ctx.font='bold 17px Arial';ctx.fillText(wrapped[0]||'',pad+14,y+25);ctx.fillStyle='#243b4d';ctx.font='16px Arial';wrapped.slice(1).forEach((line,i)=>ctx.fillText(line,pad+14,y+25+(i+1)*lineH));y+=blockH+recordGap});
+    canvas.toBlob(blob=>{if(!blob){status('Could not create the PNG image.',true);return}downloadBlob(blob,'FVC_Manual_Prediction_Report.png');status('Readable PNG report downloaded. If you have many records, the picture may be tall; use PDF or Word for printing.')},'image/png');
+  });
+  render();
+})();
+</script>
+</body>
+</html>
